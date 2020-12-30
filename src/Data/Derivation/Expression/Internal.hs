@@ -42,6 +42,7 @@ instance Outputable v => Outputable (Exp v t) where
 	ppr (l :- r) = text "(" <> ppr l <+> text ":-" <+> ppr r <> text ")"
 
 poly :: Ord v => Exp v Number -> Writer [Constraint v] (Polynomial v)
+poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n
 poly (Var v) = p <$ tell [p `greatEqualThan` empty]
 	where p = singleton (Just v) 1
