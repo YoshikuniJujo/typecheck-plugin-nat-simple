@@ -1,2 +1,8 @@
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
+
+import Data.Derivation.CanDerive
+import Data.Derivation.Parse
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+	print $ mkWanted =<< parseConstraint "0 == n - n"
