@@ -9,15 +9,19 @@ module Data.Derivation.Expression.Internal (
 import Prelude hiding ((<>))
 
 import Outputable (Outputable(..), (<>), (<+>), text)
-
+import Control.Arrow (first, second)
 import Control.Monad.Writer (Writer, runWriter, tell)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)
-
-import Data.Derivation.Constraint
-
-import Control.Arrow (first, second)
-import Data.Maybe
+import Data.Maybe (fromJust)
 import Data.List (find)
+import Data.Derivation.Constraint (
+	Constraint, equal, greatEqualThan, greatThan, Polynomial, (.+), (.-) )
+
+---------------------------------------------------------------------------
+
+--
+
+---------------------------------------------------------------------------
 
 data Exp v t where
 	Bool :: Bool -> Exp v Bool

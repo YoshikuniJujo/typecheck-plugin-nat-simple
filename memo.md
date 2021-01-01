@@ -20,7 +20,7 @@ refactor
 	+ [x] Plugin.TypeCheck.Nat.Simple
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
-	+ [ ] import list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Data.Derivation.Expression
