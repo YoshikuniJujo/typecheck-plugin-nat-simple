@@ -4,7 +4,7 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Expression.Internal (
-	Exp(..), Number, mkConstraint, mkVarBool) where
+	Exp(..), Number, constraint, varBool ) where
 
 import Prelude hiding ((<>))
 
@@ -52,8 +52,8 @@ poly (l :- r) = (,) <$> poly l <*> poly r >>= \(pl, pr) ->
 
 type VarBool v = Map v Bool
 
-mkVarBool :: Ord v => [Exp v Bool] -> VarBool v
-mkVarBool = snd . untilFixed (uncurry vbStep) . vbInit
+varBool :: Ord v => [Exp v Bool] -> VarBool v
+varBool = snd . untilFixed (uncurry vbStep) . vbInit
 
 vbInit :: Ord v => [Exp v Bool] -> ([(v, v)], VarBool v)
 vbInit [] = ([], empty)
@@ -97,6 +97,6 @@ procProp _ (l :== r) True = case (l, r) of
 	_ -> pure Nothing
 procProp _ (_ :== _) False = pure Nothing
 
-mkConstraint :: Ord v =>
+constraint :: Ord v =>
 	VarBool v -> Exp v Bool -> (Maybe (Constraint v), [Constraint v])
-mkConstraint vb e = runWriter $ procProp vb e True
+constraint vb e = runWriter $ procProp vb e True

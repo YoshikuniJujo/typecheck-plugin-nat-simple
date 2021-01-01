@@ -19,7 +19,7 @@ refactor
 	+ [x] Data.Derivation.CanDerive
 	+ [x] Plugin.TypeCheck.Nat.Simple
 * [ ] refactor Data.Derivation.Expression.Internal
-	+ [ ] export list
+	+ [x] export list
 	+ [ ] import list
 	+ [ ] structure
 	+ [ ] body

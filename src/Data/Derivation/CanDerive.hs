@@ -25,7 +25,7 @@ newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
 mkGiven :: Ord v => [Exp v Bool] -> Given v
 mkGiven es = given . concat
-	$ uncurry (maybe id (:)) . mkConstraint (mkVarBool es) <$> es
+	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
 
 given :: Ord v => [Constraint v] -> Given v
 given zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
@@ -38,7 +38,7 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 type Wanted1 v = Constraint v
 
 mkWanted :: Ord v => Exp v Bool -> Maybe (Wanted v)
-mkWanted = uncurry wanted . mkConstraint empty
+mkWanted = uncurry wanted . constraint empty
 
 wanted :: Maybe (Wanted1 v) -> [Wanted1 v] -> Maybe (Wanted v)
 wanted mw ws = Wanted . (: ws) <$> mw
