@@ -21,9 +21,9 @@ import Data.List (find)
 
 data Exp v t where
 	Bool :: Bool -> Exp v Bool
-	Var :: v -> Exp v a
+	Var :: v -> Exp v t
 	Const :: Integer -> Exp v Number
-	(:==) :: Exp v a -> Exp v a -> Exp v Bool
+	(:==) :: Exp v t -> Exp v t -> Exp v Bool
 	(:<=) :: Exp v Number -> Exp v Number -> Exp v Bool
 	(:+) :: Exp v Number -> Exp v Number -> Exp v Number
 	(:-) :: Exp v Number -> Exp v Number -> Exp v Number
