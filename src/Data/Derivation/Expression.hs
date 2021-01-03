@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Expression (
-	-- * data Exp
+	-- * DATA EXP
 	Exp(..), Number ) where
 
 import Data.Derivation.Expression.Internal

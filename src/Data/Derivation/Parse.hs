@@ -1,6 +1,8 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Data.Derivation.Parse (Var, parseConstraint) where
+module Data.Derivation.Parse (
+	-- * PARSE CONSTRAINT
+	parseConstraint, Var ) where
 
 import Control.Applicative (empty, many, (<|>))
 import Control.Arrow
