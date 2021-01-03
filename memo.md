@@ -13,11 +13,11 @@ refactor
 --------
 
 * [x] check module name hierarchy
-* [ ] refactor haddock
+* [x] refactor haddock
 	+ [x] Data.Derivation.Expression
-	+ [ ] Data.Derivation.Parse
-	+ [ ] Data.Derivation.CanDerive
-	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [x] Data.Derivation.Parse
+	+ [x] Data.Derivation.CanDerive
+	+ [x] Plugin.TypeCheck.Nat.Simple
 * [ ] refactor Data.Derivation.Expression.Internal
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse

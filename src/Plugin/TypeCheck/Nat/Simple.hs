@@ -1,7 +1,9 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Plugin.TypeCheck.Nat.Simple (plugin) where
+module Plugin.TypeCheck.Nat.Simple (
+	-- * PLUGIN
+	plugin ) where
 
 import GhcPlugins
 import TcPluginM
