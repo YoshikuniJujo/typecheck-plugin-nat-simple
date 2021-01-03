@@ -2,7 +2,12 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.CanDerive (
-	canDerive, Given, mkGiven, Wanted, mkWanted ) where
+	-- * CAN DERIVE
+	canDerive,
+	-- * GIVEN
+	Given, mkGiven,
+	-- * WANTED
+	Wanted, mkWanted ) where
 
 import Data.Either
 import Data.List ((\\), nub, partition, sort, unfoldr)
