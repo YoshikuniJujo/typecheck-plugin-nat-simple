@@ -62,12 +62,14 @@ refactor
 			* [x] type Var
 			* [x] function memo
 		- [ ] GRAMMAR
+			* [x] PEG
 			* [x] pConstraint
 			* [ ] pEqual
 			* [ ] pLessEqual
 			* [ ] pBool
 			* [ ] pPolynomial
 			* [ ] pNumber
+			* [ ] var
 		- [ ] PICK AND CHECK
 			* [ ] pick
 			* [ ] check
