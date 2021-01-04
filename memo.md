@@ -57,9 +57,20 @@ refactor
 	+ [ ] body
 		- [x] PARSE CONSTRAINT
 			* [x] remove function tokens
-		- [ ] MEMO
+		- [x] MEMO
+			* [x] data Memo
+			* [x] type Var
+			* [x] function memo
 		- [ ] GRAMMAR
+			* [x] pConstraint
+			* [ ] pEqual
+			* [ ] pLessEqual
+			* [ ] pBool
+			* [ ] pPolynomial
+			* [ ] pNumber
 		- [ ] PICK AND CHECK
+			* [ ] pick
+			* [ ] check
 * [ ] refactor Data.Derivation.Constraint
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
