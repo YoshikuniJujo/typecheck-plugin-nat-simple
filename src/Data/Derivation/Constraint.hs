@@ -8,13 +8,23 @@ module Data.Derivation.Constraint (
 
 import Prelude hiding (null, filter, (<>))
 
-import Control.Monad
+import Control.Monad (guard)
 import Data.Foldable (toList)
-import Data.Maybe
+import Data.Maybe (isJust)
 import Data.Map.Strict (Map, null, singleton, (!?), filter, lookupMin)
-import Data.Map.Merge.Strict
+import Data.Map.Merge.Strict (
+	merge, preserveMissing, mapMissing,
+	zipWithMatched, zipWithMaybeMatched )
 
-import qualified Data.Map.Strict as M
+import qualified Data.Map.Strict as M (toList)
+
+---------------------------------------------------------------------------
+
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 type Polynomial v = Map (Maybe v) Integer
 
