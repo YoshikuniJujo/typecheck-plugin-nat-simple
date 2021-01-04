@@ -5,16 +5,23 @@ module Data.Derivation.Parse (
 	parseConstraint, Var ) where
 
 import Control.Applicative (empty, many, (<|>))
-import Control.Arrow
-import Data.Function
-import Data.Maybe
-import Data.List
-import Data.Char
+import Control.Arrow (second)
+import Data.Function ((&))
+import Data.Maybe (listToMaybe)
+import Data.List (uncons, unfoldr)
+import Data.Char (isDigit, isLower)
+import Data.Parse (Parse, parse, unparse, (>>!))
+import Data.Derivation.Expression (Exp(..), Number)
 
-import Data.Parse
-import Data.Derivation.Expression
+import qualified Data.Bool as B (bool)
 
-import qualified Data.Bool as B
+---------------------------------------------------------------------------
+
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 data Memo = Memo {
 	constraint :: Maybe (Exp Var Bool, Memo),
