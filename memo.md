@@ -53,8 +53,14 @@ refactor
 * [ ] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] PARSE CONSTRAINT
+			* [ ] remove function tokens
+			* [ ] others
+		- [ ] MEMO
+		- [ ] GRAMMAR
+		- [ ] PICK AND CHECK
 * [ ] refactor Data.Derivation.Constraint
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode

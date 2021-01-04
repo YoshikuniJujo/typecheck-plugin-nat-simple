@@ -17,10 +17,23 @@ import qualified Data.Bool as B (bool)
 
 ---------------------------------------------------------------------------
 
--- *
+-- * PARSE CONSTRAINT
+-- * MEMO
+-- * GRAMMAR
+-- * PICK AND CHECK
 
 ---------------------------------------------------------------------------
---
+-- PARSE CONSTRAINT
+---------------------------------------------------------------------------
+
+parseConstraint :: String -> Maybe (Exp Var Bool)
+parseConstraint src = fst <$> constraint (memo $ tokens src)
+
+tokens :: String -> [String]
+tokens = unfoldr (listToMaybe . lex)
+
+---------------------------------------------------------------------------
+-- MEMO
 ---------------------------------------------------------------------------
 
 data Memo = Memo {
@@ -34,22 +47,6 @@ data Memo = Memo {
 
 type Var = String
 
-check :: (String -> Bool) -> Parse Memo String
-check p = parse token >>= \t -> B.bool empty (pure t) (p t)
-
-pick :: String -> Parse Memo String
-pick = check . (==)
-
-pPolynomial :: Parse Memo (Exp Var Number)
-pPolynomial = foldl (&) <$> parse number <*> many (
-	flip (:+) <$> (pick "+" *> parse number) <|>
-	flip (:-) <$> (pick "-" *> parse number) )
-
-pNumber :: Parse Memo (Exp Var Number)
-pNumber =
-	Const . read <$> check (all isDigit) <|> Var <$> check (all isLower) <|>
-	pick "(" *> parse polynomial <* pick ")"
-
 memo :: [String] -> Memo
 memo ts = m where
 	m = Memo ct eq bl le pl nm tk
@@ -61,8 +58,9 @@ memo ts = m where
 	nm = unparse pNumber m
 	tk = (memo `second`) <$> uncons ts
 
-tokens :: String -> [String]
-tokens = unfoldr (listToMaybe . lex)
+---------------------------------------------------------------------------
+-- GRAMMAR
+---------------------------------------------------------------------------
 
 pConstraint :: Parse Memo (Exp Var Bool)
 pConstraint = parse equal <|> parse lessEqual
@@ -85,5 +83,22 @@ pBool =	parse lessEqual <|>
 pLessEqual :: Parse Memo (Exp Var Bool)
 pLessEqual = (:<=) <$> parse polynomial <* pick "<=" <*> parse polynomial
 
-parseConstraint :: String -> Maybe (Exp Var Bool)
-parseConstraint src = fst <$> constraint (memo $ tokens src)
+pPolynomial :: Parse Memo (Exp Var Number)
+pPolynomial = foldl (&) <$> parse number <*> many (
+	flip (:+) <$> (pick "+" *> parse number) <|>
+	flip (:-) <$> (pick "-" *> parse number) )
+
+pNumber :: Parse Memo (Exp Var Number)
+pNumber =
+	Const . read <$> check (all isDigit) <|> Var <$> check (all isLower) <|>
+	pick "(" *> parse polynomial <* pick ")"
+
+---------------------------------------------------------------------------
+-- PICK AND CHECK
+---------------------------------------------------------------------------
+
+pick :: String -> Parse Memo String
+pick = check . (==)
+
+check :: (String -> Bool) -> Parse Memo String
+check p = parse token >>= \t -> B.bool empty (pure t) (p t)
