@@ -55,9 +55,8 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] PARSE CONSTRAINT
-			* [ ] remove function tokens
-			* [ ] others
+		- [x] PARSE CONSTRAINT
+			* [x] remove function tokens
 		- [ ] MEMO
 		- [ ] GRAMMAR
 		- [ ] PICK AND CHECK

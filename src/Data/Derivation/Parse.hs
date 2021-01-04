@@ -27,10 +27,7 @@ import qualified Data.Bool as B (bool)
 ---------------------------------------------------------------------------
 
 parseConstraint :: String -> Maybe (Exp Var Bool)
-parseConstraint src = fst <$> constraint (memo $ tokens src)
-
-tokens :: String -> [String]
-tokens = unfoldr (listToMaybe . lex)
+parseConstraint = (fst <$>) . constraint . memo . unfoldr (listToMaybe . lex)
 
 ---------------------------------------------------------------------------
 -- MEMO
