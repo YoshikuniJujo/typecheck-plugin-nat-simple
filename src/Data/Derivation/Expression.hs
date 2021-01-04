@@ -4,4 +4,4 @@ module Data.Derivation.Expression (
 	-- * DATA EXP
 	Exp(..), Number ) where
 
-import Data.Derivation.Expression.Internal
+import Data.Derivation.Expression.Internal (Exp(..), Number)

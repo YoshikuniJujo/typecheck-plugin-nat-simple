@@ -48,7 +48,7 @@ refactor
 			* [x] vbInit
 			* [x] vbStep
 			* [x] untilFixed
-* [ ] refactor Data.Derivation.Expression
+* [x] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
 * [ ] refactor Data.Derivation.Constraint
