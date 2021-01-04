@@ -49,8 +49,12 @@ refactor
 			* [x] vbStep
 			* [x] untilFixed
 * [x] refactor Data.Derivation.Expression
-* [ ] refactor Data.Parse
+* [x] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Data.Derivation.Constraint
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode

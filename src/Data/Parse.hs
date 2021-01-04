@@ -2,8 +2,8 @@
 
 module Data.Parse (Parse, parse, unparse, (>>!)) where
 
-import Control.Monad.State
-import Control.Applicative
+import Control.Applicative (empty)
+import Control.Monad.State (StateT(..), runStateT, (>=>))
 
 type Parse s = StateT s Maybe
 
@@ -14,5 +14,5 @@ unparse :: Parse s a -> s -> Maybe (a, s)
 unparse = runStateT
 
 (>>!) :: Parse s a -> Parse s b -> Parse s a
-p >>! nla = parse $ unparse p >=> \r@(_, s') ->
-	maybe (pure r) (const empty) $ unparse nla s'
+p >>! nla = parse $ unparse p >=> \r@(_, s) ->
+	maybe (pure r) (const empty) $ unparse nla s
