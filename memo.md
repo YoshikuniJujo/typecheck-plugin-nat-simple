@@ -18,17 +18,36 @@ refactor
 	+ [x] Data.Derivation.Parse
 	+ [x] Data.Derivation.CanDerive
 	+ [x] Plugin.TypeCheck.Nat.Simple
-* [ ] refactor Data.Derivation.Expression.Internal
+* [x] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
-		- [ ] DATA EXP
-		- [ ] CONSTRAINT
-			* [ ] CONSTRAINT
-			* [ ] PROCESS EQUATION
-		- [ ] POLYNOMIAL
-		- [ ] MAP FROM VARIABLE TO BOOL
+	+ [x] body
+		- [x] DATA EXP
+			* [x] data Exp v t
+			* [x] data Number
+			* [x] instance Show (Exp v t)
+			* [x] instance Outputable (Exp v t)
+		- [x] CONSTRAINT
+			* [x] CONSTRAINT
+			* [x] PROCESS EQUATION
+				+ [x] Bool _
+				+ [x] Var _
+				+ [x] (:<=) False
+				+ [x] (:<=) True
+				+ [x] (_ :== Bool _)
+				+ [x] (Bool _ :== _)
+				+ [x] (_ :== Var _)
+				+ [x] (Var _ :== _)
+				+ [x] (_ :== _) True
+				+ [x] (_ :== _) False
+		- [x] POLYNOMIAL
+		- [x] MAP FROM VARIABLE TO BOOL
+			* [x] type VarBool v
+			* [x] varBool
+			* [x] vbInit
+			* [x] vbStep
+			* [x] untilFixed
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
