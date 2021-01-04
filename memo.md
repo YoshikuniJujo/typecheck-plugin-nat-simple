@@ -21,8 +21,14 @@ refactor
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] DATA EXP
+		- [ ] CONSTRAINT
+			* [ ] CONSTRAINT
+			* [ ] PROCESS EQUATION
+		- [ ] POLYNOMIAL
+		- [ ] MAP FROM VARIABLE TO BOOL
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
