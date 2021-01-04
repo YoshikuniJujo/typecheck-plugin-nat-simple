@@ -50,29 +50,29 @@ refactor
 			* [x] untilFixed
 * [x] refactor Data.Derivation.Expression
 * [x] refactor Data.Parse
-* [ ] refactor Data.Derivation.Parse
+* [x] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] PARSE CONSTRAINT
 			* [x] remove function tokens
 		- [x] MEMO
 			* [x] data Memo
 			* [x] type Var
 			* [x] function memo
-		- [ ] GRAMMAR
+		- [x] GRAMMAR
 			* [x] PEG
 			* [x] pConstraint
-			* [ ] pEqual
-			* [ ] pLessEqual
-			* [ ] pBool
-			* [ ] pPolynomial
-			* [ ] pNumber
-			* [ ] var
-		- [ ] PICK AND CHECK
-			* [ ] pick
-			* [ ] check
+			* [x] pEqual
+			* [x] pBool
+			* [x] pLessEqual
+			* [x] pPolynomial
+			* [x] pNumber
+			* [x] var
+		- [x] PICK AND CHECK
+			* [x] pick
+			* [x] check
 * [ ] refactor Data.Derivation.Constraint
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode

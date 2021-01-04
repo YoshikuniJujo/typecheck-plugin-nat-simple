@@ -66,17 +66,16 @@ memo ts = m where
 --	var "==" Bool /
 --	Polynomial "==" Polynomial /
 --	Bool "==" Bool
--- Bool <- LessEqual / "F" / "T" / <lower char string>
+-- Bool <- LessEqual / "F" / "T" / var
 -- LessEqual <- Polynomial "<=" Polynomial
 -- Polynomial <- Number ("+" Number / "-" Number)*
--- Number <- <digit string> / <lower char string> / "(" Polynomial ")"
+-- Number <- <digit string> / var / "(" Polynomial ")"
 
 pConstraint :: Parse Memo (Exp Var Bool)
 pConstraint = parse equal <|> parse lessEqual
 
 pEqual :: Parse Memo (Exp Var Bool)
-pEqual =
-	(:==) <$> var <* pick "==" <*> var
+pEqual = (:==) <$> var <* pick "==" <*> var
 		>>! (pick "+" <|> pick "-" <|> pick "<=") <|>
 	(:==) <$> var <* pick "==" <*> parse polynomial >>! pick "<=" <|>
 	(:==) <$> var <* pick "==" <*> parse bool <|>
@@ -85,9 +84,7 @@ pEqual =
 
 pBool :: Parse Memo (Exp Var Bool)
 pBool =	parse lessEqual <|>
-	Bool False <$ pick "F" <|> Bool True <$ pick "T" <|>
-	var
---	Var <$> check (all isLower)
+	Bool False <$ pick "F" <|> Bool True <$ pick "T" <|> var
 
 pLessEqual :: Parse Memo (Exp Var Bool)
 pLessEqual = (:<=) <$> parse polynomial <* pick "<=" <*> parse polynomial
@@ -98,8 +95,7 @@ pPolynomial = foldl (&) <$> parse number <*> many (
 	flip (:-) <$> (pick "-" *> parse number) )
 
 pNumber :: Parse Memo (Exp Var Number)
-pNumber =
-	Const . read <$> check (all isDigit) <|> var <|> -- Var <$> check (all isLower) <|>
+pNumber = Const . read <$> check (all isDigit) <|> var <|>
 	pick "(" *> parse polynomial <* pick ")"
 
 var :: Parse Memo (Exp Var t)
@@ -113,4 +109,4 @@ pick :: String -> Parse Memo String
 pick = check . (==)
 
 check :: (String -> Bool) -> Parse Memo String
-check p = parse token >>= \t -> B.bool empty (pure t) (p t)
+check p = parse token >>= B.bool empty <$> pure <*> p
