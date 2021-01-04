@@ -15,7 +15,7 @@ import Data.Map.Strict (empty)
 import Data.Bool
 
 import Data.Derivation.Constraint (
-	Constraint, getVars, hasVar,
+	Constraint, vars, hasVar,
 	rmNegative, isDerivFrom, selfContained )
 import Data.Derivation.Expression.Internal
 
@@ -31,7 +31,7 @@ given :: Ord v => [Constraint v] -> Given v
 given zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
 
 givenVars :: Ord v => Given v -> [Maybe v]
-givenVars = nub . sort . concat . (getVars <$>) . unGiven
+givenVars = nub . sort . concat . (vars <$>) . unGiven
 
 newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
@@ -54,7 +54,7 @@ rvStep (c : cs) v = partitionEithers $ flip (rmVar1 c) v <$> cs
 
 rmVar1 :: Ord v => Constraint v ->
 	Constraint v -> Maybe v -> Either (Constraint v) (Constraint v)
-rmVar1 c0 c v = maybe (Right c) Left $ C.rmVar c0 c v
+rmVar1 c0 c v = maybe (Right c) Left $ C.eliminate c0 c v
 
 unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
 unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)
@@ -64,4 +64,4 @@ canDerive g = all (canDerive1 g) . unWanted
 
 canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
 canDerive1 g w = selfContained w ||
-	any (isDerivFrom w) (unGiven . foldl rmVar g $ givenVars g \\ getVars w)
+	any (isDerivFrom w) (unGiven . foldl rmVar g $ givenVars g \\ vars w)

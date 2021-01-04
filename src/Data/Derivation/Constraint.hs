@@ -2,10 +2,9 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Constraint (
-	Constraint,
-	equal, greatEqualThan, greatThan, getVars, hasVar, rmNegative, isDerivFrom, selfContained, rmVar,
-	Polynomial, (.+), (.-)
-	) where
+	Constraint, equal, greatEqualThan, greatThan, vars, hasVar,
+	isDerivFrom, eliminate, rmNegative, selfContained,
+	Polynomial, (.+), (.-) ) where
 
 import Prelude hiding (null, filter, (<>))
 
@@ -54,9 +53,9 @@ p `divide` n = (`div` n) <$> p
 divisor :: Polynomial v -> Integer
 divisor = gcdAll . toList where gcdAll = \case [] -> 1; n : ns -> foldr gcd n ns
 
-getVars :: Ord v => Constraint v -> [Maybe v]
-getVars (Eq p) = (fst <$>) $ M.toList p
-getVars (Geq p) = (fst <$>) $ M.toList p
+vars :: Ord v => Constraint v -> [Maybe v]
+vars (Eq p) = (fst <$>) $ M.toList p
+vars (Geq p) = (fst <$>) $ M.toList p
 
 hasVar :: Ord v => Constraint v -> Maybe v -> Bool
 hasVar (Eq p) v = isJust $ p !? v
@@ -78,12 +77,12 @@ l `isGeqThan` r = and $ merge
 selfContained :: Constraint v -> Bool
 selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
 
-rmVar ::
+eliminate ::
 	Ord v => Constraint v -> Constraint v -> Maybe v -> Maybe (Constraint v)
-rmVar (Eq l) (Eq r) v = Eq . formatEq . uncurry (.+) <$> alignEE l r v
-rmVar (Eq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignEG l r v
-rmVar (Geq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignGG l r v
-rmVar l r v = rmVar r l v
+eliminate (Eq l) (Eq r) v = Eq . formatEq . uncurry (.+) <$> alignEE l r v
+eliminate (Eq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignEG l r v
+eliminate (Geq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignGG l r v
+eliminate l r v = eliminate r l v
 
 type Aligned v = Maybe (Polynomial v, Polynomial v)
 
