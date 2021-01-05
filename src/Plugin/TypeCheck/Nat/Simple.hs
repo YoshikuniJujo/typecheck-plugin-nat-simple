@@ -46,7 +46,7 @@ result gs w = unNomEq w >>= \(l, r) ->
 	bool (throwE em) (pure (et l r, w)) . canDerive g =<< wnt =<< decode l r
 	where
 	em = "result: fail"
-	g = mkGiven . rights $ runExcept . (uncurry decode <=< unNomEq) <$> gs
-	wnt = maybe (throwE "mkWanted: fail") pure . mkWanted
+	g = given . rights $ runExcept . (uncurry decode <=< unNomEq) <$> gs
+	wnt = maybe (throwE "wanted: fail") pure . wanted
 	et l r = EvExpr . Coercion $
 		mkUnivCo (PluginProv "Plugin.TypeCheck.Nat.Simple") Nominal l r

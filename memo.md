@@ -7,6 +7,7 @@ todo
 * [x] repair divide-by-zero
 	+ [x] make test data
 	+ [x] repair bug
+* [ ] repair interface
 * [ ] refactoring
 
 refactor
@@ -49,10 +50,6 @@ refactor
 			* [x] vbStep
 			* [x] untilFixed
 * [x] refactor Data.Derivation.Expression
-	* [ ] export list
-	* [ ] import list
-	* [ ] structure
-	* [ ] body
 * [x] refactor Data.Parse
 * [x] refactor Data.Derivation.Parse
 	+ [x] export list

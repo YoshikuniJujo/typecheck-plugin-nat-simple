@@ -5,9 +5,9 @@ module Data.Derivation.CanDerive (
 	-- * CAN DERIVE
 	canDerive,
 	-- * GIVEN
-	Given, mkGiven,
+	Given, given,
 	-- * WANTED
-	Wanted, mkWanted ) where
+	Wanted, wanted ) where
 
 import Data.Either
 import Data.List ((\\), nub, partition, sort, unfoldr)
@@ -23,25 +23,25 @@ import qualified Data.Derivation.Constraint as C
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-mkGiven :: Ord v => [Exp v Bool] -> Given v
-mkGiven es = given . concat
+given :: Ord v => [Exp v Bool] -> Given v
+given es = gvn . concat
 	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
 
-given :: Ord v => [Constraint v] -> Given v
-given zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
+gvn :: Ord v => [Constraint v] -> Given v
+gvn zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
 
-givenVars :: Ord v => Given v -> [Maybe v]
-givenVars = nub . sort . concat . (vars <$>) . unGiven
+gvnVars :: Ord v => Given v -> [Maybe v]
+gvnVars = nub . sort . concat . (vars <$>) . unGiven
 
 newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-mkWanted :: Ord v => Exp v Bool -> Maybe (Wanted v)
-mkWanted = uncurry wanted . constraint empty
+wanted :: Ord v => Exp v Bool -> Maybe (Wanted v)
+wanted = uncurry wntd . constraint empty
 
-wanted :: Maybe (Wanted1 v) -> [Wanted1 v] -> Maybe (Wanted v)
-wanted mw ws = Wanted . (: ws) <$> mw
+wntd :: Maybe (Wanted1 v) -> [Wanted1 v] -> Maybe (Wanted v)
+wntd mw ws = Wanted . (: ws) <$> mw
 
 rmVar :: Ord v => Given v -> Maybe v -> Given v
 rmVar (Given g) v =
@@ -64,4 +64,4 @@ canDerive g = all (canDerive1 g) . unWanted
 
 canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
 canDerive1 g w = selfContained w ||
-	any (isDerivFrom w) (unGiven . foldl rmVar g $ givenVars g \\ vars w)
+	any (isDerivFrom w) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
