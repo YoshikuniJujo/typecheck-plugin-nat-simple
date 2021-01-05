@@ -4,7 +4,7 @@
 module Control.Monad.Try where
 
 import Control.Applicative
-import Outputable (Outputable(..), SDoc, ($+$), text)
+import Outputable (Outputable(..), SDoc, ($$), text)
 import Data.String
 
 data Try s a = Try (Either s a) s deriving Show
@@ -21,7 +21,7 @@ message :: Message -> String
 message (Message ls) = unlines $ ls []
 
 newtype SDocStr = SDocStr SDoc
-instance Semigroup SDocStr where SDocStr l <> SDocStr r = SDocStr $ l $+$ r
+instance Semigroup SDocStr where SDocStr l <> SDocStr r = SDocStr $ l $$ r
 instance Monoid SDocStr where mempty = SDocStr ""
 instance IsString SDocStr where fromString = SDocStr . text
 instance Outputable SDocStr where ppr (SDocStr s) = s
