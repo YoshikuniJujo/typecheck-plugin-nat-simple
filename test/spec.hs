@@ -5,4 +5,4 @@ import Data.Derivation.Parse
 
 main :: IO ()
 main = do
-	print $ mkWanted =<< parseConstraint "0 == n - n"
+	print "foo" -- $ wanted =<< parseConstraint "0 == n - n"

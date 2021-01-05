@@ -11,7 +11,6 @@ import TcPluginM
 
 -- import Control.Monad.Trans.Except
 import Data.Bool
-import Data.Either
 -- import Data.Except.Message
 
 import Plugin.TypeCheck.Nat.Simple.UnNomEq
@@ -32,9 +31,11 @@ solve ck gs ds ws = do
 --	tcPluginTrace "Given: " . ppr $ runExcept . decode <$> gs
 --	tcPluginTrace "Derived: " . ppr $ runExcept . decode <$> ds
 --	tcPluginTrace "Wanted: " . ppr $ runExcept . decode <$> ws
-	let	(rtns, lgs) = unzip $ runTry . result ck gs ds <$> ws
-	(tcPluginTrace "" . ppr) `mapM_` lgs
-	pure $ TcPluginOk (rights rtns) []
+--	let	(rtns, lgs) = unzip $ runTry . result ck gs ds <$> ws
+	let	(rtns, lgs) = rights $ result ck gs ds <$> ws
+	tcPluginTrace "" $ ppr lgs
+	pure $ TcPluginOk rtns []
+--	pure $ TcPluginOk (rights rtns) []
 --	pure $ TcPluginOk (rights . map fst $ runTry . result ck gs ds <$> ws) []
 
 result :: (Monoid s, IsString s) => ([Ct] -> [Ct] -> Ct -> Try s Bool) -> [Ct] -> [Ct] -> Ct -> Try s (EvTerm, Ct)

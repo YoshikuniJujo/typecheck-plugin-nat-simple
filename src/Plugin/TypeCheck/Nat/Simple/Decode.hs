@@ -6,7 +6,6 @@ module Plugin.TypeCheck.Nat.Simple.Decode (decodeAll, decode) where
 
 import TcRnTypes
 import Control.Monad
-import Data.Either
 
 import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon)
 import TyCoRep
@@ -46,8 +45,8 @@ decodeGen (TyVarTy l) r = le <$> exVar r <|> le <$> exNum r <|> le <$> exBool r
 	where le = (Var l :==)
 decodeGen l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
-decodeAll :: [Ct] -> [Exp Var Bool]
-decodeAll cts = rights . map fst $ runTry . decode @String <$> cts
+decodeAll :: (Monoid s, IsString s) => [Ct] -> ([Exp Var Bool], s)
+decodeAll cts = rights $ decode <$> cts
 
 decode :: (Monoid s, IsString s) => Ct -> Try s (Exp Var Bool)
 decode = uncurry decodeGen <=< unNomEq

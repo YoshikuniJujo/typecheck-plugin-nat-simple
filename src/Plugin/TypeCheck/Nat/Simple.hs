@@ -24,6 +24,9 @@ plugin = pluginWith \gs _ w -> do
 	tell "foobar"
 	tell . SDocStr $ text "givens:" <+> ppr gs
 	tell . SDocStr $ text "wanted:" <+> ppr w
+	let	(gs', lg) = decodeAll gs
+	tell lg
+	tell . SDocStr $ text "givens:" <+> ppr gs'
 	w' <- decode w
 	tell . SDocStr $ text "wanted:" <+> ppr w'
-	canDerive (given $ decodeAll gs) <$> wanted w'
+	canDerive (given gs') <$> wanted w'

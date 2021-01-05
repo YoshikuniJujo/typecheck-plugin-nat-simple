@@ -4,7 +4,9 @@
 module Control.Monad.Try where
 
 import Control.Applicative
+import Control.Arrow
 import Outputable (Outputable(..), SDoc, ($$), text)
+import Data.Maybe
 import Data.String
 
 import qualified Outputable as O
@@ -58,5 +60,16 @@ instance Monoid s => Alternative (Try s) where
 throw :: Monoid s => s -> Try s a
 throw e = Try (Left e) mempty
 
+catch :: Semigroup s => Try s a -> (s -> Try s a) -> Try s a
+Try (Left e) lg `catch` f = let Try rtn lg' = f e in Try rtn (lg <> lg')
+t@(Try (Right _) _) `catch` _ = t
+
 tell :: s -> Try s ()
 tell = Try (Right ())
+
+resume :: Monoid s => Try s a -> (Maybe a, s)
+resume (Try (Left e) lg) = (Nothing, lg <> e)
+resume (Try (Right x) lg) = (Just x, lg)
+
+rights :: Monoid s => [Try s a] -> ([a], s)
+rights = (catMaybes *** mconcat) . unzip . map resume

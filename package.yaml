@@ -37,7 +37,7 @@ library:
   - Control.Monad.Try
 
 tests:
-  typecheck-plugin-nat-simple-test:
+  typecheck-plugin-nat-simple-test-spec:
     main:                spec.hs
     source-dirs:         test
     ghc-options:
@@ -46,8 +46,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - typecheck-plugin-nat-simple
-  typecheck-plugin-nat-simple-test:
-    main:                Log.hs
+  typecheck-plugin-nat-simple-test-log:
+    main:                log.hs
     source-dirs:         test
     ghc-options:
     - -threaded
