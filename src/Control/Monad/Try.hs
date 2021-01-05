@@ -4,8 +4,8 @@
 module Control.Monad.Try where
 
 import Control.Applicative
-import Control.Arrow
-import Outputable (Outputable(..), SDoc, ($$), text)
+import Control.Arrow ((***))
+import Outputable (Outputable(..), SDoc, ($$), text, ppr, (<+>))
 import Data.Maybe
 import Data.String
 
@@ -66,6 +66,9 @@ t@(Try (Right _) _) `catch` _ = t
 
 tell :: s -> Try s ()
 tell = Try (Right ())
+
+log :: Outputable o => String -> o -> Try SDocStr ()
+log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
 resume :: Monoid s => Try s a -> (Maybe a, s)
 resume (Try (Left e) lg) = (Nothing, lg <> e)

@@ -1,9 +1,12 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Plugin.TypeCheck.Nat.Simple (
 	-- * PLUGIN
 	plugin ) where
+
+import Prelude hiding (log)
 
 import GhcPlugins
 
@@ -16,16 +19,21 @@ import Plugin.TypeCheck.Nat.Simple.PluginWith
 import Control.Monad.Try
 
 -- | > plugin = pluginWith \gs _ w ->
---   >	tell "foobar"
---   >	canDerive (given $ decodeAll gs) <$> (wanted =<< decode w)
+--   >	log "givens" gs
+--   >	log "wanted" w
+--   >	let	(gs', lg) = decodeAll @SDocStr gs
+--   >	log "decodeAll log" lg
+--   >	log "givens" gs'
+--   >	w' <- decode w
+--   >	canDerive (given gs') <$> wanted w'
 
 plugin :: Plugin
 plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
-	tell . SDocStr $ text "givens:" <+> ppr gs
-	tell . SDocStr $ text "wanted:" <+> ppr w
-	let	(gs', lg) = decodeAll gs
-	tell lg
-	tell . SDocStr $ text "givens:" <+> ppr gs'
+	log "givens" gs
+	log "wanted" w
+	let	(gs', lg) = decodeAll @SDocStr gs
+	log "decodeAll log" lg
+	log "givens" gs'
 	w' <- decode w
-	tell . SDocStr $ text "wanted:" <+> ppr w'
+	log "wanted" w'
 	canDerive (given gs') <$> wanted w'
