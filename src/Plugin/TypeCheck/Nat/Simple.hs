@@ -20,8 +20,7 @@ import Control.Monad.Try
 --   >	canDerive (given $ decodeAll gs) <$> (wanted =<< decode w)
 
 plugin :: Plugin
-plugin = pluginWith \gs _ w -> do
-	tell "foobar"
+plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	tell . SDocStr $ text "givens:" <+> ppr gs
 	tell . SDocStr $ text "wanted:" <+> ppr w
 	let	(gs', lg) = decodeAll gs
