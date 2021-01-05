@@ -8,7 +8,10 @@ todo
 	+ [x] make test data
 	+ [x] repair bug
 * [ ] repair interface
-* [ ] refactoring
+	+ [x] make Data.Except.Message
+	+ [ ] others
+* [ ] refactor haddock
+* [ ] refactor
 
 refactor
 --------

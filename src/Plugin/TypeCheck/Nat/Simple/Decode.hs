@@ -1,10 +1,7 @@
 {-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Plugin.TypeCheck.Nat.Simple.Decode (Message, decode) where
-
-import Outputable (Outputable(..), SDoc, (<+>), text)
-import Data.String
+module Plugin.TypeCheck.Nat.Simple.Decode (decode) where
 
 import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon)
 import TyCoRep
@@ -13,11 +10,7 @@ import Data.Derivation.Expression
 import TcTypeNats
 import Control.Applicative ((<|>))
 
-newtype Message = Message SDoc
-instance Semigroup Message where Message l <> Message r = Message $ l <+> r
-instance Monoid Message where mempty = Message ""
-instance IsString Message where fromString = Message . text
-instance Outputable Message where ppr (Message msg) = msg
+import Data.Except.Message
 
 exVar :: Type -> Except Message (Exp Var a)
 exVar = \case TyVarTy v -> pure $ Var v; _ -> throwE "exVar: fail"

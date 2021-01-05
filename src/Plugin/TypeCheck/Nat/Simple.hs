@@ -22,6 +22,7 @@ import Data.Bool
 import Data.Either
 
 import Data.Derivation.CanDerive
+import Data.Except.Message
 
 plugin :: Plugin
 plugin = pluginWith check
