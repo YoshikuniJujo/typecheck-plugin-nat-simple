@@ -7,6 +7,8 @@ import Control.Applicative
 import Outputable (Outputable(..), SDoc, ($$), text)
 import Data.String
 
+import qualified Outputable as O
+
 data Try s a = Try (Either s a) s deriving Show
 
 runTry :: Try s a -> (Either s a, s)
@@ -20,11 +22,18 @@ instance IsString Message where fromString = Message . (:)
 message :: Message -> String
 message (Message ls) = unlines $ ls []
 
-newtype SDocStr = SDocStr SDoc
-instance Semigroup SDocStr where SDocStr l <> SDocStr r = SDocStr $ l $$ r
-instance Monoid SDocStr where mempty = SDocStr ""
+data SDocStr = SDocStrEmpty | SDocStr SDoc
+
+instance Semigroup SDocStr where
+	SDocStrEmpty <> r = r
+	l <> SDocStrEmpty = l
+	SDocStr l <> SDocStr r = SDocStr $ l $$ r
+
+instance Monoid SDocStr where mempty = SDocStrEmpty
 instance IsString SDocStr where fromString = SDocStr . text
-instance Outputable SDocStr where ppr (SDocStr s) = s
+instance Outputable SDocStr where
+	ppr SDocStrEmpty = O.empty
+	ppr (SDocStr s) = s
 
 instance Functor (Try s) where
 	_ `fmap` Try (Left e) lg = Try (Left e) lg

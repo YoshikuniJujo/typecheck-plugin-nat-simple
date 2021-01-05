@@ -22,4 +22,8 @@ import Control.Monad.Try
 plugin :: Plugin
 plugin = pluginWith \gs _ w -> do
 	tell "foobar"
-	canDerive (given $ decodeAll gs) <$> (wanted =<< decode w)
+	tell . SDocStr $ text "givens:" <+> ppr gs
+	tell . SDocStr $ text "wanted:" <+> ppr w
+	w' <- decode w
+	tell . SDocStr $ text "wanted:" <+> ppr w'
+	canDerive (given $ decodeAll gs) <$> wanted w'
