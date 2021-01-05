@@ -39,7 +39,7 @@ instance Monoid s => Applicative (Try s) where
 instance Monoid s => Monad (Try s) where
 	Try (Left e) lg >>= _ = Try (Left e) lg
 	Try (Right x) lg >>= f =
-		let Try (Right y) lg' = f x in Try (Right y) (lg <> lg')
+		let Try rtn lg' = f x in Try rtn (lg <> lg')
 
 instance Monoid s => Alternative (Try s) where
 	empty = Try (Left mempty) mempty
