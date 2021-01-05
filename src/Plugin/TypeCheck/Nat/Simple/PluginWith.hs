@@ -9,30 +9,36 @@ import TyCoRep
 import TcEvidence
 import TcPluginM
 
-import Control.Monad.Trans.Except
+-- import Control.Monad.Trans.Except
 import Data.Bool
 import Data.Either
-import Data.Except.Message
+-- import Data.Except.Message
 
 import Plugin.TypeCheck.Nat.Simple.UnNomEq
 
-pluginWith :: ([Ct] -> [Ct] -> Ct -> Except Message Bool) -> Plugin
+import Control.Monad.Try
+import Data.String
+
+pluginWith :: ([Ct] -> [Ct] -> Ct -> Try SDocStr Bool) -> Plugin
 pluginWith ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (),
 	tcPluginSolve = const $ solve ck,
 	tcPluginStop = const $ pure () } }
 
-solve :: ([Ct] -> [Ct] -> Ct -> Except Message Bool) -> [Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
+solve :: ([Ct] -> [Ct] -> Ct -> Try SDocStr Bool) -> [Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
 solve _ _ _ [] = pure $ TcPluginOk [] []
 solve ck gs ds ws = do
 	tcPluginTrace "!Plugin.TypeCheck.Nat.Simple" ""
 --	tcPluginTrace "Given: " . ppr $ runExcept . decode <$> gs
 --	tcPluginTrace "Derived: " . ppr $ runExcept . decode <$> ds
 --	tcPluginTrace "Wanted: " . ppr $ runExcept . decode <$> ws
-	pure $ TcPluginOk (rights $ runExcept . result ck gs ds <$> ws) []
+	let	(rtns, lgs) = unzip $ runTry . result ck gs ds <$> ws
+	(tcPluginTrace "" . ppr) `mapM_` lgs
+	pure $ TcPluginOk (rights rtns) []
+--	pure $ TcPluginOk (rights . map fst $ runTry . result ck gs ds <$> ws) []
 
-result :: ([Ct] -> [Ct] -> Ct -> Except Message Bool) -> [Ct] -> [Ct] -> Ct -> Except Message (EvTerm, Ct)
-result ck gs ds w = unNomEq w >>= \(l, r) -> bool (throwE em) (pure (et l r, w)) =<< ck gs ds w
+result :: (Monoid s, IsString s) => ([Ct] -> [Ct] -> Ct -> Try s Bool) -> [Ct] -> [Ct] -> Ct -> Try s (EvTerm, Ct)
+result ck gs ds w = unNomEq w >>= \(l, r) -> bool (throw em) (pure (et l r, w)) =<< ck gs ds w
 	where
 	em = "result: fail"
 	et l r = EvExpr . Coercion $

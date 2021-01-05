@@ -22,7 +22,6 @@ description:         Please see the README on GitHub at <https://github.com/Yosh
 dependencies:
 - base >= 4.7 && < 5
 - ghc
-- transformers
 - monads-tf
 - containers
 
@@ -35,7 +34,7 @@ library:
   - Data.Derivation.CanDerive
   - Data.Derivation.Expression
   - Data.Derivation.Parse
-  - Data.Except.Message
+  - Control.Monad.Try
 
 tests:
   typecheck-plugin-nat-simple-test:

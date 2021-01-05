@@ -7,6 +7,7 @@ todo
 * [x] repair divide-by-zero
 	+ [x] make test data
 	+ [x] repair bug
+* [x] make Error and Log monad
 * [ ] repair interface
 	+ [x] make Data.Except.Message
 	+ [ ] others

@@ -9,7 +9,7 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
-import Control.Monad.Trans.Except
+-- import Control.Monad.Trans.Except
 import Data.Either
 import Data.List ((\\), nub, partition, sort, unfoldr)
 import Data.Map.Strict (empty)
@@ -22,7 +22,9 @@ import Data.Derivation.Expression.Internal
 
 import qualified Data.Derivation.Constraint as C
 
-import Data.Except.Message
+-- import Data.Except.Message
+import Control.Monad.Try
+import Data.String
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
@@ -40,8 +42,8 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: Ord v => Exp v Bool -> Except Message (Wanted v)
-wanted = maybe (throwE "wanted: fail") pure . wantedGen
+wanted :: (Ord v, Monoid s, IsString s) => Exp v Bool -> Try s (Wanted v)
+wanted = maybe (throw "wanted: fail") pure . wantedGen
 
 wantedGen :: Ord v => Exp v Bool -> Maybe (Wanted v)
 wantedGen = uncurry wntd . constraint empty
