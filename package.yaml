@@ -30,6 +30,7 @@ library:
   source-dirs: src
   exposed-modules:
   - Plugin.TypeCheck.Nat.Simple
+  - Plugin.TypeCheck.Nat.Simple.PluginWith
   - Plugin.TypeCheck.Nat.Simple.Decode
   - Data.Derivation.CanDerive
   - Data.Derivation.Expression

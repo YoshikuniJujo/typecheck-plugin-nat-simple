@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.CanDerive (
@@ -9,6 +9,7 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
+import Control.Monad.Trans.Except
 import Data.Either
 import Data.List ((\\), nub, partition, sort, unfoldr)
 import Data.Map.Strict (empty)
@@ -20,6 +21,8 @@ import Data.Derivation.Constraint (
 import Data.Derivation.Expression.Internal
 
 import qualified Data.Derivation.Constraint as C
+
+import Data.Except.Message
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
@@ -37,8 +40,11 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: Ord v => Exp v Bool -> Maybe (Wanted v)
-wanted = uncurry wntd . constraint empty
+wanted :: Ord v => Exp v Bool -> Except Message (Wanted v)
+wanted = maybe (throwE "wanted: fail") pure . wantedGen
+
+wantedGen :: Ord v => Exp v Bool -> Maybe (Wanted v)
+wantedGen = uncurry wntd . constraint empty
 
 wntd :: Maybe (Wanted1 v) -> [Wanted1 v] -> Maybe (Wanted v)
 wntd mw ws = Wanted . (: ws) <$> mw
