@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d0e6489fbfad9b1bea150649acc81367de68b5f84e957db0c3ba6b0b67b04a35
+-- hash: ced43bbdb4b858307bfc16c25c9fde83b6aee3d301782effc8e2fd769bb7416f
 
 name:           typecheck-plugin-nat-simple
 version:        0.1.0.0
@@ -46,7 +46,6 @@ library
       base >=4.7 && <5
     , containers
     , ghc
-    , monads-tf
   default-language: Haskell2010
 
 test-suite typecheck-plugin-nat-simple-test-log
@@ -61,7 +60,6 @@ test-suite typecheck-plugin-nat-simple-test-log
       base >=4.7 && <5
     , containers
     , ghc
-    , monads-tf
     , typecheck-plugin-nat-simple
   default-language: Haskell2010
 
@@ -77,6 +75,5 @@ test-suite typecheck-plugin-nat-simple-test-spec
       base >=4.7 && <5
     , containers
     , ghc
-    , monads-tf
     , typecheck-plugin-nat-simple
   default-language: Haskell2010

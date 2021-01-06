@@ -28,9 +28,13 @@ import Data.String
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: Ord v => [Exp v Bool] -> Given v
-given es = gvn . concat
-	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
+given :: (Monoid s, IsString s, Ord v) => [Exp v Bool] -> Try s s (Given v)
+given es = gvn . concat <$> (mapM procGivenErr =<< constraint (varBool es) `mapM` es)
+--	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
+
+procGivenErr :: Monoid s => (Either s (Constraint v), [Constraint v]) -> Try s s [Constraint v]
+procGivenErr (Left e, cs) = tell e >> pure cs
+procGivenErr (Right c, cs) = pure $ c : cs
 
 gvn :: Ord v => [Constraint v] -> Given v
 gvn zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
@@ -42,14 +46,16 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: (Ord v, Monoid s, IsString e) => Exp v Bool -> Try e s (Wanted v)
-wanted = maybe (throw "wanted: fail") pure . wantedGen
+-- wanted :: (Ord v, Monoid s, IsString e) => Exp v Bool -> Try e s (Wanted v)
+wanted :: (Monoid s, IsString e, Ord v) => Exp v Bool -> Try e s (Wanted v)
+wanted = wantedGen -- maybe (throw "wanted: fail") pure . wantedGen
 
-wantedGen :: Ord v => Exp v Bool -> Maybe (Wanted v)
-wantedGen = uncurry wntd . constraint empty
-
-wntd :: Maybe (Wanted1 v) -> [Wanted1 v] -> Maybe (Wanted v)
-wntd mw ws = Wanted . (: ws) <$> mw
+wantedGen :: (Monoid s, IsString e, Ord v) => Exp v Bool -> Try e s (Wanted v)
+wantedGen ex = do
+	(ec, cs) <- constraint empty ex
+	case ec of
+		Left er -> throw er
+		Right c -> pure . Wanted $ c : cs
 
 rmVar :: Ord v => Given v -> Maybe v -> Given v
 rmVar (Given g) v =

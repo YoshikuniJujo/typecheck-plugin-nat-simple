@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, TupleSections #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Control.Monad.Try where
@@ -67,6 +67,9 @@ t@(Try (Right _) _) `catch` _ = t
 tell :: s -> Try e s ()
 tell = Try (Right ())
 
+tell0 :: Monoid ws => w -> Try e (w, ws) ()
+tell0 = Try (Right ()) . (, mempty)
+
 log :: Outputable o => String -> o -> Try e SDocStr ()
 log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
@@ -76,3 +79,10 @@ resume (Try (Right x) lg) = (Just x, lg)
 
 rights :: Monoid s => [Try s s a] -> ([a], s)
 rights = (catMaybes *** mconcat) . unzip . map resume
+
+partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
+partial (Try mx (w, ws)) = Try (Right (mx, w)) ws
+
+liftMaybe :: Monoid s => e -> Maybe a -> Try e s a
+liftMaybe e Nothing = Try (Left e) mempty
+liftMaybe _ (Just x) = Try (Right x) mempty

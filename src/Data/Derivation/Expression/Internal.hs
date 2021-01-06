@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
@@ -10,12 +10,14 @@ import Prelude hiding ((<>))
 
 import Outputable (Outputable(..), (<>), (<+>), text)
 import Control.Arrow (first, second)
-import Control.Monad.Writer (Writer, runWriter, tell)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)
 import Data.Maybe (fromJust)
 import Data.List (find)
 import Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, Polynomial, (.+), (.-) )
+
+import Control.Monad.Try
+import Data.String
 
 ---------------------------------------------------------------------------
 
@@ -58,48 +60,48 @@ instance Outputable v => Outputable (Exp v t) where
 
 -- CONSTRAINT
 
-constraint :: Ord v =>
-	VarBool v -> Exp v Bool -> (Maybe (Constraint v), [Constraint v])
-constraint vb e = runWriter $ procEq vb e True
+constraint :: (Monoid s, IsString e, Ord v) =>
+	VarBool v -> Exp v Bool -> Try e s (Either e (Constraint v), [Constraint v])
+constraint vb e = partial $ procEq vb e True
 
 -- PROCCESS EQUATION
 
-procEq :: Ord v => VarBool v ->
-	Exp v Bool -> Bool -> Writer [Constraint v] (Maybe (Constraint v))
-procEq _ (Bool _) _ = pure Nothing; procEq _ (Var _) _ = pure Nothing
-procEq _ (l :<= r) False = Just <$> (greatThan <$> poly l <*> poly r)
-procEq _ (l :<= r) True = Just <$> (greatEqualThan <$> poly r <*> poly l)
+procEq :: (Monoid s, IsString e, Ord v) => VarBool v ->
+	Exp v Bool -> Bool -> Try e ([Constraint v], s) (Constraint v)
+procEq _ (Bool _) _ = throw "procEq: bad"; procEq _ (Var _) _ = throw "procEq: bad"
+procEq _ (l :<= r) False = greatThan <$> poly l <*> poly r
+procEq _ (l :<= r) True = greatEqualThan <$> poly r <*> poly l
 procEq vb (l :== Bool r) b = procEq vb l (r == b)
 procEq vb (Bool l :== r) b = procEq vb r (l == b)
 procEq vb (l :== Var r) b | Just br <- vb !? r = case l of
 	_ :== _ -> procEq vb l (br == b); _ :<= _ -> procEq vb l (br == b)
-	_ -> pure Nothing
+	_ -> throw "procEq: bad"
 procEq vb (Var l :== r) b | Just bl <- vb !? l = case r of
 	_ :== _ -> procEq vb r (bl == b); _ :<= _ -> procEq vb r (bl == b)
-	_ -> pure Nothing
+	_ -> throw "procEq: bad"
 procEq _ (l :== r) True = case (l, r) of
-	(Const _, _) -> Just <$> (equal <$> poly l <*> poly r)
-	(_ :+ _, _) -> Just <$> (equal <$> poly l <*> poly r)
-	(_ :- _, _) -> Just <$> (equal <$> poly l <*> poly r)
-	(_, Const _) -> Just <$> (equal <$> poly l <*> poly r)
-	(_, _ :+ _) -> Just <$> (equal <$> poly l <*> poly r)
-	(_, _ :- _) -> Just <$> (equal <$> poly l <*> poly r)
-	(Var v, Var w) -> Just <$> (equal <$> poly (Var v) <*> poly (Var w))
-	_ -> pure Nothing
-procEq _ (_ :== _) False = pure Nothing
+	(Const _, _) -> equal <$> poly l <*> poly r
+	(_ :+ _, _) -> equal <$> poly l <*> poly r
+	(_ :- _, _) -> equal <$> poly l <*> poly r
+	(_, Const _) -> equal <$> poly l <*> poly r
+	(_, _ :+ _) -> equal <$> poly l <*> poly r
+	(_, _ :- _) -> equal <$> poly l <*> poly r
+	(Var v, Var w) -> equal <$> poly (Var v) <*> poly (Var w)
+	_ -> throw "procEq: bad"
+procEq _ (_ :== _) False = throw "procEq: bad"
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL
 ---------------------------------------------------------------------------
 
-poly :: Ord v => Exp v Number -> Writer [Constraint v] (Polynomial v)
+poly :: (Monoid s, Ord v) => Exp v Number -> Try e ([Constraint v], s) (Polynomial v)
 poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n
-poly (Var v) = p <$ tell [p `greatEqualThan` empty]
+poly (Var v) = p <$ tell0 [p `greatEqualThan` empty]
 	where p = singleton (Just v) 1
 poly (l :+ r) = (.+) <$> poly l <*> poly r
 poly (l :- r) = (,) <$> poly l <*> poly r >>= \(pl, pr) ->
-	pl .- pr <$ tell [pl `greatEqualThan` pr]
+	pl .- pr <$ tell0 [pl `greatEqualThan` pr]
 
 ---------------------------------------------------------------------------
 -- MAP FROM VARIABLES TO BOOL

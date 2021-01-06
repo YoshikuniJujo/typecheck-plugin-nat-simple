@@ -8,9 +8,10 @@ todo
 	+ [x] make test data
 	+ [x] repair bug
 * [x] make Error and Log monad
-* [ ] repair interface
+* [x] repair interface
 	+ [x] make Data.Except.Message
-	+ [ ] others
+	+ [x] others
+* [ ] separate StateT from Data.Parse
 * [ ] refactor haddock
 * [ ] refactor
 
@@ -18,12 +19,15 @@ refactor
 --------
 
 * [x] check module name hierarchy
-* [x] refactor haddock
-	+ [x] Data.Derivation.Expression
-	+ [x] Data.Derivation.Parse
-	+ [x] Data.Derivation.CanDerive
-	+ [x] Plugin.TypeCheck.Nat.Simple
-* [x] refactor Data.Derivation.Expression.Internal
+* [ ] refactor haddock
+	+ [ ] Control.Monad.Try
+	+ [ ] Data.Derivation.Expression
+	+ [ ] Data.Derivation.Parse
+	+ [ ] Data.Derivation.CanDerive
+	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
+	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -53,9 +57,9 @@ refactor
 			* [x] vbInit
 			* [x] vbStep
 			* [x] untilFixed
-* [x] refactor Data.Derivation.Expression
-* [x] refactor Data.Parse
-* [x] refactor Data.Derivation.Parse
+* [ ] refactor Data.Derivation.Expression
+* [ ] refactor Data.Parse
+* [ ] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure

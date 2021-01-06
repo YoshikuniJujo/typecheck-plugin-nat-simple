@@ -36,4 +36,4 @@ plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	log "givens" gs'
 	w' <- decode w
 	log "wanted" w'
-	canDerive (given gs') <$> wanted w'
+	canDerive <$> given gs' <*> wanted w'
