@@ -11,7 +11,7 @@ todo
 * [x] repair interface
 	+ [x] make Data.Except.Message
 	+ [x] others
-* [ ] separate StateT from Data.Parse
+* [x] separate StateT from Data.Parse
 * [ ] refactor haddock
 * [ ] refactor
 
