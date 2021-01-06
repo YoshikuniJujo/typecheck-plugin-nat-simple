@@ -21,7 +21,7 @@ refactor
 --------
 
 * [x] check module name hierarchy
-* [ ] refactor haddock
+* [x] refactor haddock
 	+ [x] Control.Monad.Try
 		- [x] structure
 		- [x] DATA TRY
@@ -33,8 +33,10 @@ refactor
 	+ [x] Data.Derivation.Parse
 	+ [x] Data.Derivation.CanDerive
 	+ [x] Plugin.TypeCheck.Nat.Simple
-	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
-	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
+	+ [x] Plugin.TypeCheck.Nat.Simple.PluginWith
+	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor Control.Monad.StateT
+* [ ] refactor Control.Monad.Try
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
@@ -97,6 +99,8 @@ refactor
 	* [ ] body
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
 
 module name hierarchy

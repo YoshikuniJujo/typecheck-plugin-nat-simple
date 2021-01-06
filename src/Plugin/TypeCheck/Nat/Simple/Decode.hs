@@ -9,12 +9,10 @@ import Control.Monad
 
 import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon)
 import TyCoRep
--- import Control.Monad.Trans.Except
 import Data.Derivation.Expression
 import TcTypeNats
 import Control.Applicative ((<|>))
 
--- import Data.Except.Message
 import Plugin.TypeCheck.Nat.Simple.UnNomEq
 
 import Control.Monad.Try
@@ -45,8 +43,8 @@ decodeGen (TyVarTy l) r = le <$> exVar r <|> le <$> exNum r <|> le <$> exBool r
 	where le = (Var l :==)
 decodeGen l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
-decodeAll :: (Set s s, Monoid s, IsString s) => [Ct] -> Try s s [Exp Var Bool]
+decodeAll :: (Monoid s, IsString s, Set s s) => [Ct] -> Try s s [Exp Var Bool]
 decodeAll cts = rights $ decode <$> cts
 
-decode :: (Set s s, Monoid s, IsString s, Monoid e, IsString e) => Ct -> Try e s (Exp Var Bool)
+decode :: (Monoid s, IsString s, Set s s, Monoid e, IsString e) => Ct -> Try e s (Exp Var Bool)
 decode = uncurry decodeGen <=< unNomEq
