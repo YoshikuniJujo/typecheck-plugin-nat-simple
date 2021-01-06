@@ -35,7 +35,17 @@ refactor
 	+ [x] Plugin.TypeCheck.Nat.Simple
 	+ [x] Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
-* [ ] refactor Control.Monad.StateT
+* [ ] refactor with hlint
+* [x] refactor Control.Monad.StateT
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
+	+ [x] body
+		- [x] NEWTYPE STATE T
+		- [x] INSTANCE
+			* [x] FUNCTOR
+			* [x] APPLICATIVE AND ALTERNATIVE
+			* [x] MONAD AND MONAD PLUS
 * [ ] refactor Control.Monad.Try
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
