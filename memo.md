@@ -23,6 +23,12 @@ refactor
 * [x] check module name hierarchy
 * [ ] refactor haddock
 	+ [ ] Control.Monad.Try
+		- [x] structure
+		- [ ] DATA TRY
+		- [ ] RUN TRY
+		- [ ] THROW AND CATCH ERROR
+		- [ ] WRITE AND GET LOG
+		- [ ] LOG STRING
 	+ [ ] Data.Derivation.Expression
 	+ [ ] Data.Derivation.Parse
 	+ [ ] Data.Derivation.CanDerive

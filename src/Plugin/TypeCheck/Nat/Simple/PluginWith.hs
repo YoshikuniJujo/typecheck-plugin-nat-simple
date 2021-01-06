@@ -31,7 +31,7 @@ solve hd ck gs ds ws = do
 --	tcPluginTrace "Derived: " . ppr $ runExcept . decode <$> ds
 --	tcPluginTrace "Wanted: " . ppr $ runExcept . decode <$> ws
 --	let	(rtns, lgs) = unzip $ runTry . result ck gs ds <$> ws
-	let	(rtns, lgs) = rights' $ result hd ck gs ds <$> ws
+	let	(rtns, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
 --	tcPluginTrace "!Plugin.TypeCheck.Nat.Simple" $ ppr lgs
 	tcPluginTrace hd $ ppr lgs
 	pure $ TcPluginOk rtns []

@@ -97,11 +97,11 @@ procEq _ (_ :== _) False = throw "procEq: bad"
 poly :: (Monoid s, Ord v) => Exp v Number -> Try e ([Constraint v], s) (Polynomial v)
 poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n
-poly (Var v) = p <$ tell0 [p `greatEqualThan` empty]
+poly (Var v) = p <$ tell [p `greatEqualThan` empty]
 	where p = singleton (Just v) 1
 poly (l :+ r) = (.+) <$> poly l <*> poly r
 poly (l :- r) = (,) <$> poly l <*> poly r >>= \(pl, pr) ->
-	pl .- pr <$ tell0 [pl `greatEqualThan` pr]
+	pl .- pr <$ tell [pl `greatEqualThan` pr]
 
 ---------------------------------------------------------------------------
 -- MAP FROM VARIABLES TO BOOL

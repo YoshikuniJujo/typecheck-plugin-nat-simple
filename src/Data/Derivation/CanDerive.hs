@@ -28,11 +28,11 @@ import Data.String
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: (Monoid s, IsString s, Ord v) => [Exp v Bool] -> Try s s (Given v)
+given :: (Set s s, Monoid s, IsString s, Ord v) => [Exp v Bool] -> Try s s (Given v)
 given es = gvn . concat <$> (mapM procGivenErr =<< constraint (varBool es) `mapM` es)
 --	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
 
-procGivenErr :: Monoid s => (Either s (Constraint v), [Constraint v]) -> Try s s [Constraint v]
+procGivenErr :: (Set s s, Monoid s) => (Either s (Constraint v), [Constraint v]) -> Try s s [Constraint v]
 procGivenErr (Left e, cs) = tell e >> pure cs
 procGivenErr (Right c, cs) = pure $ c : cs
 
