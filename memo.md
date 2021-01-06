@@ -32,7 +32,7 @@ refactor
 	+ [x] Data.Derivation.Expression
 	+ [x] Data.Derivation.Parse
 	+ [x] Data.Derivation.CanDerive
-	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [x] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Data.Derivation.Expression.Internal
