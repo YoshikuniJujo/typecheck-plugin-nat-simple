@@ -22,16 +22,16 @@ refactor
 
 * [x] check module name hierarchy
 * [ ] refactor haddock
-	+ [ ] Control.Monad.Try
+	+ [x] Control.Monad.Try
 		- [x] structure
-		- [ ] DATA TRY
-		- [ ] RUN TRY
-		- [ ] THROW AND CATCH ERROR
-		- [ ] WRITE AND GET LOG
-		- [ ] LOG STRING
-	+ [ ] Data.Derivation.Expression
-	+ [ ] Data.Derivation.Parse
-	+ [ ] Data.Derivation.CanDerive
+		- [x] DATA TRY
+		- [x] RUN TRY
+		- [x] THROW AND CATCH ERROR
+		- [x] WRITE AND GET LOG
+		- [x] LOG STRING
+	+ [x] Data.Derivation.Expression
+	+ [x] Data.Derivation.Parse
+	+ [x] Data.Derivation.CanDerive
 	+ [ ] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
