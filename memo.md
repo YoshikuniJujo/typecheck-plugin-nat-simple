@@ -12,6 +12,8 @@ todo
 	+ [x] make Data.Except.Message
 	+ [x] others
 * [x] separate StateT from Data.Parse
+* [x] repair decodeAll
+* [ ] repair pluginWith
 * [ ] refactor haddock
 * [ ] refactor
 

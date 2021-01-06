@@ -19,21 +19,20 @@ import Plugin.TypeCheck.Nat.Simple.PluginWith
 import Control.Monad.Try
 
 -- | > plugin = pluginWith \gs _ w ->
+--   >	gs' <- decodeAll gs
+--   >	w' <- decode w
 --   >	log "givens" gs
 --   >	log "wanted" w
---   >	let	(gs', lg) = decodeAll @SDocStr gs
 --   >	log "decodeAll log" lg
 --   >	log "givens" gs'
---   >	w' <- decode w
---   >	canDerive (given gs') <$> wanted w'
+--   >	canDerive <$> given gs' <*> wanted w'
 
 plugin :: Plugin
 plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
+	gs' <- decodeAll gs
+	w' <- decode w
 	log "givens" gs
 	log "wanted" w
-	let	(gs', lg) = decodeAll @SDocStr gs
-	log "decodeAll log" lg
 	log "givens" gs'
-	w' <- decode w
 	log "wanted" w'
 	canDerive <$> given gs' <*> wanted w'

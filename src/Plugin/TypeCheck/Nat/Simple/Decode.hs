@@ -45,7 +45,7 @@ decodeGen (TyVarTy l) r = le <$> exVar r <|> le <$> exNum r <|> le <$> exBool r
 	where le = (Var l :==)
 decodeGen l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
-decodeAll :: (Monoid s, IsString s) => [Ct] -> ([Exp Var Bool], s)
+decodeAll :: (Monoid s, IsString s) => [Ct] -> Try s s [Exp Var Bool]
 decodeAll cts = rights $ decode <$> cts
 
 decode :: (Monoid s, IsString s, Monoid e, IsString e) => Ct -> Try e s (Exp Var Bool)

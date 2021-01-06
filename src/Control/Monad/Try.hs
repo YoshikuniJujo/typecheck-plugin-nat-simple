@@ -1,6 +1,12 @@
 {-# LANGUAGE OverloadedStrings, TupleSections #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
+{-
+module Control.Monad.Try (
+	Try, partial, throw, tell, tell0,
+	SDocStr ) where
+	-}
+
 module Control.Monad.Try where
 
 import Control.Applicative
@@ -73,12 +79,19 @@ tell0 = Try (Right ()) . (, mempty)
 log :: Outputable o => String -> o -> Try e SDocStr ()
 log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
-resume :: Monoid s => Try s s a -> (Maybe a, s)
-resume (Try (Left e) lg) = (Nothing, lg <> e)
-resume (Try (Right x) lg) = (Just x, lg)
+resume :: Monoid s => Try s s a -> Try s s (Maybe a)
+resume (Try (Left e) lg) = Try (Right Nothing) (lg <> e)
+resume (Try (Right x) lg) = Try (Right $ Just x) lg
 
-rights :: Monoid s => [Try s s a] -> ([a], s)
-rights = (catMaybes *** mconcat) . unzip . map resume
+rights :: Monoid s => [Try s s a] -> Try s s [a]
+rights ts = catMaybes <$> sequence (resume <$> ts)
+
+resume' :: Monoid s => Try s s a -> (Maybe a, s)
+resume' (Try (Left e) lg) = (Nothing, lg <> e)
+resume' (Try (Right x) lg) = (Just x, lg)
+
+rights' :: Monoid s => [Try s s a] -> ([a], s)
+rights' = (catMaybes *** mconcat) . unzip . map resume'
 
 partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
 partial (Try mx (w, ws)) = Try (Right (mx, w)) ws
