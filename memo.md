@@ -48,7 +48,7 @@ refactor
 			* [x] MONAD AND MONAD PLUS
 * [ ] refactor Control.Monad.Try
 	+ [x] export list
-	+ [ ] import list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Data.Derivation.Expression.Internal

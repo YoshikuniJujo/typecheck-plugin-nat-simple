@@ -16,13 +16,21 @@ module Control.Monad.Try (
 
 import Prelude hiding (log)
 
-import Control.Applicative
+import Outputable (Outputable(..), ppr, SDoc, (<+>), ($$), text)
+import Control.Applicative (Alternative(..))
 import Control.Arrow ((***))
-import Outputable (Outputable(..), SDoc, ($$), text, ppr, (<+>))
-import Data.Maybe
-import Data.String
+import Data.Maybe (catMaybes)
+import Data.String (IsString(..))
 
-import qualified Outputable as O
+import qualified Outputable as O (empty)
+
+---------------------------------------------------------------------------
+
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 data Try e w a = Try (Either e a) w deriving Show
 
