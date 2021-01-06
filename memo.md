@@ -49,8 +49,17 @@ refactor
 * [ ] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] DATA TRY
+			* [ ] DATA
+			* [ ] INSTANCE
+		- [ ] RUN TRY
+		- [ ] THROW AND CATCH ERROR
+		- [ ] WRITE AND GET LOG
+		- [ ] LOG STRING
+			* [ ] MESSAGE
+			* [ ] SDOC STRING
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
