@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
@@ -48,23 +48,23 @@ data Try e w a = Try (Either e a) w deriving Show
 -- INSTANCE
 
 instance Functor (Try e w) where
-	_ `fmap` Try (Left e) lg = Try (Left e) lg
-	f `fmap` Try (Right x) lg = Try (Right $ f x) lg
+	_ `fmap` Try (Left e) w = Try (Left e) w
+	f `fmap` Try (Right x) w = Try (Right $ f x) w
 
 instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right
-	Try (Left e) lg <*> _ = Try (Left e) lg
-	Try (Right f) lg <*> mx =
-		let Try (Right y) lg' = f <$> mx in Try (Right y) (lg <> lg')
+	Try (Left e) w <*> _ = Try (Left e) w
+	Try (Right f) w <*> mx =
+		let Try (Right y) w' = f <$> mx in Try (Right y) (w <> w')
 
 instance (Monoid e, Monoid w) => Alternative (Try e w) where
 	empty = Try (Left mempty) mempty
-	Try (Right x) lg <|> _ = Try (Right x) lg
-	Try (Left _) lg <|> Try rtn lg' = Try rtn (lg <> lg')
+	Try (Right x) w <|> _ = Try (Right x) w
+	Try (Left _) w <|> Try rtn w' = Try rtn (w <> w')
 
 instance Monoid w => Monad (Try e w) where
-	Try (Left e) lg >>= _ = Try (Left e) lg
-	Try (Right x) lg >>= f = let Try rtn lg' = f x in Try rtn (lg <> lg')
+	Try (Left e) w >>= _ = Try (Left e) w
+	Try (Right x) w >>= f = let Try rtn w' = f x in Try rtn (w <> w')
 
 instance (Monoid e, Monoid w) => MonadPlus (Try e w)
 
@@ -73,15 +73,12 @@ instance (Monoid e, Monoid w) => MonadPlus (Try e w)
 ---------------------------------------------------------------------------
 
 runTry :: Try e w a -> (Either e a, w)
-runTry (Try rtn lg) = (rtn, lg)
+runTry (Try rtn w) = (rtn, w)
 
-resume' :: Monoid s => Try s s a -> (Maybe a, s)
-resume' (Try (Left e) lg) = (Nothing, lg <> e)
-resume' (Try (Right x) lg) = (Just x, lg)
-
-gatherSuccess, rights' :: Monoid w => [Try w w a] -> ([a], w)
-gatherSuccess = rights'
-rights' = (catMaybes *** mconcat) . unzip . map resume'
+gatherSuccess :: Monoid w => [Try w w a] -> ([a], w)
+gatherSuccess = (catMaybes *** mconcat) . unzip . map \case
+	(Try (Left e) w) -> (Nothing, w <> e)
+	(Try (Right x) w) -> (Just x, w)
 
 ---------------------------------------------------------------------------
 -- THROW AND CATCH ERROR

@@ -59,7 +59,7 @@ refactor
 				+ [x] Alternative
 				+ [x] Monad
 				+ [x] MonadPlus
-		- [ ] RUN TRY
+		- [x] RUN TRY
 		- [ ] THROW AND CATCH ERROR
 		- [ ] WRITE AND GET LOG
 		- [ ] LOG STRING
