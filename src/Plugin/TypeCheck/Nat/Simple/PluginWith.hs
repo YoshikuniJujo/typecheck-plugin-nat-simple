@@ -18,13 +18,13 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq
 import Control.Monad.Try
 import Data.String
 
-pluginWith :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr Bool) -> Plugin
+pluginWith :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> Plugin
 pluginWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (),
 	tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
-solve :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr Bool) -> [Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
+solve :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> [Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
 -- solve _ _ _ _ [] = pure $ TcPluginOk [] []
 solve hd ck gs ds ws = do
 --	tcPluginTrace "Given: " . ppr $ runExcept . decode <$> gs
@@ -38,7 +38,7 @@ solve hd ck gs ds ws = do
 --	pure $ TcPluginOk (rights rtns) []
 --	pure $ TcPluginOk (rights . map fst $ runTry . result ck gs ds <$> ws) []
 
-result :: (Monoid s, IsString s) => String -> ([Ct] -> [Ct] -> Ct -> Try s Bool) -> [Ct] -> [Ct] -> Ct -> Try s (EvTerm, Ct)
+result :: (Monoid s, IsString e) => String -> ([Ct] -> [Ct] -> Ct -> Try e s Bool) -> [Ct] -> [Ct] -> Ct -> Try e s (EvTerm, Ct)
 result hd ck gs ds w = unNomEq w >>= \(l, r) -> bool (throw em) (pure (et l r, w)) =<< ck gs ds w
 	where
 	em = "result: fail"

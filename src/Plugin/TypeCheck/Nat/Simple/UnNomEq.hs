@@ -12,7 +12,7 @@ import TcRnTypes
 import Control.Monad.Try
 import Data.String
 
-unNomEq :: (Monoid s, IsString s) => Ct -> Try s (Type, Type)
+unNomEq :: (Monoid s, IsString e) => Ct -> Try e s (Type, Type)
 unNomEq ct = case classifyPredType . ctEvPred $ ctEvidence ct of
 	EqPred NomEq l r -> pure (l, r)
 	_ -> throw "Cannot unNomEq"

@@ -42,7 +42,7 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: (Ord v, Monoid s, IsString s) => Exp v Bool -> Try s (Wanted v)
+wanted :: (Ord v, Monoid s, IsString e) => Exp v Bool -> Try e s (Wanted v)
 wanted = maybe (throw "wanted: fail") pure . wantedGen
 
 wantedGen :: Ord v => Exp v Bool -> Maybe (Wanted v)

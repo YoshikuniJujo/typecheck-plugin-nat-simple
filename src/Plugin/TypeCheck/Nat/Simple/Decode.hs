@@ -20,10 +20,10 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq
 import Control.Monad.Try
 import Data.String
 
-exVar :: (Monoid s, IsString s) => Type -> Try s (Exp Var a)
+exVar :: (Monoid s, IsString e) => Type -> Try e s (Exp Var a)
 exVar = \case TyVarTy v -> pure $ Var v; _ -> throw "exVar: fail"
 
-exNum :: (Monoid s, IsString s) => Type -> Try s (Exp Var Number)
+exNum :: (Monoid s, IsString e) => Type -> Try e s (Exp Var Number)
 exNum (TyVarTy v) = pure $ Var v
 exNum (LitTy (NumTyLit n)) = pure $ Const n
 exNum (TyConApp tc [l, r])
@@ -31,7 +31,7 @@ exNum (TyConApp tc [l, r])
 	| tc == typeNatSubTyCon = (:-) <$> exNum l <*> exNum r
 exNum _ = throw "exNum: fail"
 
-exBool :: (Monoid s, IsString s) => Type -> Try s (Exp Var Bool)
+exBool :: (Monoid s, IsString s, IsString e) => Type -> Try e s (Exp Var Bool)
 exBool (TyVarTy v) = pure $ Var v
 exBool (TyConApp tc [])
 	| tc == promotedFalseDataCon = pure $ Bool False
@@ -40,7 +40,7 @@ exBool (TyConApp tc [l, r])
 	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
 exBool _ = throw "exBool: fail"
 
-decodeGen :: (Monoid s, IsString s) => Type -> Type -> Try s (Exp Var Bool)
+decodeGen :: (Monoid s, IsString s, Monoid e, IsString e) => Type -> Type -> Try e s (Exp Var Bool)
 decodeGen (TyVarTy l) r = le <$> exVar r <|> le <$> exNum r <|> le <$> exBool r
 	where le = (Var l :==)
 decodeGen l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
@@ -48,5 +48,5 @@ decodeGen l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool 
 decodeAll :: (Monoid s, IsString s) => [Ct] -> ([Exp Var Bool], s)
 decodeAll cts = rights $ decode <$> cts
 
-decode :: (Monoid s, IsString s) => Ct -> Try s (Exp Var Bool)
+decode :: (Monoid s, IsString s, Monoid e, IsString e) => Ct -> Try e s (Exp Var Bool)
 decode = uncurry decodeGen <=< unNomEq
