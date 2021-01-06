@@ -1,5 +1,4 @@
 {-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
-{-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Plugin.TypeCheck.Nat.Simple.Decode (decodeAll, decode) where
