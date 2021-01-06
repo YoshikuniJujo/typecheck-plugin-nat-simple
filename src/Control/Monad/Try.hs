@@ -52,7 +52,7 @@ instance Functor (Try e w) where
 	f `fmap` Try (Right x) lg = Try (Right $ f x) lg
 
 instance Monoid w => Applicative (Try e w) where
-	pure x = Try (Right x) mempty
+	pure = (`Try` mempty) . Right
 	Try (Left e) lg <*> _ = Try (Left e) lg
 	Try (Right f) lg <*> mx =
 		let Try (Right y) lg' = f <$> mx in Try (Right y) (lg <> lg')
@@ -64,8 +64,7 @@ instance (Monoid e, Monoid w) => Alternative (Try e w) where
 
 instance Monoid w => Monad (Try e w) where
 	Try (Left e) lg >>= _ = Try (Left e) lg
-	Try (Right x) lg >>= f =
-		let Try rtn lg' = f x in Try rtn (lg <> lg')
+	Try (Right x) lg >>= f = let Try rtn lg' = f x in Try rtn (lg <> lg')
 
 instance (Monoid e, Monoid w) => MonadPlus (Try e w)
 

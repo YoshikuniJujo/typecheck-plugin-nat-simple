@@ -51,9 +51,14 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] DATA TRY
-			* [ ] DATA
-			* [ ] INSTANCE
+		- [x] DATA TRY
+			* [x] DATA
+			* [x] INSTANCE
+				+ [x] Functor
+				+ [x] Applicative
+				+ [x] Alternative
+				+ [x] Monad
+				+ [x] MonadPlus
 		- [ ] RUN TRY
 		- [ ] THROW AND CATCH ERROR
 		- [ ] WRITE AND GET LOG
