@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Control.Monad.Try (
@@ -12,8 +12,7 @@ module Control.Monad.Try (
 	-- * WRITE AND GET LOG
 	Set, tell, log, partial,
 	-- * LOG STRING
-	SDocStr,
-	Message, message ) where
+	SDocStr, Message, message ) where
 
 import Prelude hiding (log)
 
@@ -82,7 +81,7 @@ t@(Try (Right _) _) `catch` _ = t
 tell :: Set w ws => w -> Try e ws ()
 tell = Try (Right ()) . set
 
-log :: Outputable o => String -> o -> Try e SDocStr ()
+log :: (Set SDocStr ws, Outputable o) => String -> o -> Try e ws ()
 log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
 resume :: (Set w w, Monoid w) => Try w w a -> Try w w (Maybe a)

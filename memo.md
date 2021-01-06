@@ -47,6 +47,10 @@ refactor
 			* [x] APPLICATIVE AND ALTERNATIVE
 			* [x] MONAD AND MONAD PLUS
 * [ ] refactor Control.Monad.Try
+	+ [x] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
