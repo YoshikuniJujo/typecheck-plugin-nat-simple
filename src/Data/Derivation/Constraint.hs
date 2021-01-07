@@ -21,18 +21,25 @@ import qualified Data.Map.Strict as M (toList)
 ---------------------------------------------------------------------------
 
 -- * CONSTRAINT
---	+ DATA CONSTRAINT AND CONSTRUCTOR
--- 	+ VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM AND SELF CONTAINED
--- 	+ ELIMINATE
+--	+ DATA CONSTRAINT
+--	+ CONSTRUCT
+--	+ READ
+-- 	+ CONVERT
 -- * POLYNOMIAL
+-- 	+ TYPE POLY
+-- 	+ CONSTRUCT
+-- 	+ READ
+-- 	+ CONVERT
 
 ---------------------------------------------------------------------------
 -- CONSTRAINT
 ---------------------------------------------------------------------------
 
--- DATA CONSTRAINT AND CONSTRUCTOR
+-- DATA CONSTRAINT
 
 data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
+
+-- CONSTRUCT
 
 equal :: Ord v => Poly v -> Poly v -> Constraint v
 l `equal` r = Eq . positive . reduce $ l .- r
@@ -43,20 +50,7 @@ l `greatEqualThan` r = Geq . reduce $ l .- r
 greatThan :: Ord v => Poly v -> Poly v -> Constraint v
 l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 
-positive :: Poly v -> Poly v
-positive p = maybe p ((p `times`) . signum . snd) $ lookupMin p
-
-reduce :: Poly v -> Poly v
-reduce = divide <$> id <*> divisor
-
-times, divide :: Poly v -> Integer -> Poly v
-p `times` n = (* n) <$> p
-p `divide` n = (`div` n) <$> p
-
-divisor :: Poly v -> Integer
-divisor = gcdAll . toList where gcdAll = \case [] -> 1; n : ns -> foldr gcd n ns
-
--- VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM AND SELF CONTAINED
+-- READ
 
 vars :: Ord v => Constraint v -> [Maybe v]
 vars (Eq p) = (fst <$>) $ M.toList p
@@ -66,23 +60,18 @@ hasVar :: Ord v => Constraint v -> Maybe v -> Bool
 hasVar (Eq p) v = isJust $ p !? v
 hasVar (Geq p) v = isJust $ p !? v
 
-rmNegative :: Constraint v -> Constraint v
-rmNegative = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
+selfContained :: Constraint v -> Bool
+selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
 
 isDerivFrom :: Ord v => Constraint v -> Constraint v -> Bool
 Eq w `isDerivFrom` Eq g = w == g
 Geq w `isDerivFrom` Geq g = w `isGeqThan` g
 _ `isDerivFrom` _ = False
 
-isGeqThan :: Ord v => Poly v -> Poly v -> Bool
-l `isGeqThan` r = and $ merge
-	(mapMissing \_ nl -> nl >= 0)
-	(mapMissing \_ nr -> nr <= 0) (zipWithMatched $ const (>=)) l r
+-- CONVERT
 
-selfContained :: Constraint v -> Bool
-selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
-
--- ELIMINATE
+rmNegative :: Constraint v -> Constraint v
+rmNegative = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
 
 eliminate ::
 	Ord v => Constraint v -> Constraint v -> Maybe v -> Maybe (Constraint v)
@@ -110,7 +99,11 @@ alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(nl, nr) -> do
 -- POLYNOMIAL
 ---------------------------------------------------------------------------
 
+-- TYPE POLY
+
 type Poly v = Map (Maybe v) Integer
+
+-- CONSTRUCT
 
 (.+), (.-) :: Ord v => Poly v -> Poly v -> Poly v
 (.+) = merge preserveMissing preserveMissing
@@ -120,3 +113,25 @@ type Poly v = Map (Maybe v) Integer
 
 rmZero :: (Eq n, Num n) => n -> Maybe n
 rmZero = \case 0 -> Nothing; n -> Just n
+
+-- READ
+
+divisor :: Poly v -> Integer
+divisor = gcdAll . toList where gcdAll = \case [] -> 1; n : ns -> foldr gcd n ns
+
+isGeqThan :: Ord v => Poly v -> Poly v -> Bool
+l `isGeqThan` r = and $ merge
+	(mapMissing \_ nl -> nl >= 0)
+	(mapMissing \_ nr -> nr <= 0) (zipWithMatched $ const (>=)) l r
+
+-- CONVERT
+
+positive :: Poly v -> Poly v
+positive p = maybe p ((p `times`) . signum . snd) $ lookupMin p
+
+reduce :: Poly v -> Poly v
+reduce = divide <$> id <*> divisor
+
+times, divide :: Poly v -> Integer -> Poly v
+p `times` n = (* n) <$> p
+p `divide` n = (`div` n) <$> p

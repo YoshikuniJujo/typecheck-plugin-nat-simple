@@ -16,7 +16,7 @@ todo
 * [x] repair pluginWith
 * [x] refactor haddock
 * [x] use ExpType instead of Star
-* [ ] try to use in renaged-list
+* [x] try to use in renaged-list
 * [ ] refactor
 
 refactor
@@ -131,19 +131,19 @@ refactor
 	* [x] structure
 	* [ ] body
 		+ [ ] CONSTRAINT
-			- [ ] DATA CONSTRAINT AND CONSTRUCTOR
+			- [x] DATA CONSTRAINT
 				* [x] data Constraint v
+			- [ ] CONSTRUCT
 				* [x] constructor equal
-				* [ ] constructor greatEqualThan
+				* [x] constructor greatEqualThan
 				* [ ] constructor greatThan
-				* [ ] function positive
-				* [ ] function reduce
-				* [ ] function time and divide
-				* [ ] function divisor
-			- [ ] VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM
-				AND SELF CONTAINED
-			- [ ] ELIMINATE
+			- [ ] READ
+			- [ ] CONVERT
 		+ [ ] POLYNOMIAL
+			- [ ] TYPE POLY
+			- [ ] CONSTRUCT
+			- [ ] READ
+			- [ ] CONVERT
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
