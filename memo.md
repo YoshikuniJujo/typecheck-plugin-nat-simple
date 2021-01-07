@@ -101,11 +101,11 @@ refactor
 			* [x] untilFixed
 * [x] refactor Data.Derivation.Expression
 * [x] refactor Data.Parse
-* [ ] refactor Data.Derivation.Parse
+* [x] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] PARSE CONSTRAINT
 		- [x] MEMO
 			* [x] data Memo
@@ -121,14 +121,20 @@ refactor
 			* [x] pPolynomial
 			* [x] pNumber
 			* [x] var
-		- [ ] PICK AND CHECK
-			* [ ] pick
-			* [ ] check
+		- [x] PICK AND CHECK
+			* [x] pick
+			* [x] check
 * [ ] refactor Data.Derivation.Constraint
-	* [ ] export list
-	* [ ] import list
-	* [ ] structure
+	* [x] export list
+	* [x] import list
+	* [x] structure
 	* [ ] body
+		+ [ ] CONSTRAINT
+			- [ ] DATA CONSTRAINT AND CONSTRUCTOR
+			- [ ] VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM
+				AND SELF CONTAINED
+			- [ ] ELIMINATE
+		+ [ ] POLYNOMIAL
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
