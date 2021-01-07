@@ -35,15 +35,9 @@ parseConstraint = (fst <$>) . constraint . memo . unfoldr (listToMaybe . lex)
 ---------------------------------------------------------------------------
 
 data Memo = Memo {
-	constraint :: Maybe (Exp Var 'Boolean, Memo),
-	equal :: Maybe (Exp Var 'Boolean, Memo),
-	bool :: Maybe (Exp Var 'Boolean, Memo),
-	lessEqual :: Maybe (Exp Var 'Boolean, Memo),
-	polynomial :: Maybe (Exp Var 'Number, Memo),
-	number :: Maybe (Exp Var 'Number, Memo),
-	token :: Maybe (String, Memo) }
-
-type Var = String
+	constraint, equal, bool, lessEqual :: M (Exp Var 'Boolean),
+	polynomial, number :: M (Exp Var 'Number), token :: M String }
+type M a = Maybe (a, Memo); type Var = String
 
 memo :: [String] -> Memo
 memo ts = m where

@@ -102,16 +102,16 @@ refactor
 * [x] refactor Data.Derivation.Expression
 * [x] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
-		- [ ] PARSE CONSTRAINT
-			* [ ] remove function tokens
-		- [ ] MEMO
-			* [ ] data Memo
-			* [ ] type Var
-			* [ ] function memo
+		- [x] PARSE CONSTRAINT
+		- [x] MEMO
+			* [x] data Memo
+			* [x] type M
+			* [x] type Var
+			* [x] function memo
 		- [ ] GRAMMAR
 			* [ ] PEG
 			* [ ] pConstraint
