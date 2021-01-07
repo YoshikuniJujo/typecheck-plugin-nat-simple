@@ -53,18 +53,17 @@ l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 -- READ
 
 vars :: Ord v => Constraint v -> [Maybe v]
-vars (Eq p) = (fst <$>) $ M.toList p
-vars (Geq p) = (fst <$>) $ M.toList p
+vars = \case Eq p -> (fst <$>) $ M.toList p; Geq p -> (fst <$>) $ M.toList p
 
 hasVar :: Ord v => Constraint v -> Maybe v -> Bool
-hasVar (Eq p) v = isJust $ p !? v
-hasVar (Geq p) v = isJust $ p !? v
+hasVar = \case Eq p -> isJust . (p !?); Geq p -> isJust . (p !?)
 
 selfContained :: Constraint v -> Bool
 selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
 
 isDerivFrom :: Ord v => Constraint v -> Constraint v -> Bool
 Eq w `isDerivFrom` Eq g = w == g
+Geq w `isDerivFrom` Eq g = w `isGeqThan` g
 Geq w `isDerivFrom` Geq g = w `isGeqThan` g
 _ `isDerivFrom` _ = False
 

@@ -133,12 +133,22 @@ refactor
 		+ [ ] CONSTRAINT
 			- [x] DATA CONSTRAINT
 				* [x] data Constraint v
-			- [ ] CONSTRUCT
+			- [x] CONSTRUCT
 				* [x] constructor equal
 				* [x] constructor greatEqualThan
-				* [ ] constructor greatThan
-			- [ ] READ
+				* [x] constructor greatThan
+			- [x] READ
+				* [x] vars
+				* [x] hasVar
+				* [x] selfContained
+				* [x] isDerivFrom
 			- [ ] CONVERT
+				* [ ] rmNegative
+				* [ ] eliminate
+				* [ ] type Aligned
+				* [ ] alignEE
+				* [ ] alignEG
+				* [ ] alignGG
 		+ [ ] POLYNOMIAL
 			- [ ] TYPE POLY
 			- [ ] CONSTRUCT
