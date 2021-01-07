@@ -17,7 +17,7 @@ import Data.Maybe (fromJust)
 import Data.List (find)
 import Data.String (IsString)
 import Data.Derivation.Constraint (
-	Constraint, equal, greatEqualThan, greatThan, Polynomial, (.+), (.-) )
+	Constraint, equal, greatEqualThan, greatThan, Poly, (.+), (.-) )
 
 ---------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ procEq _ (_ :== _) False = throw "procEq: (_ :== _) == False"
 ---------------------------------------------------------------------------
 
 poly :: (Monoid s, IsString e, Ord v) =>
-	Exp v 'Number -> Try e ([Constraint v], s) (Polynomial v)
+	Exp v 'Number -> Try e ([Constraint v], s) (Poly v)
 poly (Const n) | n < 0 = throw "poly: Negative constant"
 poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n

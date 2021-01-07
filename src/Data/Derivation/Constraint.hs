@@ -4,7 +4,7 @@
 module Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, vars, hasVar,
 	isDerivFrom, rmNegative, selfContained, eliminate,
-	Polynomial, (.+), (.-) ) where
+	Poly, (.+), (.-) ) where
 
 import Prelude hiding (null, filter, (<>))
 
@@ -32,30 +32,29 @@ import qualified Data.Map.Strict as M (toList)
 
 -- DATA CONSTRAINT AND CONSTRUCTOR
 
-data Constraint v = Eq (Polynomial v) | Geq (Polynomial v)
-	deriving (Show, Eq, Ord)
+data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
 
-equal :: Ord v => Polynomial v -> Polynomial v -> Constraint v
+equal :: Ord v => Poly v -> Poly v -> Constraint v
 l `equal` r = Eq . formatEq $ l .- r
 
-greatEqualThan :: Ord v => Polynomial v -> Polynomial v -> Constraint v
+greatEqualThan :: Ord v => Poly v -> Poly v -> Constraint v
 l `greatEqualThan` r = Geq . formatGeq $ l .- r
 
-greatThan :: Ord v => Polynomial v -> Polynomial v -> Constraint v
+greatThan :: Ord v => Poly v -> Poly v -> Constraint v
 l `greatThan` r = Geq $ formatGeq (l .- r) .- singleton Nothing 1
 
-formatEq :: Polynomial v -> Polynomial v
+formatEq :: Poly v -> Poly v
 formatEq p =
 	maybe p ((p `divide` divisor p `times`) . signum . snd) $ lookupMin p
 
-formatGeq :: Polynomial v -> Polynomial v
+formatGeq :: Poly v -> Poly v
 formatGeq p = p `divide` divisor p
 
-times, divide :: Polynomial v -> Integer -> Polynomial v
+times, divide :: Poly v -> Integer -> Poly v
 p `times` n = (* n) <$> p
 p `divide` n = (`div` n) <$> p
 
-divisor :: Polynomial v -> Integer
+divisor :: Poly v -> Integer
 divisor = gcdAll . toList where gcdAll = \case [] -> 1; n : ns -> foldr gcd n ns
 
 -- VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM AND SELF CONTAINED
@@ -76,7 +75,7 @@ Eq w `isDerivFrom` Eq g = w == g
 Geq w `isDerivFrom` Geq g = w `isGeqThan` g
 _ `isDerivFrom` _ = False
 
-isGeqThan :: Ord v => Polynomial v -> Polynomial v -> Bool
+isGeqThan :: Ord v => Poly v -> Poly v -> Bool
 l `isGeqThan` r = and $ merge
 	(mapMissing \_ nl -> nl >= 0)
 	(mapMissing \_ nr -> nr <= 0) (zipWithMatched $ const (>=)) l r
@@ -93,17 +92,17 @@ eliminate (Eq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignEG l r v
 eliminate (Geq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignGG l r v
 eliminate l r v = eliminate r l v
 
-type Aligned v = Maybe (Polynomial v, Polynomial v)
+type Aligned v = Maybe (Poly v, Poly v)
 
-alignEE :: Ord v => Polynomial v -> Polynomial v -> Maybe v -> Aligned v
+alignEE :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
 alignEE l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(nl, nr) ->
 	(l `times` nr, r `times` (- nl))
 
-alignEG :: Ord v => Polynomial v -> Polynomial v -> Maybe v -> Aligned v
+alignEG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
 alignEG l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(nl, nr) ->
 	(l `times` (- signum nl * nr), r `times` abs nl)
 
-alignGG :: Ord v => Polynomial v -> Polynomial v -> Maybe v -> Aligned v
+alignGG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
 alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(nl, nr) -> do
 	guard $ nl * nr < 0
 	pure (l `times` abs nr, r `times` abs nl)
@@ -112,9 +111,9 @@ alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(nl, nr) -> do
 -- POLYNOMIAL
 ---------------------------------------------------------------------------
 
-type Polynomial v = Map (Maybe v) Integer
+type Poly v = Map (Maybe v) Integer
 
-(.+), (.-) :: Ord v => Polynomial v -> Polynomial v -> Polynomial v
+(.+), (.-) :: Ord v => Poly v -> Poly v -> Poly v
 (.+) = merge preserveMissing preserveMissing
 	(zipWithMaybeMatched \_ a b -> rmZero $ a + b)
 (.-) = merge preserveMissing (mapMissing $ const negate)

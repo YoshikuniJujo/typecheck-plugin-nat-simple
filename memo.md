@@ -131,6 +131,14 @@ refactor
 	* [ ] body
 		+ [ ] CONSTRAINT
 			- [ ] DATA CONSTRAINT AND CONSTRUCTOR
+				* [x] data Constraint v
+				* [x] constructor equal
+				* [ ] constructor greatEqualThan
+				* [ ] constructor greatThan
+				* [ ] function formatEq
+				* [ ] function formatGeq
+				* [ ] function time and divide
+				* [ ] function divisor
 			- [ ] VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM
 				AND SELF CONTAINED
 			- [ ] ELIMINATE
