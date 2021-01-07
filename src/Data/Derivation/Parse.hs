@@ -70,7 +70,8 @@ pConstraint :: Parse Memo (Exp Var 'Boolean)
 pConstraint = parse equal <|> parse lessEqual
 
 pEqual :: Parse Memo (Exp Var 'Boolean)
-pEqual = (:==) <$> var <* pick "==" <*> var
+pEqual =
+	(:==) <$> var <* pick "==" <*> var
 		>>! (pick "+" <|> pick "-" <|> pick "<=") <|>
 	(:==) <$> var <* pick "==" <*> parse polynomial >>! pick "<=" <|>
 	(:==) <$> var <* pick "==" <*> parse bool <|>

@@ -112,15 +112,15 @@ refactor
 			* [x] type M
 			* [x] type Var
 			* [x] function memo
-		- [ ] GRAMMAR
-			* [ ] PEG
-			* [ ] pConstraint
-			* [ ] pEqual
-			* [ ] pBool
-			* [ ] pLessEqual
-			* [ ] pPolynomial
-			* [ ] pNumber
-			* [ ] var
+		- [x] GRAMMAR
+			* [x] PEG
+			* [x] pConstraint
+			* [x] pEqual
+			* [x] pBool
+			* [x] pLessEqual
+			* [x] pPolynomial
+			* [x] pNumber
+			* [x] var
 		- [ ] PICK AND CHECK
 			* [ ] pick
 			* [ ] check
