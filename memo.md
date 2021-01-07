@@ -60,11 +60,10 @@ refactor
 				+ [x] Monad
 				+ [x] MonadPlus
 		- [x] RUN TRY
-		- [ ] THROW AND CATCH ERROR
+		- [x] THROW AND CATCH ERROR
 			* [x] throw
-			* [ ] catch
-			* [ ] resume
-			* [ ] rights
+			* [x] catch
+			* [x] rights
 		- [ ] WRITE AND GET LOG
 		- [ ] LOG STRING
 			* [ ] MESSAGE

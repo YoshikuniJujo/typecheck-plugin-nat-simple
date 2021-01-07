@@ -55,16 +55,16 @@ instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right
 	Try (Left e) w <*> _ = Try (Left e) w
 	Try (Right f) w <*> mx =
-		let Try (Right y) w' = f <$> mx in Try (Right y) (w <> w')
+		let Try (Right y) w' = f <$> mx in Try (Right y) $ w <> w'
 
 instance (Monoid e, Monoid w) => Alternative (Try e w) where
 	empty = Try (Left mempty) mempty
 	Try (Right x) w <|> _ = Try (Right x) w
-	Try (Left _) w <|> Try rtn w' = Try rtn (w <> w')
+	Try (Left _) w <|> Try ex w' = Try ex $ w <> w'
 
 instance Monoid w => Monad (Try e w) where
 	Try (Left e) w >>= _ = Try (Left e) w
-	Try (Right x) w >>= f = let Try rtn w' = f x in Try rtn (w <> w')
+	Try (Right x) w >>= f = let Try ex w' = f x in Try ex $ w <> w'
 
 instance (Monoid e, Monoid w) => MonadPlus (Try e w)
 
@@ -73,7 +73,7 @@ instance (Monoid e, Monoid w) => MonadPlus (Try e w)
 ---------------------------------------------------------------------------
 
 runTry :: Try e w a -> (Either e a, w)
-runTry (Try rtn w) = (rtn, w)
+runTry (Try ex w) = (ex, w)
 
 gatherSuccess :: Monoid w => [Try w w a] -> ([a], w)
 gatherSuccess = (catMaybes *** mconcat) . unzip . map \case
@@ -88,14 +88,11 @@ throw :: Monoid w => e -> Try e w a
 throw = (`Try` mempty) . Left
 
 catch :: Semigroup w => Try e w a -> (e -> Try e w a) -> Try e w a
-Try (Left e) lg `catch` f = let Try rtn lg' = f e in Try rtn (lg <> lg')
+Try (Left e) w `catch` h = let Try ex w' = h e in Try ex $ w <> w'
 t@(Try (Right _) _) `catch` _ = t
 
-resume :: (Set w w, Monoid w) => Try w w a -> Try w w (Maybe a)
-resume = (`catch` \e -> tell e >> pure Nothing) . (Just <$>)
-
 rights :: (Set w w, Monoid w) => [Try w w a] -> Try w w [a]
-rights ts = catMaybes <$> sequence (resume <$> ts)
+rights = (catMaybes <$>) . mapM ((`catch` (Nothing <$) . tell) . (Just <$>))
 
 ---------------------------------------------------------------------------
 -- WRITE AND GET LOG
