@@ -16,6 +16,7 @@ todo
 * [x] repair pluginWith
 * [x] refactor haddock
 * [x] use ExpType instead of Star
+* [ ] try to use in renaged-list
 * [ ] refactor
 
 refactor
@@ -135,8 +136,8 @@ refactor
 				* [x] constructor equal
 				* [ ] constructor greatEqualThan
 				* [ ] constructor greatThan
-				* [ ] function formatEq
-				* [ ] function formatGeq
+				* [ ] function positive
+				* [ ] function reduce
 				* [ ] function time and divide
 				* [ ] function divisor
 			- [ ] VARS, HAS VAR, REMOVE NEGATIVE, IS DERIVE FROM

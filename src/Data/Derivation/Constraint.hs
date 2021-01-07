@@ -35,20 +35,19 @@ import qualified Data.Map.Strict as M (toList)
 data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
 
 equal :: Ord v => Poly v -> Poly v -> Constraint v
-l `equal` r = Eq . formatEq $ l .- r
+l `equal` r = Eq . positive . reduce $ l .- r
 
 greatEqualThan :: Ord v => Poly v -> Poly v -> Constraint v
-l `greatEqualThan` r = Geq . formatGeq $ l .- r
+l `greatEqualThan` r = Geq . reduce $ l .- r
 
 greatThan :: Ord v => Poly v -> Poly v -> Constraint v
-l `greatThan` r = Geq $ formatGeq (l .- r) .- singleton Nothing 1
+l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 
-formatEq :: Poly v -> Poly v
-formatEq p =
-	maybe p ((p `divide` divisor p `times`) . signum . snd) $ lookupMin p
+positive :: Poly v -> Poly v
+positive p = maybe p ((p `times`) . signum . snd) $ lookupMin p
 
-formatGeq :: Poly v -> Poly v
-formatGeq p = p `divide` divisor p
+reduce :: Poly v -> Poly v
+reduce = divide <$> id <*> divisor
 
 times, divide :: Poly v -> Integer -> Poly v
 p `times` n = (* n) <$> p
@@ -87,9 +86,9 @@ selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
 
 eliminate ::
 	Ord v => Constraint v -> Constraint v -> Maybe v -> Maybe (Constraint v)
-eliminate (Eq l) (Eq r) v = Eq . formatEq . uncurry (.+) <$> alignEE l r v
-eliminate (Eq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignEG l r v
-eliminate (Geq l) (Geq r) v = Geq . formatGeq . uncurry (.+) <$> alignGG l r v
+eliminate (Eq l) (Eq r) v = Eq . positive . reduce . uncurry (.+) <$> alignEE l r v
+eliminate (Eq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignEG l r v
+eliminate (Geq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignGG l r v
 eliminate l r v = eliminate r l v
 
 type Aligned v = Maybe (Poly v, Poly v)
