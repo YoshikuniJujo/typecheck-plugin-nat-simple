@@ -69,11 +69,11 @@ refactor
 		- [x] LOG STRING
 			* [x] MESSAGE
 			* [x] SDOC STRING
-* [ ] refactor Data.Derivation.Expression.Internal
+* [x] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DATA EXP
 			* [x] data Exp v t
 			* [x] data ExpType
@@ -92,13 +92,13 @@ refactor
 				+ [x] (Var _ :== _)
 				+ [x] (_ :== _) True
 				+ [x] (_ :== _) False
-		- [ ] POLYNOMIAL
-		- [ ] MAP FROM VARIABLE TO BOOL
-			* [ ] type VarBool v
-			* [ ] varBool
-			* [ ] vbInit
-			* [ ] vbStep
-			* [ ] untilFixed
+		- [x] POLYNOMIAL
+		- [x] MAP FROM VARIABLE TO BOOL
+			* [x] type VarBool v
+			* [x] varBool
+			* [x] vbInit
+			* [x] vbStep
+			* [x] untilFixed
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse

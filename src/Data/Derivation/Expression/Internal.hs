@@ -95,11 +95,13 @@ procEq _ (_ :== _) False = throw "procEq: (_ :== _) == False"
 -- POLYNOMIAL
 ---------------------------------------------------------------------------
 
-poly :: (Monoid s, Ord v) => Exp v 'Number -> Try e ([Constraint v], s) (Polynomial v)
+poly :: (Monoid s, IsString e, Ord v) =>
+	Exp v 'Number -> Try e ([Constraint v], s) (Polynomial v)
+poly (Const n) | n < 0 = throw "poly: Negative constant"
 poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n
-poly (Var v) = p <$ tell [p `greatEqualThan` empty]
-	where p = singleton (Just v) 1
+poly (Var v) = let p = singleton (Just v) 1 in
+	p <$ tell [p `greatEqualThan` empty]
 poly (l :+ r) = (.+) <$> poly l <*> poly r
 poly (l :- r) = (,) <$> poly l <*> poly r >>= \(pl, pr) ->
 	pl .- pr <$ tell [pl `greatEqualThan` pr]
