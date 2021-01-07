@@ -69,9 +69,9 @@ refactor
 			* [x] MESSAGE
 			* [x] SDOC STRING
 * [ ] refactor Data.Derivation.Expression.Internal
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] DATA EXP
 			* [ ] data Exp v t

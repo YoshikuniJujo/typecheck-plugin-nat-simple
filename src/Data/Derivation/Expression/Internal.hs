@@ -10,14 +10,13 @@ import Prelude hiding ((<>))
 
 import Outputable (Outputable(..), (<>), (<+>), text)
 import Control.Arrow (first, second)
+import Control.Monad.Try (Try, throw, tell, partial)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)
 import Data.Maybe (fromJust)
 import Data.List (find)
+import Data.String (IsString)
 import Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, Polynomial, (.+), (.-) )
-
-import Control.Monad.Try
-import Data.String
 
 ---------------------------------------------------------------------------
 
