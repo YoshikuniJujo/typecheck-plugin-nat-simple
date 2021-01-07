@@ -85,7 +85,7 @@ gatherSuccess = (catMaybes *** mconcat) . unzip . map \case
 ---------------------------------------------------------------------------
 
 throw :: Monoid w => e -> Try e w a
-throw e = Try (Left e) mempty
+throw = (`Try` mempty) . Left
 
 catch :: Semigroup w => Try e w a -> (e -> Try e w a) -> Try e w a
 Try (Left e) lg `catch` f = let Try rtn lg' = f e in Try rtn (lg <> lg')
