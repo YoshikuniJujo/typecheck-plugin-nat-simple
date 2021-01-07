@@ -1,3 +1,4 @@
+{-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Parse (
@@ -11,7 +12,7 @@ import Data.Maybe (listToMaybe)
 import Data.List (uncons, unfoldr)
 import Data.Char (isDigit, isLower)
 import Data.Parse (Parse, parse, unparse, (>>!))
-import Data.Derivation.Expression (Exp(..), Number)
+import Data.Derivation.Expression (Exp(..), ExpType(..))
 
 import qualified Data.Bool as B (bool)
 
@@ -26,7 +27,7 @@ import qualified Data.Bool as B (bool)
 -- PARSE CONSTRAINT
 ---------------------------------------------------------------------------
 
-parseConstraint :: String -> Maybe (Exp Var Bool)
+parseConstraint :: String -> Maybe (Exp Var 'Boolean)
 parseConstraint = (fst <$>) . constraint . memo . unfoldr (listToMaybe . lex)
 
 ---------------------------------------------------------------------------
@@ -34,12 +35,12 @@ parseConstraint = (fst <$>) . constraint . memo . unfoldr (listToMaybe . lex)
 ---------------------------------------------------------------------------
 
 data Memo = Memo {
-	constraint :: Maybe (Exp Var Bool, Memo),
-	equal :: Maybe (Exp Var Bool, Memo),
-	bool :: Maybe (Exp Var Bool, Memo),
-	lessEqual :: Maybe (Exp Var Bool, Memo),
-	polynomial :: Maybe (Exp Var Number, Memo),
-	number :: Maybe (Exp Var Number, Memo),
+	constraint :: Maybe (Exp Var 'Boolean, Memo),
+	equal :: Maybe (Exp Var 'Boolean, Memo),
+	bool :: Maybe (Exp Var 'Boolean, Memo),
+	lessEqual :: Maybe (Exp Var 'Boolean, Memo),
+	polynomial :: Maybe (Exp Var 'Number, Memo),
+	number :: Maybe (Exp Var 'Number, Memo),
 	token :: Maybe (String, Memo) }
 
 type Var = String
@@ -71,10 +72,10 @@ memo ts = m where
 -- Polynomial <- Number ("+" Number / "-" Number)*
 -- Number <- <digit string> / var / "(" Polynomial ")"
 
-pConstraint :: Parse Memo (Exp Var Bool)
+pConstraint :: Parse Memo (Exp Var 'Boolean)
 pConstraint = parse equal <|> parse lessEqual
 
-pEqual :: Parse Memo (Exp Var Bool)
+pEqual :: Parse Memo (Exp Var 'Boolean)
 pEqual = (:==) <$> var <* pick "==" <*> var
 		>>! (pick "+" <|> pick "-" <|> pick "<=") <|>
 	(:==) <$> var <* pick "==" <*> parse polynomial >>! pick "<=" <|>
@@ -82,19 +83,19 @@ pEqual = (:==) <$> var <* pick "==" <*> var
 	(:==) <$> parse polynomial <* pick "==" <*> parse polynomial <|>
 	(:==) <$> parse bool <* pick "==" <*> parse bool
 
-pBool :: Parse Memo (Exp Var Bool)
+pBool :: Parse Memo (Exp Var 'Boolean)
 pBool =	parse lessEqual <|>
 	Bool False <$ pick "F" <|> Bool True <$ pick "T" <|> var
 
-pLessEqual :: Parse Memo (Exp Var Bool)
+pLessEqual :: Parse Memo (Exp Var 'Boolean)
 pLessEqual = (:<=) <$> parse polynomial <* pick "<=" <*> parse polynomial
 
-pPolynomial :: Parse Memo (Exp Var Number)
+pPolynomial :: Parse Memo (Exp Var 'Number)
 pPolynomial = foldl (&) <$> parse number <*> many (
 	flip (:+) <$> (pick "+" *> parse number) <|>
 	flip (:-) <$> (pick "-" *> parse number) )
 
-pNumber :: Parse Memo (Exp Var Number)
+pNumber :: Parse Memo (Exp Var 'Number)
 pNumber = Const . read <$> check (all isDigit) <|> var <|>
 	pick "(" *> parse polynomial <* pick ")"
 

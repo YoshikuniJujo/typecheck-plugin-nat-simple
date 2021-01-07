@@ -2,6 +2,6 @@
 
 module Data.Derivation.Expression (
 	-- * DATA EXP
-	Exp(..), Number ) where
+	Exp(..), ExpType(..) ) where
 
-import Data.Derivation.Expression.Internal (Exp(..), Number)
+import Data.Derivation.Expression.Internal (Exp(..), ExpType(..))

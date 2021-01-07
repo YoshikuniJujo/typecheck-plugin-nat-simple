@@ -13,8 +13,9 @@ todo
 	+ [x] others
 * [x] separate StateT from Data.Parse
 * [x] repair decodeAll
-* [ ] repair pluginWith
-* [ ] refactor haddock
+* [x] repair pluginWith
+* [x] refactor haddock
+* [x] use ExpType instead of Star
 * [ ] refactor
 
 refactor
@@ -74,7 +75,7 @@ refactor
 	+ [x] structure
 	+ [ ] body
 		- [ ] DATA EXP
-			* [ ] data Exp v t
+			* [x] data Exp v t
 			* [ ] data Number
 			* [ ] instance Show (Exp v t)
 			* [ ] instance Outputable (Exp v t)

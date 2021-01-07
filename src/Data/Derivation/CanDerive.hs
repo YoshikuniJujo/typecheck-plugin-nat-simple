@@ -1,4 +1,5 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
+{-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.CanDerive (
@@ -28,7 +29,7 @@ import Data.String
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: (Monoid s, IsString s, Set s s, Ord v) => [Exp v Bool] -> Try s s (Given v)
+given :: (Monoid s, IsString s, Set s s, Ord v) => [Exp v 'Boolean] -> Try s s (Given v)
 given es = gvn . concat <$> (mapM procGivenErr =<< constraint (varBool es) `mapM` es)
 --	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
 
@@ -46,10 +47,10 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: (Monoid s, IsString e, Ord v) => Exp v Bool -> Try e s (Wanted v)
+wanted :: (Monoid s, IsString e, Ord v) => Exp v 'Boolean -> Try e s (Wanted v)
 wanted = wantedGen
 
-wantedGen :: (Monoid s, IsString e, Ord v) => Exp v Bool -> Try e s (Wanted v)
+wantedGen :: (Monoid s, IsString e, Ord v) => Exp v 'Boolean -> Try e s (Wanted v)
 wantedGen ex = do
 	(ec, cs) <- constraint empty ex
 	case ec of
