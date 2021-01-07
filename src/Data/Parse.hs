@@ -3,9 +3,9 @@
 
 module Data.Parse (Parse, parse, unparse, (>>!)) where
 
-import Control.Applicative
-import Control.Monad
-import Control.Monad.StateT
+import Control.Applicative (empty)
+import Control.Monad ((>=>))
+import Control.Monad.StateT (StateT(..))
 
 type Parse s = StateT s Maybe
 
@@ -17,4 +17,4 @@ unparse = runStateT
 
 (>>!) :: Parse s a -> Parse s b -> Parse s a
 p >>! nla = parse $ unparse p >=> \r@(_, s) ->
-	maybe (pure r) (const empty) $ unparse nla s
+	maybe (pure r) (const empty) $ nla `unparse` s

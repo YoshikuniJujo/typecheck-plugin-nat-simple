@@ -99,34 +99,34 @@ refactor
 			* [x] vbInit
 			* [x] vbStep
 			* [x] untilFixed
-* [ ] refactor Data.Derivation.Expression
-* [ ] refactor Data.Parse
+* [x] refactor Data.Derivation.Expression
+* [x] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] PARSE CONSTRAINT
-			* [x] remove function tokens
-		- [x] MEMO
-			* [x] data Memo
-			* [x] type Var
-			* [x] function memo
-		- [x] GRAMMAR
-			* [x] PEG
-			* [x] pConstraint
-			* [x] pEqual
-			* [x] pBool
-			* [x] pLessEqual
-			* [x] pPolynomial
-			* [x] pNumber
-			* [x] var
-		- [x] PICK AND CHECK
-			* [x] pick
-			* [x] check
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] PARSE CONSTRAINT
+			* [ ] remove function tokens
+		- [ ] MEMO
+			* [ ] data Memo
+			* [ ] type Var
+			* [ ] function memo
+		- [ ] GRAMMAR
+			* [ ] PEG
+			* [ ] pConstraint
+			* [ ] pEqual
+			* [ ] pBool
+			* [ ] pLessEqual
+			* [ ] pPolynomial
+			* [ ] pNumber
+			* [ ] var
+		- [ ] PICK AND CHECK
+			* [ ] pick
+			* [ ] check
 * [ ] refactor Data.Derivation.Constraint
-	* [x] export list
-	* [x] import list
+	* [ ] export list
+	* [ ] import list
 	* [ ] structure
 	* [ ] body
 * [ ] refactor Data.Derivation.CanDerive
