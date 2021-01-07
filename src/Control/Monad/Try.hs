@@ -101,7 +101,6 @@ rights = (catMaybes <$>) . mapM ((`catch` (Nothing <$) . tell) . (Just <$>))
 class Set x xs where set :: x -> xs
 
 instance Set x x where set = id
-
 instance Monoid xs => Set x (x, xs) where set x = (x, mempty)
 
 instance {-# OVERLAPPABLE #-} (Monoid y, Set x xs) => Set x (y, xs) where
@@ -114,7 +113,7 @@ log :: (Set SDocStr ws, Outputable o) => String -> o -> Try e ws ()
 log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
 partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
-partial (Try mx (w, ws)) = Try (Right (mx, w)) ws
+partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
 
 ---------------------------------------------------------------------------
 -- LOG STRING
@@ -123,10 +122,10 @@ partial (Try mx (w, ws)) = Try (Right (mx, w)) ws
 -- MESSAGE
 
 newtype Message = Message ([String] -> [String])
+instance Show Message where show (Message m) = show . unlines $ m []
 instance Semigroup Message where Message l <> Message r = Message $ l . r
 instance Monoid Message where mempty = Message id
 instance IsString Message where fromString = Message . (++) . lines
-instance Show Message where show (Message m) = show . unlines $ m []
 
 message :: Message -> String
 message (Message ls) = unlines $ ls []
@@ -136,12 +135,10 @@ message (Message ls) = unlines $ ls []
 data SDocStr = SDocStrEmpty | SDocStr SDoc
 
 instance Semigroup SDocStr where
-	SDocStrEmpty <> r = r
-	l <> SDocStrEmpty = l
+	SDocStrEmpty <> r = r; l <> SDocStrEmpty = l
 	SDocStr l <> SDocStr r = SDocStr $ l $$ r
 
 instance Monoid SDocStr where mempty = SDocStrEmpty
 instance IsString SDocStr where fromString = SDocStr . text
 instance Outputable SDocStr where
-	ppr SDocStrEmpty = O.empty
-	ppr (SDocStr s) = s
+	ppr SDocStrEmpty = O.empty; ppr (SDocStr s) = s

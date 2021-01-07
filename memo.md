@@ -46,11 +46,11 @@ refactor
 			* [x] FUNCTOR
 			* [x] APPLICATIVE AND ALTERNATIVE
 			* [x] MONAD AND MONAD PLUS
-* [ ] refactor Control.Monad.Try
+* [x] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DATA TRY
 			* [x] DATA
 			* [x] INSTANCE
@@ -64,40 +64,40 @@ refactor
 			* [x] throw
 			* [x] catch
 			* [x] rights
-		- [ ] WRITE AND GET LOG
-		- [ ] LOG STRING
-			* [ ] MESSAGE
-			* [ ] SDOC STRING
+		- [x] WRITE AND GET LOG
+		- [x] LOG STRING
+			* [x] MESSAGE
+			* [x] SDOC STRING
 * [ ] refactor Data.Derivation.Expression.Internal
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] DATA EXP
-			* [x] data Exp v t
-			* [x] data Number
-			* [x] instance Show (Exp v t)
-			* [x] instance Outputable (Exp v t)
-		- [x] CONSTRAINT
-			* [x] CONSTRAINT
-			* [x] PROCESS EQUATION
-				+ [x] Bool _
-				+ [x] Var _
-				+ [x] (:<=) False
-				+ [x] (:<=) True
-				+ [x] (_ :== Bool _)
-				+ [x] (Bool _ :== _)
-				+ [x] (_ :== Var _)
-				+ [x] (Var _ :== _)
-				+ [x] (_ :== _) True
-				+ [x] (_ :== _) False
-		- [x] POLYNOMIAL
-		- [x] MAP FROM VARIABLE TO BOOL
-			* [x] type VarBool v
-			* [x] varBool
-			* [x] vbInit
-			* [x] vbStep
-			* [x] untilFixed
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DATA EXP
+			* [ ] data Exp v t
+			* [ ] data Number
+			* [ ] instance Show (Exp v t)
+			* [ ] instance Outputable (Exp v t)
+		- [ ] CONSTRAINT
+			* [ ] CONSTRAINT
+			* [ ] PROCESS EQUATION
+				+ [ ] Bool _
+				+ [ ] Var _
+				+ [ ] (:<=) False
+				+ [ ] (:<=) True
+				+ [ ] (_ :== Bool _)
+				+ [ ] (Bool _ :== _)
+				+ [ ] (_ :== Var _)
+				+ [ ] (Var _ :== _)
+				+ [ ] (_ :== _) True
+				+ [ ] (_ :== _) False
+		- [ ] POLYNOMIAL
+		- [ ] MAP FROM VARIABLE TO BOOL
+			* [ ] type VarBool v
+			* [ ] varBool
+			* [ ] vbInit
+			* [ ] vbStep
+			* [ ] untilFixed
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
