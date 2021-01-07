@@ -60,25 +60,26 @@ instance Outputable v => Outputable (Exp v t) where
 
 -- CONSTRAINT
 
-constraint :: (Monoid s, IsString e, Ord v) =>
-	VarBool v -> Exp v 'Boolean -> Try e s (Either e (Constraint v), [Constraint v])
-constraint vb e = partial $ procEq vb e True
+constraint :: (Monoid s, IsString e, Ord v) => VarBool v ->
+	Exp v 'Boolean -> Try e s (Either e (Constraint v), [Constraint v])
+constraint vb ex = partial $ procEq vb ex True
 
 -- PROCCESS EQUATION
 
 procEq :: (Monoid s, IsString e, Ord v) => VarBool v ->
 	Exp v 'Boolean -> Bool -> Try e ([Constraint v], s) (Constraint v)
-procEq _ (Bool _) _ = throw "procEq: bad"; procEq _ (Var _) _ = throw "procEq: bad"
+procEq _ (Bool _) _ = throw "procEq: only Boolean value"
+procEq _ (Var _) _ = throw "procEq: only Variable"
 procEq _ (l :<= r) False = greatThan <$> poly l <*> poly r
 procEq _ (l :<= r) True = greatEqualThan <$> poly r <*> poly l
 procEq vb (l :== Bool r) b = procEq vb l (r == b)
 procEq vb (Bool l :== r) b = procEq vb r (l == b)
 procEq vb (l :== Var r) b | Just br <- vb !? r = case l of
 	_ :== _ -> procEq vb l (br == b); _ :<= _ -> procEq vb l (br == b)
-	_ -> throw "procEq: bad"
+	_ -> throw "procEq: no (_ :== _) or (_ :<= _) is left side of (:==)"
 procEq vb (Var l :== r) b | Just bl <- vb !? l = case r of
 	_ :== _ -> procEq vb r (bl == b); _ :<= _ -> procEq vb r (bl == b)
-	_ -> throw "procEq: bad"
+	_ -> throw "procEq: no (_ :== _) or (_ :<= _) is right side of (:==)"
 procEq _ (l :== r) True = case (l, r) of
 	(Const _, _) -> equal <$> poly l <*> poly r
 	(_ :+ _, _) -> equal <$> poly l <*> poly r
@@ -87,8 +88,8 @@ procEq _ (l :== r) True = case (l, r) of
 	(_, _ :+ _) -> equal <$> poly l <*> poly r
 	(_, _ :- _) -> equal <$> poly l <*> poly r
 	(Var v, Var w) -> equal <$> poly (Var v) <*> poly (Var w)
-	_ -> throw "procEq: bad"
-procEq _ (_ :== _) False = throw "procEq: bad"
+	_ -> throw "procEq: Both sides of (:==) should be Number or Variable"
+procEq _ (_ :== _) False = throw "procEq: (_ :== _) == False"
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL

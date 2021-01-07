@@ -74,24 +74,24 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] DATA EXP
+		- [x] DATA EXP
 			* [x] data Exp v t
-			* [ ] data Number
-			* [ ] instance Show (Exp v t)
-			* [ ] instance Outputable (Exp v t)
-		- [ ] CONSTRAINT
-			* [ ] CONSTRAINT
-			* [ ] PROCESS EQUATION
-				+ [ ] Bool _
-				+ [ ] Var _
-				+ [ ] (:<=) False
-				+ [ ] (:<=) True
-				+ [ ] (_ :== Bool _)
-				+ [ ] (Bool _ :== _)
-				+ [ ] (_ :== Var _)
-				+ [ ] (Var _ :== _)
-				+ [ ] (_ :== _) True
-				+ [ ] (_ :== _) False
+			* [x] data ExpType
+			* [x] instance Show (Exp v t)
+			* [x] instance Outputable (Exp v t)
+		- [x] CONSTRAINT
+			* [x] CONSTRAINT
+			* [x] PROCESS EQUATION
+				+ [x] Bool _
+				+ [x] Var _
+				+ [x] (:<=) False
+				+ [x] (:<=) True
+				+ [x] (_ :== Bool _)
+				+ [x] (Bool _ :== _)
+				+ [x] (_ :== Var _)
+				+ [x] (Var _ :== _)
+				+ [x] (_ :== _) True
+				+ [x] (_ :== _) False
 		- [ ] POLYNOMIAL
 		- [ ] MAP FROM VARIABLE TO BOOL
 			* [ ] type VarBool v
