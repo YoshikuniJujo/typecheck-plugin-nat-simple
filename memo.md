@@ -165,9 +165,12 @@ refactor
 	* [x] structure
 	* [ ] body
 		+ [ ] CAN DERIVE
-			- [ ] canDerive
+			- [x] canDerive
 			- [ ] canDerive1
 		+ [ ] GIVEN
+			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
+			- [ ] GIVEN VARIABLES
+			- [ ] REMOVE VARIABLE
 		+ [ ] WANTED
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq

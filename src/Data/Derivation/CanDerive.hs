@@ -27,6 +27,9 @@ import Data.Derivation.Expression.Internal (
 
 -- * CAN DERIVE
 -- * GIVEN
+--	+ NEWTYPE GIVEN AND CONSTRUCTOR
+--	+ GIVEN VARIABLES
+--	+ REMOVE VARIABLE
 -- * WANTED
 
 ---------------------------------------------------------------------------
@@ -44,6 +47,8 @@ canDerive1 g w = selfContained w ||
 -- GIVEN
 ---------------------------------------------------------------------------
 
+-- NEWTYPE GIVEN AND CONSTRUCTOR
+
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
 given :: (Monoid s, IsString s, Set s s, Ord v) => [Exp v 'Boolean] -> Try s s (Given v)
@@ -56,8 +61,28 @@ procGivenErr (Right c, cs) = pure $ c : cs
 gvn :: Ord v => [Constraint v] -> Given v
 gvn zs = Given . nub . sort $ zs ++ (positives <$> zs)
 
+-- GIVEN VARIABLES
+
 gvnVars :: Ord v => Given v -> [Maybe v]
 gvnVars = nub . sort . concat . (vars <$>) . unGiven
+
+-- REMOVE VARIABLE
+
+rmVar :: Ord v => Given v -> Maybe v -> Given v
+rmVar (Given g) v =
+	Given . sort $ r ++ concat (unfoldUntil null (`rvStep` v) g')
+	where (g', r) = partition (`hasVar` v) g
+
+rvStep :: Ord v => [Constraint v] -> Maybe v -> ([Constraint v], [Constraint v])
+rvStep [] _ = ([], [])
+rvStep (c : cs) v = partitionEithers $ flip (rmVar1 c) v <$> cs
+
+rmVar1 :: Ord v => Constraint v ->
+	Constraint v -> Maybe v -> Either (Constraint v) (Constraint v)
+rmVar1 c0 c v = maybe (Right c) Left $ eliminate c0 c v
+
+unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
+unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)
 
 ---------------------------------------------------------------------------
 -- WANTED
@@ -76,19 +101,3 @@ wantedGen ex = do
 	case ec of
 		Left er -> throw er
 		Right c -> pure . Wanted $ c : cs
-
-rmVar :: Ord v => Given v -> Maybe v -> Given v
-rmVar (Given g) v =
-	Given . sort $ r ++ concat (unfoldUntil null (`rvStep` v) g')
-	where (g', r) = partition (`hasVar` v) g
-
-rvStep :: Ord v => [Constraint v] -> Maybe v -> ([Constraint v], [Constraint v])
-rvStep [] _ = ([], [])
-rvStep (c : cs) v = partitionEithers $ flip (rmVar1 c) v <$> cs
-
-rmVar1 :: Ord v => Constraint v ->
-	Constraint v -> Maybe v -> Either (Constraint v) (Constraint v)
-rmVar1 c0 c v = maybe (Right c) Left $ eliminate c0 c v
-
-unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
-unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)
