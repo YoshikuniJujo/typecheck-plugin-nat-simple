@@ -183,6 +183,10 @@ refactor
 			- [x] type Wanted1 v
 			- [x] wanted
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
+	+ [x] export list
+	+ [x] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple

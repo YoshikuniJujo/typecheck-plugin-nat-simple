@@ -4,19 +4,25 @@
 
 module Plugin.TypeCheck.Nat.Simple.Decode (decodeAll, decode) where
 
-import TcRnTypes
-import Control.Monad
-
 import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon)
-import TyCoRep
-import Data.Derivation.Expression
-import TcTypeNats
+import TcRnTypes (Ct)
+import TcTypeNats (typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon)
+import TyCoRep (Type(..), TyLit(..))
 import Control.Applicative ((<|>))
+import Control.Monad ((<=<))
+import Control.Monad.Try (Try, throw, rights, Set)
+import Data.String (IsString)
+import Data.Derivation.Expression (Exp(..), ExpType(..))
 
-import Plugin.TypeCheck.Nat.Simple.UnNomEq
+import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
-import Control.Monad.Try
-import Data.String
+---------------------------------------------------------------------------
+
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 exVar :: (Monoid s, IsString e) => Type -> Try e s (Exp Var a)
 exVar = \case TyVarTy v -> pure $ Var v; _ -> throw "exVar: fail"
