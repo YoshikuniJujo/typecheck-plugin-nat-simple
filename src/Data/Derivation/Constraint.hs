@@ -9,14 +9,11 @@ module Data.Derivation.Constraint (
 import Prelude hiding (null, filter, (<>))
 
 import Control.Monad (guard)
-import Data.Foldable (toList)
 import Data.Maybe (isJust)
-import Data.Map.Strict (Map, null, singleton, (!?), filter, lookupMin)
+import Data.Map.Strict (Map, null, singleton, (!?), filter, toList, lookupMin)
 import Data.Map.Merge.Strict (
 	merge, preserveMissing, mapMissing,
 	zipWithMatched, zipWithMaybeMatched )
-
-import qualified Data.Map.Strict as M (toList)
 
 ---------------------------------------------------------------------------
 
@@ -53,7 +50,7 @@ l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 -- READ
 
 vars :: Ord v => Constraint v -> [Maybe v]
-vars = \case Eq p -> (fst <$>) $ M.toList p; Geq p -> (fst <$>) $ M.toList p
+vars = \case Eq p -> (fst <$>) $ toList p; Geq p -> (fst <$>) $ toList p
 
 hasVar :: Ord v => Constraint v -> Maybe v -> Bool
 hasVar = \case Eq p -> isJust . (p !?); Geq p -> isJust . (p !?)
@@ -105,31 +102,25 @@ type Poly v = Map (Maybe v) Integer
 
 (.+), (.-) :: Ord v => Poly v -> Poly v -> Poly v
 (.+) = merge preserveMissing preserveMissing
-	(zipWithMaybeMatched \_ a b -> rmZero $ a + b)
+	(zipWithMaybeMatched \_ a b -> (<$) <$> id <*> guard . (/= 0) $ a + b)
 (.-) = merge preserveMissing (mapMissing $ const negate)
-	(zipWithMaybeMatched \_ a b -> rmZero $ a - b)
-
-rmZero :: (Eq n, Num n) => n -> Maybe n
-rmZero = \case 0 -> Nothing; n -> Just n
+	(zipWithMaybeMatched \_ a b -> (<$) <$> id <*> guard . (/= 0) $ a - b)
 
 -- READ
 
-divisor :: Poly v -> Integer
-divisor = gcdAll . toList where gcdAll = \case [] -> 1; n : ns -> foldr gcd n ns
-
 isGeqThan :: Ord v => Poly v -> Poly v -> Bool
-l `isGeqThan` r = and $ merge
+isGeqThan = (and .) . merge
 	(mapMissing \_ nl -> nl >= 0)
-	(mapMissing \_ nr -> nr <= 0) (zipWithMatched $ const (>=)) l r
+	(mapMissing \_ nr -> nr <= 0) (zipWithMatched $ const (>=))
 
 -- CONVERT
 
 posit :: Poly v -> Poly v
-posit p = maybe p ((p `mul`) . signum . snd) $ lookupMin p
+posit p = p `maybe` ((p `mul`) . signum . snd) $ lookupMin p
 
 reduce :: Poly v -> Poly v
-reduce = divide <$> id <*> divisor
+reduce = divide <$> id <*> foldr gcd 0
 
 mul, divide :: Poly v -> Integer -> Poly v
-p `mul` n = (* n) <$> p
-p `divide` n = (`div` n) <$> p
+mul p = (<$> p) . (*)
+divide p = (<$> p) . flip div

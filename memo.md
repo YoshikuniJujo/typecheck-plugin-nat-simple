@@ -125,11 +125,11 @@ refactor
 		- [x] PICK AND CHECK
 			* [x] pick
 			* [x] check
-* [ ] refactor Data.Derivation.Constraint
+* [x] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
 	* [x] structure
-	* [ ] body
+	* [x] body
 		+ [x] CONSTRAINT
 			- [x] DATA CONSTRAINT
 				* [x] data Constraint v
@@ -149,11 +149,16 @@ refactor
 				* [x] alignEE
 				* [x] alignEG
 				* [x] alignGG
-		+ [ ] POLYNOMIAL
-			- [ ] TYPE POLY
-			- [ ] CONSTRUCT
-			- [ ] READ
-			- [ ] CONVERT
+		+ [x] POLYNOMIAL
+			- [x] TYPE POLY
+			- [x] CONSTRUCT
+			- [x] READ
+				* [x] isGeqThan
+			- [x] CONVERT
+				* [x] posit
+				* [x] reduce
+				* [x] mul
+				* [x] divide
 * [ ] refactor Data.Derivation.CanDerive
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
