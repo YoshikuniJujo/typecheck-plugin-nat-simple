@@ -10,22 +10,26 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
--- import Control.Monad.Trans.Except
-import Data.Either
-import Data.List ((\\), nub, partition, sort, unfoldr)
+import Control.Monad.Try (Try, throw, Set, tell)
+import Data.Either (partitionEithers)
+import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
-import Data.Bool
+import Data.Bool (bool)
+import Data.String (IsString)
 
 import Data.Derivation.Constraint (
-	Constraint, vars, hasVar,
-	positives, isDerivFrom, selfContained )
-import Data.Derivation.Expression.Internal
+	Constraint,
+	vars, hasVar, isDerivFrom, positives, selfContained, eliminate )
+import Data.Derivation.Expression.Internal (
+	Exp, ExpType(..), constraint, varBool )
 
-import qualified Data.Derivation.Constraint as C
+---------------------------------------------------------------------------
 
--- import Data.Except.Message
-import Control.Monad.Try
-import Data.String
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
@@ -68,7 +72,7 @@ rvStep (c : cs) v = partitionEithers $ flip (rmVar1 c) v <$> cs
 
 rmVar1 :: Ord v => Constraint v ->
 	Constraint v -> Maybe v -> Either (Constraint v) (Constraint v)
-rmVar1 c0 c v = maybe (Right c) Left $ C.eliminate c0 c v
+rmVar1 c0 c v = maybe (Right c) Left $ eliminate c0 c v
 
 unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
 unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)

@@ -160,6 +160,10 @@ refactor
 				* [x] mul
 				* [x] divide
 * [ ] refactor Data.Derivation.CanDerive
+	* [x] export list
+	* [x] import list
+	* [ ] structure
+	* [ ] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
