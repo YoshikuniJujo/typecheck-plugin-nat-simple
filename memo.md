@@ -185,8 +185,16 @@ refactor
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] DECODE
+			* [ ] decodeAll
+			* [ ] decode
+			* [ ] decodeTypes
+		- [ ] BOOL, NUMBER AND VARIABLE
+			* [ ] exBool
+			* [ ] exNum
+			* [ ] exVar
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
