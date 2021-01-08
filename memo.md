@@ -130,7 +130,7 @@ refactor
 	* [x] import list
 	* [x] structure
 	* [ ] body
-		+ [ ] CONSTRAINT
+		+ [x] CONSTRAINT
 			- [x] DATA CONSTRAINT
 				* [x] data Constraint v
 			- [x] CONSTRUCT
@@ -142,13 +142,13 @@ refactor
 				* [x] hasVar
 				* [x] selfContained
 				* [x] isDerivFrom
-			- [ ] CONVERT
-				* [ ] rmNegative
-				* [ ] eliminate
-				* [ ] type Aligned
-				* [ ] alignEE
-				* [ ] alignEG
-				* [ ] alignGG
+			- [x] CONVERT
+				* [x] positives
+				* [x] eliminate
+				* [x] type Aligned
+				* [x] alignEE
+				* [x] alignEG
+				* [x] alignGG
 		+ [ ] POLYNOMIAL
 			- [ ] TYPE POLY
 			- [ ] CONSTRUCT

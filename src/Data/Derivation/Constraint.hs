@@ -3,7 +3,7 @@
 
 module Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, vars, hasVar,
-	isDerivFrom, rmNegative, selfContained, eliminate,
+	isDerivFrom, positives, selfContained, eliminate,
 	Poly, (.+), (.-) ) where
 
 import Prelude hiding (null, filter, (<>))
@@ -42,7 +42,7 @@ data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
 -- CONSTRUCT
 
 equal :: Ord v => Poly v -> Poly v -> Constraint v
-l `equal` r = Eq . positive . reduce $ l .- r
+l `equal` r = Eq . posit . reduce $ l .- r
 
 greatEqualThan :: Ord v => Poly v -> Poly v -> Constraint v
 l `greatEqualThan` r = Geq . reduce $ l .- r
@@ -69,12 +69,12 @@ _ `isDerivFrom` _ = False
 
 -- CONVERT
 
-rmNegative :: Constraint v -> Constraint v
-rmNegative = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
+positives :: Constraint v -> Constraint v
+positives = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
 
 eliminate ::
 	Ord v => Constraint v -> Constraint v -> Maybe v -> Maybe (Constraint v)
-eliminate (Eq l) (Eq r) v = Eq . positive . reduce . uncurry (.+) <$> alignEE l r v
+eliminate (Eq l) (Eq r) v = Eq . posit . reduce . uncurry (.+) <$> alignEE l r v
 eliminate (Eq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignEG l r v
 eliminate (Geq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignGG l r v
 eliminate l r v = eliminate r l v
@@ -82,17 +82,16 @@ eliminate l r v = eliminate r l v
 type Aligned v = Maybe (Poly v, Poly v)
 
 alignEE :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignEE l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(nl, nr) ->
-	(l `times` nr, r `times` (- nl))
+alignEE l r v =
+	(<$> ((,) <$> l !? v <*> r !? v)) \(m, s) -> (l `mul` s, r `mul` (- m))
 
 alignEG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignEG l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(nl, nr) ->
-	(l `times` (- signum nl * nr), r `times` abs nl)
+alignEG l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(m, s) ->
+	(l `mul` (- signum m * s), r `mul` abs m)
 
 alignGG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(nl, nr) -> do
-	guard $ nl * nr < 0
-	pure (l `times` abs nr, r `times` abs nl)
+alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(m, s) ->
+	(l `mul` abs s, r `mul` abs m) <$ guard (m * s < 0)
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL
@@ -125,12 +124,12 @@ l `isGeqThan` r = and $ merge
 
 -- CONVERT
 
-positive :: Poly v -> Poly v
-positive p = maybe p ((p `times`) . signum . snd) $ lookupMin p
+posit :: Poly v -> Poly v
+posit p = maybe p ((p `mul`) . signum . snd) $ lookupMin p
 
 reduce :: Poly v -> Poly v
 reduce = divide <$> id <*> divisor
 
-times, divide :: Poly v -> Integer -> Poly v
-p `times` n = (* n) <$> p
+mul, divide :: Poly v -> Integer -> Poly v
+p `mul` n = (* n) <$> p
 p `divide` n = (`div` n) <$> p

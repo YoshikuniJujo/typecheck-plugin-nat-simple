@@ -18,7 +18,7 @@ import Data.Bool
 
 import Data.Derivation.Constraint (
 	Constraint, vars, hasVar,
-	rmNegative, isDerivFrom, selfContained )
+	positives, isDerivFrom, selfContained )
 import Data.Derivation.Expression.Internal
 
 import qualified Data.Derivation.Constraint as C
@@ -38,7 +38,7 @@ procGivenErr (Left e, cs) = tell e >> pure cs
 procGivenErr (Right c, cs) = pure $ c : cs
 
 gvn :: Ord v => [Constraint v] -> Given v
-gvn zs = Given . nub . sort $ zs ++ (rmNegative <$> zs)
+gvn zs = Given . nub . sort $ zs ++ (positives <$> zs)
 
 gvnVars :: Ord v => Given v -> [Maybe v]
 gvnVars = nub . sort . concat . (vars <$>) . unGiven
