@@ -168,8 +168,10 @@ refactor
 			- [x] canDerive
 			- [x] canDerive1
 		+ [ ] GIVEN
-			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
-			- [ ] GIVEN VARIABLES
+			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
+				* [x] newtype Given v
+				* [x] given
+			- [x] GIVEN VARIABLES
 			- [ ] REMOVE VARIABLE
 		+ [ ] WANTED
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode

@@ -11,6 +11,8 @@ module Control.Monad.Try (
 	throw, catch, rights,
 	-- * WRITE AND GET LOG
 	Set, tell, log, partial,
+	-- * TOOL
+	cons,
 	-- * LOG STRING
 	SDocStr, Message, message ) where
 
@@ -33,6 +35,7 @@ import qualified Outputable as O (empty)
 -- * RUN TRY
 -- * THROW AND CATCH ERROR
 -- * WRITE AND GET LOG
+-- * TOOL
 -- * LOG STRING
 --	+ MESSAGE
 --	+ SDOC STRING
@@ -114,6 +117,13 @@ log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
 partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
 partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
+
+---------------------------------------------------------------------------
+-- TOOL
+---------------------------------------------------------------------------
+
+cons :: (Monoid s, Set s s) => Either s a -> [a] -> Try s s [a]
+cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))
 
 ---------------------------------------------------------------------------
 -- LOG STRING

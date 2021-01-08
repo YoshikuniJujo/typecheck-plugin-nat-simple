@@ -10,7 +10,8 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
-import Control.Monad.Try (Try, throw, Set, tell)
+import Control.Monad ((<=<))
+import Control.Monad.Try (Try, throw, Set, cons)
 import Data.Either (partitionEithers)
 import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
@@ -51,15 +52,10 @@ canDerive1 g w = selfContained w ||
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: (Monoid s, IsString s, Set s s, Ord v) => [Exp v 'Boolean] -> Try s s (Given v)
-given es = gvn . concat <$> (mapM procGivenErr =<< constraint (varBool es) `mapM` es)
-
-procGivenErr :: (Set s s, Monoid s) => (Either s (Constraint v), [Constraint v]) -> Try s s [Constraint v]
-procGivenErr (Left e, cs) = tell e >> pure cs
-procGivenErr (Right c, cs) = pure $ c : cs
-
-gvn :: Ord v => [Constraint v] -> Given v
-gvn zs = Given . nub . sort $ zs ++ (positives <$> zs)
+given :: (Monoid s, IsString s, Set s s, Ord v) =>
+	[Exp v 'Boolean] -> Try s s (Given v)
+given es = Given . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
+	<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 
 -- GIVEN VARIABLES
 
