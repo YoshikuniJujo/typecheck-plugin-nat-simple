@@ -2,7 +2,7 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Constraint (
-	Constraint, equal, greatEqualThan, greatThan, vars, hasVar,
+	Constraint, equal, greatEqualThan, greatThan, vars, has,
 	isDerivFrom, positives, selfContained, eliminate,
 	Poly, (.+), (.-) ) where
 
@@ -52,8 +52,8 @@ l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 vars :: Ord v => Constraint v -> [Maybe v]
 vars = \case Eq p -> (fst <$>) $ toList p; Geq p -> (fst <$>) $ toList p
 
-hasVar :: Ord v => Constraint v -> Maybe v -> Bool
-hasVar = \case Eq p -> isJust . (p !?); Geq p -> isJust . (p !?)
+has :: Ord v => Constraint v -> Maybe v -> Bool
+has = \case Eq p -> isJust . (p !?); Geq p -> isJust . (p !?)
 
 selfContained :: Constraint v -> Bool
 selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
@@ -70,11 +70,11 @@ positives :: Constraint v -> Constraint v
 positives = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
 
 eliminate ::
-	Ord v => Constraint v -> Constraint v -> Maybe v -> Maybe (Constraint v)
-eliminate (Eq l) (Eq r) v = Eq . posit . reduce . uncurry (.+) <$> alignEE l r v
-eliminate (Eq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignEG l r v
-eliminate (Geq l) (Geq r) v = Geq . reduce . uncurry (.+) <$> alignGG l r v
-eliminate l r v = eliminate r l v
+	Ord v => Maybe v -> Constraint v -> Constraint v -> Maybe (Constraint v)
+eliminate v (Eq l) (Eq r) = Eq . posit . reduce . uncurry (.+) <$> alignEE l r v
+eliminate v (Eq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignEG l r v
+eliminate v (Geq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignGG l r v
+eliminate v l r = eliminate v r l
 
 type Aligned v = Maybe (Poly v, Poly v)
 

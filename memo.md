@@ -17,6 +17,7 @@ todo
 * [x] refactor haddock
 * [x] use ExpType instead of Star
 * [x] try to use in renaged-list
+* [ ] try to use in ranged-list
 * [ ] refactor
 
 refactor
@@ -159,21 +160,28 @@ refactor
 				* [x] reduce
 				* [x] mul
 				* [x] divide
-* [ ] refactor Data.Derivation.CanDerive
+* [x] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
 	* [x] structure
-	* [ ] body
+	* [x] body
 		+ [x] CAN DERIVE
 			- [x] canDerive
 			- [x] canDerive1
-		+ [ ] GIVEN
+		+ [x] GIVEN
 			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
 				* [x] newtype Given v
 				* [x] given
 			- [x] GIVEN VARIABLES
-			- [ ] REMOVE VARIABLE
-		+ [ ] WANTED
+			- [x] REMOVE VARIABLE
+				* [x] rmVar
+				* [x] rmStep
+				* [x] rmVar1
+				* [x] unfoldUntil
+		+ [x] WANTED
+			- [x] newtype Wanted v
+			- [x] type Wanted1 v
+			- [x] wanted
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith

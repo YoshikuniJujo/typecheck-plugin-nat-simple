@@ -10,6 +10,7 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
+import Control.Arrow ((***))
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, Set, cons)
 import Data.Either (partitionEithers)
@@ -20,7 +21,7 @@ import Data.String (IsString)
 
 import Data.Derivation.Constraint (
 	Constraint,
-	vars, hasVar, isDerivFrom, positives, selfContained, eliminate )
+	vars, has, isDerivFrom, positives, selfContained, eliminate )
 import Data.Derivation.Expression.Internal (
 	Exp, ExpType(..), constraint, varBool )
 
@@ -65,20 +66,19 @@ gvnVars = nub . sort . concat . (vars <$>) . unGiven
 -- REMOVE VARIABLE
 
 rmVar :: Ord v => Given v -> Maybe v -> Given v
-rmVar (Given g) v =
-	Given . sort $ r ++ concat (unfoldUntil null (`rvStep` v) g')
-	where (g', r) = partition (`hasVar` v) g
+rmVar (Given g) v = Given . sort . concat . uncurry (:)
+	. (id *** unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
 
-rvStep :: Ord v => [Constraint v] -> Maybe v -> ([Constraint v], [Constraint v])
-rvStep [] _ = ([], [])
-rvStep (c : cs) v = partitionEithers $ flip (rmVar1 c) v <$> cs
+rvStep :: Ord v => Maybe v -> [Constraint v] -> ([Constraint v], [Constraint v])
+rvStep _ [] = ([], [])
+rvStep v (c : cs) = partitionEithers $ rmVar1 v c <$> cs
 
-rmVar1 :: Ord v => Constraint v ->
-	Constraint v -> Maybe v -> Either (Constraint v) (Constraint v)
-rmVar1 c0 c v = maybe (Right c) Left $ eliminate c0 c v
+rmVar1 :: Ord v => Maybe v -> Constraint v ->
+	Constraint v -> Either (Constraint v) (Constraint v)
+rmVar1 v c0 c = maybe (Right c) Left $ eliminate v c0 c
 
 unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
-unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)
+unfoldUntil p f = unfoldr $ flip bool Nothing <$> Just . f <*> p
 
 ---------------------------------------------------------------------------
 -- WANTED
@@ -89,11 +89,5 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 type Wanted1 v = Constraint v
 
 wanted :: (Monoid s, IsString e, Ord v) => Exp v 'Boolean -> Try e s (Wanted v)
-wanted = wantedGen
-
-wantedGen :: (Monoid s, IsString e, Ord v) => Exp v 'Boolean -> Try e s (Wanted v)
-wantedGen ex = do
-	(ec, cs) <- constraint empty ex
-	case ec of
-		Left er -> throw er
-		Right c -> pure . Wanted $ c : cs
+wanted x =
+	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e
