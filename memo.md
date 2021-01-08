@@ -162,8 +162,13 @@ refactor
 * [ ] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
-	* [ ] structure
+	* [x] structure
 	* [ ] body
+		+ [ ] CAN DERIVE
+			- [ ] canDerive
+			- [ ] canDerive1
+		+ [ ] GIVEN
+		+ [ ] WANTED
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith

@@ -25,17 +25,29 @@ import Data.Derivation.Expression.Internal (
 
 ---------------------------------------------------------------------------
 
--- *
+-- * CAN DERIVE
+-- * GIVEN
+-- * WANTED
 
 ---------------------------------------------------------------------------
---
+-- CAN DERIVE
+---------------------------------------------------------------------------
+
+canDerive :: Ord v => Given v -> Wanted v -> Bool
+canDerive g = all (canDerive1 g) . unWanted
+
+canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
+canDerive1 g w = selfContained w ||
+	any (isDerivFrom w) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
+
+---------------------------------------------------------------------------
+-- GIVEN
 ---------------------------------------------------------------------------
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
 given :: (Monoid s, IsString s, Set s s, Ord v) => [Exp v 'Boolean] -> Try s s (Given v)
 given es = gvn . concat <$> (mapM procGivenErr =<< constraint (varBool es) `mapM` es)
---	$ uncurry (maybe id (:)) . constraint (varBool es) <$> es
 
 procGivenErr :: (Set s s, Monoid s) => (Either s (Constraint v), [Constraint v]) -> Try s s [Constraint v]
 procGivenErr (Left e, cs) = tell e >> pure cs
@@ -46,6 +58,10 @@ gvn zs = Given . nub . sort $ zs ++ (positives <$> zs)
 
 gvnVars :: Ord v => Given v -> [Maybe v]
 gvnVars = nub . sort . concat . (vars <$>) . unGiven
+
+---------------------------------------------------------------------------
+-- WANTED
+---------------------------------------------------------------------------
 
 newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
@@ -76,10 +92,3 @@ rmVar1 c0 c v = maybe (Right c) Left $ eliminate c0 c v
 
 unfoldUntil :: (s -> Bool) -> (s -> (r, s)) -> s -> [r]
 unfoldUntil p f = unfoldr \s -> bool (Just $ f s) Nothing (p s)
-
-canDerive :: Ord v => Given v -> Wanted v -> Bool
-canDerive g = all (canDerive1 g) . unWanted
-
-canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
-canDerive1 g w = selfContained w ||
-	any (isDerivFrom w) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
