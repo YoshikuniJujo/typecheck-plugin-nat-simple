@@ -17,7 +17,7 @@ todo
 * [x] refactor haddock
 * [x] use ExpType instead of Star
 * [x] try to use in renaged-list
-* [ ] try to use in ranged-list
+* [x] try to use in ranged-list
 * [ ] refactor
 
 refactor
