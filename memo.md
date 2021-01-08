@@ -164,9 +164,9 @@ refactor
 	* [x] import list
 	* [x] structure
 	* [ ] body
-		+ [ ] CAN DERIVE
+		+ [x] CAN DERIVE
 			- [x] canDerive
-			- [ ] canDerive1
+			- [x] canDerive1
 		+ [ ] GIVEN
 			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
 			- [ ] GIVEN VARIABLES

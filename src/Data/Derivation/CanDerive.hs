@@ -41,7 +41,7 @@ canDerive g = all (canDerive1 g) . unWanted
 
 canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
 canDerive1 g w = selfContained w ||
-	any (isDerivFrom w) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
+	any (w `isDerivFrom`) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
 
 ---------------------------------------------------------------------------
 -- GIVEN
