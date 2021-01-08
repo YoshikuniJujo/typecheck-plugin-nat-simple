@@ -191,6 +191,9 @@ module name hierarchy
 ---------------------
 
 ```
+Control.Monad
+  + StateT
+  + Try
 Data
   + Parse
   + Derivation
@@ -203,4 +206,6 @@ Data
 Plugin.TypeCheck.Nat.Simple
   + itself
   + Decode
+  + PluginWith
+  + UnNOmEq
 ```
