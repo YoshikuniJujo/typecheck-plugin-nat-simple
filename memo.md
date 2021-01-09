@@ -188,10 +188,10 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] DECODE
+		- [x] DECODE
 			* [x] decodeAll
 			* [x] decode
-			* [ ] decodeTypes
+			* [x] decodeTs
 		- [ ] BOOL, NUMBER AND VARIABLE
 			* [ ] exBool
 			* [ ] exNum

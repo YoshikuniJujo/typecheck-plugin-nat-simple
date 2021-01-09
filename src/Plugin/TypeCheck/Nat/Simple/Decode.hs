@@ -31,12 +31,12 @@ decodeAll = rights . (decode <$>)
 
 decode :: (Monoid s, IsString s, Set s s, Monoid e, IsString e) =>
 	Ct -> Try e s (Exp Var 'Boolean)
-decode = uncurry decodeTypes <=< unNomEq
+decode = uncurry decodeTs <=< unNomEq
 
-decodeTypes :: (Monoid s, IsString s, Monoid e, IsString e) =>
+decodeTs :: (Monoid s, IsString s, Monoid e, IsString e) =>
 	Type -> Type -> Try e s (Exp Var 'Boolean)
-decodeTypes (TyVarTy l) (TyVarTy r) = pure $ Var l :== Var r
-decodeTypes l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
+decodeTs (TyVarTy l) (TyVarTy r) = pure $ Var l :== Var r
+decodeTs l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
 ---------------------------------------------------------------------------
 -- BOOL, NUMBER AND VARIABLE
