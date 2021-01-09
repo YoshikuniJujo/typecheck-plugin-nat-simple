@@ -57,8 +57,7 @@ instance Functor (Try e w) where
 instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right
 	Try (Left e) w <*> _ = Try (Left e) w
-	Try (Right f) w <*> mx =
-		let Try (Right y) w' = f <$> mx in Try (Right y) $ w <> w'
+	Try (Right f) w <*> mx = let Try ex w' = f <$> mx in Try ex $ w <> w'
 
 instance (Monoid e, Monoid w) => Alternative (Try e w) where
 	empty = Try (Left mempty) mempty

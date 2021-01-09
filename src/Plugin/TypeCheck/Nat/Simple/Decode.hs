@@ -25,15 +25,17 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 -- DECODE
 ---------------------------------------------------------------------------
 
-decodeAll :: (Monoid s, IsString s, Set s s) => [Ct] -> Try s s [Exp Var 'Boolean]
-decodeAll cts = rights $ decode <$> cts
+decodeAll ::
+	(Monoid s, IsString s, Set s s) => [Ct] -> Try s s [Exp Var 'Boolean]
+decodeAll = rights . (decode <$>)
 
-decode :: (Monoid s, IsString s, Set s s, Monoid e, IsString e) => Ct -> Try e s (Exp Var 'Boolean)
+decode :: (Monoid s, IsString s, Set s s, Monoid e, IsString e) =>
+	Ct -> Try e s (Exp Var 'Boolean)
 decode = uncurry decodeTypes <=< unNomEq
 
-decodeTypes :: (Monoid s, IsString s, Monoid e, IsString e) => Type -> Type -> Try e s (Exp Var 'Boolean)
-decodeTypes (TyVarTy l) r = le <$> exVar r <|> le <$> exNum r <|> le <$> exBool r
-	where le = (Var l :==)
+decodeTypes :: (Monoid s, IsString s, Monoid e, IsString e) =>
+	Type -> Type -> Try e s (Exp Var 'Boolean)
+decodeTypes (TyVarTy l) (TyVarTy r) = pure $ Var l :== Var r
 decodeTypes l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
 ---------------------------------------------------------------------------
@@ -56,6 +58,3 @@ exNum (TyConApp tc [l, r])
 	| tc == typeNatAddTyCon = (:+) <$> exNum l <*> exNum r
 	| tc == typeNatSubTyCon = (:-) <$> exNum l <*> exNum r
 exNum _ = throw "exNum: fail"
-
-exVar :: (Monoid s, IsString e) => Type -> Try e s (Exp Var a)
-exVar = \case TyVarTy v -> pure $ Var v; _ -> throw "exVar: fail"

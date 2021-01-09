@@ -18,6 +18,7 @@ todo
 * [x] use ExpType instead of Star
 * [x] try to use in renaged-list
 * [x] try to use in ranged-list
+* [ ] try to use in ranged-list
 * [ ] refactor
 
 refactor
@@ -188,8 +189,8 @@ refactor
 	+ [x] structure
 	+ [ ] body
 		- [ ] DECODE
-			* [ ] decodeAll
-			* [ ] decode
+			* [x] decodeAll
+			* [x] decode
 			* [ ] decodeTypes
 		- [ ] BOOL, NUMBER AND VARIABLE
 			* [ ] exBool
