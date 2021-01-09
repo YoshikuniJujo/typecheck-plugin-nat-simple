@@ -195,7 +195,7 @@ refactor
 		- [x] BOOL, NUMBER AND VARIABLE
 			* [x] exBool
 			* [x] exNum
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+* [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
 
