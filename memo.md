@@ -18,7 +18,7 @@ todo
 * [x] use ExpType instead of Star
 * [x] try to use in renaged-list
 * [x] try to use in ranged-list
-* [ ] try to use in ranged-list
+* [x] try to use in ranged-list
 * [ ] refactor
 
 refactor
