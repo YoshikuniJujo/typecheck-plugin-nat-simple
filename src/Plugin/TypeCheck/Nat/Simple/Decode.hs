@@ -42,14 +42,14 @@ decodeTs l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 -- BOOL, NUMBER AND VARIABLE
 ---------------------------------------------------------------------------
 
-exBool :: (Monoid s, IsString s, IsString e) => Type -> Try e s (Exp Var 'Boolean)
+exBool :: (Monoid s, IsString e) => Type -> Try e s (Exp Var 'Boolean)
 exBool (TyVarTy v) = pure $ Var v
 exBool (TyConApp tc [])
 	| tc == promotedFalseDataCon = pure $ Bool False
 	| tc == promotedTrueDataCon = pure $ Bool True
 exBool (TyConApp tc [l, r])
 	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
-exBool _ = throw "exBool: fail"
+exBool _ = throw "exBool: not boolean"
 
 exNum :: (Monoid s, IsString e) => Type -> Try e s (Exp Var 'Number)
 exNum (TyVarTy v) = pure $ Var v
@@ -57,4 +57,4 @@ exNum (LitTy (NumTyLit n)) = pure $ Const n
 exNum (TyConApp tc [l, r])
 	| tc == typeNatAddTyCon = (:+) <$> exNum l <*> exNum r
 	| tc == typeNatSubTyCon = (:-) <$> exNum l <*> exNum r
-exNum _ = throw "exNum: fail"
+exNum _ = throw "exNum: not number"

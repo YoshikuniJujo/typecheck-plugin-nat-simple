@@ -183,19 +183,18 @@ refactor
 			- [x] newtype Wanted v
 			- [x] type Wanted1 v
 			- [x] wanted
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
+* [x] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DECODE
 			* [x] decodeAll
 			* [x] decode
 			* [x] decodeTs
-		- [ ] BOOL, NUMBER AND VARIABLE
-			* [ ] exBool
-			* [ ] exNum
-			* [ ] exVar
+		- [x] BOOL, NUMBER AND VARIABLE
+			* [x] exBool
+			* [x] exNum
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
