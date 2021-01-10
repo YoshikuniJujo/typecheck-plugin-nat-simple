@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 393cda6b45c1e60f6fd93c5fb5d688b20c6e3dfbe5e12bb740df54e4afabfd6f
+-- hash: d98d761b9b0600b351dcc6b32724b530c5dd5b41180ffb910d3abcd23196455e
 
 name:           typecheck-plugin-nat-simple
 version:        0.1.0.0
@@ -39,11 +39,11 @@ library
       Data.Derivation.Expression
       Data.Derivation.Parse
       Control.Monad.Try
+      Data.Log
   other-modules:
       Control.Monad.StateT
       Data.Derivation.Constraint
       Data.Derivation.Expression.Internal
-      Data.Log
       Data.Parse
       Plugin.TypeCheck.Nat.Simple.UnNomEq
       Paths_typecheck_plugin_nat_simple
@@ -73,6 +73,21 @@ test-suite typecheck-plugin-nat-simple-test-log
 test-suite typecheck-plugin-nat-simple-test-spec
   type: exitcode-stdio-1.0
   main-is: spec.hs
+  other-modules:
+      Paths_typecheck_plugin_nat_simple
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , ghc
+    , typecheck-plugin-nat-simple
+  default-language: Haskell2010
+
+test-suite typecheck-plugin-nat-simple-test-tryLog
+  type: exitcode-stdio-1.0
+  main-is: tryLog.hs
   other-modules:
       Paths_typecheck_plugin_nat_simple
   hs-source-dirs:
