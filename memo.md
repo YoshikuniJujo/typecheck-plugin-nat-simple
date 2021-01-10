@@ -196,9 +196,10 @@ refactor
 			* [x] exBool
 			* [x] exNum
 * [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [x] export list
 	+ [x] import list
+	+ [x] rename PluginWith to TypeCheckWith
+	+ [x] rename pluginWith to typeCheckWith
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple

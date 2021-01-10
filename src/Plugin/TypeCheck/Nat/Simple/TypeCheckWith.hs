@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Plugin.TypeCheck.Nat.Simple.PluginWith (pluginWith) where
+module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith) where
 
 import GhcPlugins (Plugin(..), defaultPlugin, Expr(..), mkUnivCo, ppr)
 import TcPluginM (TcPluginM, tcPluginTrace)
@@ -16,9 +16,9 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
 ---------------------------------------------------------------------------
 
-pluginWith ::
+typeCheckWith ::
 	String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> Plugin
-pluginWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
+typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (),
 	tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }

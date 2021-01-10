@@ -13,11 +13,11 @@ import Plugin.TypeCheck.Nat.Simple.Decode
 
 import Data.Derivation.CanDerive
 
-import Plugin.TypeCheck.Nat.Simple.PluginWith
+import Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 
 import Control.Monad.Try
 
--- | > plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w ->
+-- | > plugin = typeCheckWith "Plugin.TypeCheck.Nat.Simple" \gs _ w ->
 --   >	gs' <- decodeAll gs
 --   >	w' <- decode w
 --   >	log "givens" gs
@@ -27,7 +27,7 @@ import Control.Monad.Try
 --   >	canDerive <$> given gs' <*> wanted w'
 
 plugin :: Plugin
-plugin = pluginWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
+plugin = typeCheckWith "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	gs' <- decodeAll gs
 	w' <- decode w
 	log "givens" gs
