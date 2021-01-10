@@ -200,8 +200,11 @@ refactor
 	+ [x] import list
 	+ [x] rename PluginWith to TypeCheckWith
 	+ [x] rename pluginWith to typeCheckWith
-	+ [ ] structure
-	+ [ ] body
+	+ [x] structure
+	+ [x] body
+		- [x] typeCheckWith
+		- [x] solve
+		- [x] result
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
 
 module name hierarchy

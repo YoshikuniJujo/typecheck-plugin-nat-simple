@@ -30,9 +30,11 @@ solve hd ck gs ds ws = do
 	tcPluginTrace hd $ ppr lgs
 	pure $ TcPluginOk rtns []
 
-result :: (Monoid s, IsString e) => String -> ([Ct] -> [Ct] -> Ct -> Try e s Bool) -> [Ct] -> [Ct] -> Ct -> Try e s (EvTerm, Ct)
-result hd ck gs ds w = unNomEq w >>= \(l, r) -> bool (throw em) (pure (et l r, w)) =<< ck gs ds w
+result :: (Monoid s, IsString e) => String ->
+	([Ct] -> [Ct] -> Ct -> Try e s Bool) ->
+	[Ct] -> [Ct] -> Ct -> Try e s (EvTerm, Ct)
+result hd ck gs ds w = unNomEq w >>= \(l, r) ->
+	bool (throw em) (pure (et l r, w)) =<< ck gs ds w
 	where
-	em = "result: fail"
-	et l r = EvExpr . Coercion $
-		mkUnivCo (PluginProv hd) Nominal l r
+	em = "result: type checker: return False"
+	et l r = EvExpr . Coercion $ mkUnivCo (PluginProv hd) Nominal l r
