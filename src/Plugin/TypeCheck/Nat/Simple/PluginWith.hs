@@ -3,24 +3,28 @@
 
 module Plugin.TypeCheck.Nat.Simple.PluginWith (pluginWith) where
 
-import GhcPlugins
-import TcPluginM -- (TcPluginM)
-import TcRnTypes -- (Ct, TcPluginResult)
-import TcEvidence -- (EvTerm)
-import TyCoRep
+import GhcPlugins (Plugin(..), defaultPlugin, Expr(..), mkUnivCo, ppr)
+import TcPluginM (TcPluginM, tcPluginTrace)
+import TcRnTypes (TcPlugin(..), Ct, TcPluginResult(..))
+import TcEvidence (EvTerm(..), Role(..))
+import TyCoRep (UnivCoProvenance(..))
 import Control.Monad.Try (Try, gatherSuccess, throw, SDocStr)
-import Data.Bool
+import Data.Bool (bool)
 import Data.String (IsString)
 
-import Plugin.TypeCheck.Nat.Simple.UnNomEq
+import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
-pluginWith :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> Plugin
+---------------------------------------------------------------------------
+
+pluginWith ::
+	String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> Plugin
 pluginWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (),
 	tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
-solve :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) -> [Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
+solve :: String -> ([Ct] -> [Ct] -> Ct -> Try SDocStr SDocStr Bool) ->
+	[Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
 solve hd ck gs ds ws = do
 	let	(rtns, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
 	tcPluginTrace hd $ ppr lgs

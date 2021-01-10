@@ -196,11 +196,11 @@ refactor
 			* [x] exBool
 			* [x] exNum
 * [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [x] export list
-	+ [ ] import list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.PluginWith
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
 
 module name hierarchy
