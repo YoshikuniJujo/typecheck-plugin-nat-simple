@@ -205,7 +205,10 @@ refactor
 		- [x] typeCheckWith
 		- [x] solve
 		- [x] result
-* [ ] refactor Plugin.TypeCheck.Nat.Simple
+* [x] refactor Plugin.TypeCheck.Nat.Simple
+	+ [x] export list
+	+ [x] import list
+	+ [x] function plugin
 
 module name hierarchy
 ---------------------

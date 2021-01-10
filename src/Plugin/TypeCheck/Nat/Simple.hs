@@ -7,15 +7,12 @@ module Plugin.TypeCheck.Nat.Simple (
 
 import Prelude hiding (log)
 
-import GhcPlugins
+import GhcPlugins (Plugin)
+import Control.Monad.Try (log)
+import Data.Derivation.CanDerive (canDerive, given, wanted)
 
-import Plugin.TypeCheck.Nat.Simple.Decode
-
-import Data.Derivation.CanDerive
-
-import Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-
-import Control.Monad.Try
+import Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith)
+import Plugin.TypeCheck.Nat.Simple.Decode (decode, decodeAll)
 
 -- | > plugin = typeCheckWith "Plugin.TypeCheck.Nat.Simple" \gs _ w ->
 --   >	gs' <- decodeAll gs
