@@ -3,7 +3,7 @@ version:             0.1.0.0
 github:              "YoshikuniJujo/typecheck-plugin-nat-simple"
 license:             BSD3
 author:              "Yoshikuni Jujo"
-maintainer:          "PAF01143@nifty.ne.jp"
+maintainer:          "yoshikuni.jujo.pc@gmail.com"
 copyright:           "Yoshikuni Jujo"
 
 extra-source-files:
@@ -11,8 +11,8 @@ extra-source-files:
 - ChangeLog.md
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            Simple type check plugin which calculate addition, subtraction and less-or-equal-than
+category:            Compiler Plugin
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
