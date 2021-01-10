@@ -19,6 +19,20 @@ todo
 * [x] try to use in renaged-list
 * [x] try to use in ranged-list
 * [x] try to use in ranged-list
+* [ ] show v in log
+	+ [x] make `Data.Log`
+	+ [ ] define `Log s v`
+		- [x] `newtype Log s v = Log [[Either s v]]`
+		- [ ] (..) :: Log s v -> Log s v -> Log s v
+	+ [x] define `instance Monoid (Log  s v)`
+	+ [ ] define `instance IsString s => IsString (Log s v)`
+	+ [ ] define `instance (Show s, Show v) => Show (Log s v)`
+	+ [ ] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
+	+ [ ] use `Log v` in error message in test
+	+ [ ] use `Log v` in error message
+	+ [ ] define `class Loggable`
+	+ [ ] define `instance Loggable (Exp v t)`
+	+ [ ] others
 * [ ] refactor
 
 refactor
