@@ -25,7 +25,7 @@ todo
 		- [x] `newtype Log s v = Log [[Either s v]]`
 		- [ ] (..) :: Log s v -> Log s v -> Log s v
 	+ [x] define `instance Monoid (Log  s v)`
-	+ [ ] define `instance IsString s => IsString (Log s v)`
+	+ [x] define `instance IsString s => IsString (Log s v)`
 	+ [ ] define `instance (Show s, Show v) => Show (Log s v)`
 	+ [ ] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
 	+ [ ] use `Log v` in error message in test
