@@ -14,18 +14,15 @@ module Control.Monad.Try (
 	-- * TOOL
 	cons,
 	-- * LOG STRING
-	Message, {- message -} ) where
+	Message, {- message -} maybeToTry ) where
 
 import Prelude hiding (log)
 
-import Outputable (Outputable(..), ppr, SDoc, (<+>), ($$), text)
 import Control.Applicative (Alternative(..))
 import Control.Arrow ((***))
 import Control.Monad (MonadPlus)
 import Data.Maybe (catMaybes)
 import Data.String (IsString(..))
-
-import qualified Outputable as O (empty)
 
 ---------------------------------------------------------------------------
 
@@ -138,3 +135,7 @@ instance IsString Message where fromString = Message . (++) . lines
 
 -- message :: Message -> String
 -- message (Message ls) = unlines $ ls []
+
+maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
+maybeToTry e Nothing = throw e
+maybeToTry _ (Just x) = pure x
