@@ -21,12 +21,14 @@ todo
 * [x] try to use in ranged-list
 * [ ] show v in log
 	+ [x] make `Data.Log`
-	+ [ ] define `Log s v`
+	+ [x] define `Log s v`
 		- [x] `newtype Log s v = Log [[Either s v]]`
-		- [ ] (..) :: Log s v -> Log s v -> Log s v
+		- [x] (.+.) :: Log s v -> Log s v -> Log s v
 	+ [x] define `instance Monoid (Log  s v)`
 	+ [x] define `instance IsString s => IsString (Log s v)`
-	+ [ ] define `instance (Show s, Show v) => Show (Log s v)`
+	+ [x] define `instance (Show s, Show v) => Show (Log s v)`
+	+ [x] define `class Message m`
+	+ [x] define `instance (Message s, Show v) => Message (Log s v)`
 	+ [ ] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
 	+ [ ] use `Log v` in error message in test
 	+ [ ] use `Log v` in error message

@@ -14,7 +14,7 @@ module Control.Monad.Try (
 	-- * TOOL
 	cons,
 	-- * LOG STRING
-	SDocStr, Message, message ) where
+	SDocStr, Message, {- message -} ) where
 
 import Prelude hiding (log)
 
@@ -136,8 +136,8 @@ instance Semigroup Message where Message l <> Message r = Message $ l . r
 instance Monoid Message where mempty = Message id
 instance IsString Message where fromString = Message . (++) . lines
 
-message :: Message -> String
-message (Message ls) = unlines $ ls []
+-- message :: Message -> String
+-- message (Message ls) = unlines $ ls []
 
 -- SDOC STRING
 
