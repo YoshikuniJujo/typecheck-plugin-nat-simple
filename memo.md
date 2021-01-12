@@ -31,10 +31,9 @@ todo
 	+ [x] define `instance (Message s, Show v) => Message (Log s v)`
 	+ [x] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
 	+ [x] use `Log v` in error message in test
-	+ [ ] use `Log v` in error message
-	+ [ ] define `class Loggable`
-	+ [ ] define `instance Loggable (Exp v t)`
-	+ [ ] others
+	+ [x] use `Log v` in error message
+	+ [x] define `class Loggable`
+	+ [x] define `instance Loggable (Exp v t)`
 * [ ] use `StateT s (Try (Log s v) (Log s v))` in Data.Parse
 * [ ] refactor
 

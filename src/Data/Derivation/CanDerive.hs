@@ -12,7 +12,7 @@ module Data.Derivation.CanDerive (
 
 import Control.Arrow ((***))
 import Control.Monad ((<=<))
-import Control.Monad.Try (Try, throw, Set, cons)
+import Control.Monad.Try (Try, throw, cons)
 import Data.Either (partitionEithers)
 import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
@@ -24,6 +24,8 @@ import Data.Derivation.Constraint (
 	vars, has, isDerivFrom, positives, selfContained, eliminate )
 import Data.Derivation.Expression.Internal (
 	Exp, ExpType(..), constraint, varBool )
+
+import Data.Log
 
 ---------------------------------------------------------------------------
 
@@ -53,8 +55,10 @@ canDerive1 g w = selfContained w ||
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: (Monoid s, IsString s, Set s s, Ord v) =>
-	[Exp v 'Boolean] -> Try s s (Given v)
+given :: -- (Monoid s, IsString s, Set s s, Ord v) =>
+--	[Exp v 'Boolean] -> Try s s (Given v)
+	(IsString s, Ord v) =>
+	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Given v)
 given es = Given . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
 	<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 
@@ -88,6 +92,6 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: (Monoid s, IsString e, Ord v) => Exp v 'Boolean -> Try e s (Wanted v)
+wanted :: (Monoid s, IsString str, Ord v) => Exp v 'Boolean -> Try (Log str v) s (Wanted v)
 wanted x =
 	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e

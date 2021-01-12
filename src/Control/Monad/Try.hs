@@ -10,11 +10,11 @@ module Control.Monad.Try (
 	-- * THROW AND CATCH ERROR
 	throw, catch, rights,
 	-- * WRITE AND GET LOG
-	Set, tell, log, partial,
+	Set, tell, partial,
 	-- * TOOL
 	cons,
 	-- * LOG STRING
-	SDocStr, Message, {- message -} ) where
+	Message, {- message -} ) where
 
 import Prelude hiding (log)
 
@@ -59,16 +59,16 @@ instance Monoid w => Applicative (Try e w) where
 	Try (Left e) w <*> _ = Try (Left e) w
 	Try (Right f) w <*> mx = let Try ex w' = f <$> mx in Try ex $ w <> w'
 
-instance (Monoid e, Monoid w) => Alternative (Try e w) where
+instance Monoid w => Alternative (Try w w) where
 	empty = Try (Left mempty) mempty
 	Try (Right x) w <|> _ = Try (Right x) w
-	Try (Left _) w <|> Try ex w' = Try ex $ w <> w'
+	Try (Left e) w <|> Try ex w' = tell e >> Try ex (w <> w')
 
 instance Monoid w => Monad (Try e w) where
 	Try (Left e) w >>= _ = Try (Left e) w
 	Try (Right x) w >>= f = let Try ex w' = f x in Try ex $ w <> w'
 
-instance (Monoid e, Monoid w) => MonadPlus (Try e w)
+instance Monoid w => MonadPlus (Try w w)
 
 ---------------------------------------------------------------------------
 -- RUN TRY
@@ -111,8 +111,8 @@ instance {-# OVERLAPPABLE #-} (Monoid y, Set x xs) => Set x (y, xs) where
 tell :: Set w ws => w -> Try e ws ()
 tell = Try (Right ()) . set
 
-log :: (Set SDocStr ws, Outputable o) => String -> o -> Try e ws ()
-log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
+-- log :: (Set SDocStr ws, Outputable o) => String -> o -> Try e ws ()
+-- log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
 
 partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
 partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
@@ -138,16 +138,3 @@ instance IsString Message where fromString = Message . (++) . lines
 
 -- message :: Message -> String
 -- message (Message ls) = unlines $ ls []
-
--- SDOC STRING
-
-data SDocStr = SDocStrEmpty | SDocStr SDoc
-
-instance Semigroup SDocStr where
-	SDocStrEmpty <> r = r; l <> SDocStrEmpty = l
-	SDocStr l <> SDocStr r = SDocStr $ l $$ r
-
-instance Monoid SDocStr where mempty = SDocStrEmpty
-instance IsString SDocStr where fromString = SDocStr . text
-instance Outputable SDocStr where
-	ppr SDocStrEmpty = O.empty; ppr (SDocStr s) = s

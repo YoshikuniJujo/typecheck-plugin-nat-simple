@@ -1,13 +1,14 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Expression.Internal (
 	Exp(..), ExpType(..), constraint, varBool ) where
 
-import Prelude hiding ((<>))
+import Prelude hiding ((<>), log)
 
 import Outputable (Outputable(..), (<>), (<+>), text)
 import Control.Arrow (first, second)
@@ -15,9 +16,11 @@ import Control.Monad.Try (Try, throw, tell, partial)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)
 import Data.Maybe (fromJust)
 import Data.List (find)
-import Data.String (IsString)
+import Data.String (IsString, fromString)
 import Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, Poly, (.+), (.-) )
+
+import Data.Log
 
 ---------------------------------------------------------------------------
 
@@ -54,33 +57,42 @@ instance Outputable v => Outputable (Exp v t) where
 	ppr (l :+ r) = text "(" <> ppr l <+> text ":+" <+> ppr r <> text ")"
 	ppr (l :- r) = text "(" <> ppr l <+> text ":-" <+> ppr r <> text ")"
 
+instance IsString s => Loggable s v (Exp v t) where
+	log (Bool b) = fromString $ "(Bool " ++ show b ++ ")"
+	log (Var v) = fromString "(Var " .+. logVar v .+. fromString ")"
+	log (Const n) = fromString $ "(Const " ++ show n ++ ")"
+	log (l :== r) = fromString "(" .+. log l .+. fromString " :== " .+. log r .+. fromString ")"
+	log (l :<= r) = fromString "(" .+. log l .+. fromString " :<= " .+. log r .+. fromString ")"
+	log (l :+ r) = fromString "(" .+. log l .+. fromString " :+ " .+. log r .+. fromString ")"
+	log (l :- r) = fromString "(" .+. log l .+. fromString " :- " .+. log r .+. fromString ")"
+
 ---------------------------------------------------------------------------
 -- CONSTRAINT
 ---------------------------------------------------------------------------
 
 -- CONSTRAINT
 
-constraint :: (Monoid s, IsString e, Ord v) => VarBool v ->
-	Exp v 'Boolean -> Try e s (Either e (Constraint v), [Constraint v])
+constraint :: (Monoid s, IsString str, Ord v) => VarBool v ->
+	Exp v 'Boolean -> Try (Log str v) s (Either (Log str v) (Constraint v), [Constraint v])
 constraint vb ex = partial $ procEq vb ex True
 
 -- PROCCESS EQUATION
 
-procEq :: (Monoid s, IsString e, Ord v) => VarBool v ->
-	Exp v 'Boolean -> Bool -> Try e ([Constraint v], s) (Constraint v)
-procEq _ (Bool _) _ = throw "procEq: only Boolean value"
-procEq _ (Var _) _ = throw "procEq: only Variable"
+procEq :: (Monoid s, IsString str, Ord v) => VarBool v ->
+	Exp v 'Boolean -> Bool -> Try (Log str v) ([Constraint v], s) (Constraint v)
+procEq _ b@(Bool _) _ = throw $ "procEq: only Boolean value " .+. log b
+procEq _ v@(Var _) _ = throw $ "procEq: only Variable " .+. log v
 procEq _ (l :<= r) False = greatThan <$> poly l <*> poly r
 procEq _ (l :<= r) True = greatEqualThan <$> poly r <*> poly l
 procEq vb (l :== Bool r) b = procEq vb l (r == b)
 procEq vb (Bool l :== r) b = procEq vb r (l == b)
-procEq vb (l :== Var r) b | Just br <- vb !? r = case l of
+procEq vb e@(l :== Var r) b | Just br <- vb !? r = case l of
 	_ :== _ -> procEq vb l (br == b); _ :<= _ -> procEq vb l (br == b)
-	_ -> throw "procEq: no (_ :== _) or (_ :<= _) is left side of (:==)"
-procEq vb (Var l :== r) b | Just bl <- vb !? l = case r of
+	_ -> throw $ "procEq: " .+. log e
+procEq vb e@(Var l :== r) b | Just bl <- vb !? l = case r of
 	_ :== _ -> procEq vb r (bl == b); _ :<= _ -> procEq vb r (bl == b)
-	_ -> throw "procEq: no (_ :== _) or (_ :<= _) is right side of (:==)"
-procEq _ (l :== r) True = case (l, r) of
+	_ -> throw $ "procEq: " .+. log e
+procEq _ e@(l :== r) True = case (l, r) of
 	(Const _, _) -> equal <$> poly l <*> poly r
 	(_ :+ _, _) -> equal <$> poly l <*> poly r
 	(_ :- _, _) -> equal <$> poly l <*> poly r
@@ -88,8 +100,8 @@ procEq _ (l :== r) True = case (l, r) of
 	(_, _ :+ _) -> equal <$> poly l <*> poly r
 	(_, _ :- _) -> equal <$> poly l <*> poly r
 	(Var v, Var w) -> equal <$> poly (Var v) <*> poly (Var w)
-	_ -> throw "procEq: Both sides of (:==) should be Number or Variable"
-procEq _ (_ :== _) False = throw "procEq: (_ :== _) == False"
+	_ -> throw $ "procEq: " .+. log e
+procEq _ e@(_ :== _) False = throw $ "procEq: " .+. log e .+. " == False"
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL
@@ -97,7 +109,7 @@ procEq _ (_ :== _) False = throw "procEq: (_ :== _) == False"
 
 poly :: (Monoid s, IsString e, Ord v) =>
 	Exp v 'Number -> Try e ([Constraint v], s) (Poly v)
-poly (Const n) | n < 0 = throw "poly: Negative constant"
+poly (Const n) | n < 0 = throw . fromString $ "poly: Negative constant " ++ show n
 poly (Const 0) = pure empty
 poly (Const n) = pure $ singleton Nothing n
 poly (Var v) = let p = singleton (Just v) 1 in

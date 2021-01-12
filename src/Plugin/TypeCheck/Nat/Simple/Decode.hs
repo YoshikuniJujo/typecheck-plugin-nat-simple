@@ -4,17 +4,18 @@
 
 module Plugin.TypeCheck.Nat.Simple.Decode (decodeAll, decode) where
 
-import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon)
+import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon, text, (<+>), ppr)
 import TcRnTypes (Ct)
 import TcTypeNats (typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon)
 import TyCoRep (Type(..), TyLit(..))
 import Control.Applicative ((<|>))
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, rights, Set)
-import Data.String (IsString)
 import Data.Derivation.Expression (Exp(..), ExpType(..))
 
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
+
+import Data.Log
 
 ---------------------------------------------------------------------------
 
@@ -26,15 +27,14 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 ---------------------------------------------------------------------------
 
 decodeAll ::
-	(Monoid s, IsString s, Set s s) => [Ct] -> Try s s [Exp Var 'Boolean]
+	(Monoid s, IsSDoc s, Set s s) => [Ct] -> Try s s [Exp Var 'Boolean]
 decodeAll = rights . (decode <$>)
 
-decode :: (Monoid s, IsString s, Set s s, Monoid e, IsString e) =>
-	Ct -> Try e s (Exp Var 'Boolean)
+decode :: (Monoid s, IsSDoc s, Set s s) =>
+	Ct -> Try s s (Exp Var 'Boolean)
 decode = uncurry decodeTs <=< unNomEq
 
-decodeTs :: (Monoid s, IsString s, Monoid e, IsString e) =>
-	Type -> Type -> Try e s (Exp Var 'Boolean)
+decodeTs :: (Monoid s, IsSDoc s) => Type -> Type -> Try s s (Exp Var 'Boolean)
 decodeTs (TyVarTy l) (TyVarTy r) = pure $ Var l :== Var r
 decodeTs l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 
@@ -42,19 +42,19 @@ decodeTs l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
 -- BOOL, NUMBER AND VARIABLE
 ---------------------------------------------------------------------------
 
-exBool :: (Monoid s, IsString e) => Type -> Try e s (Exp Var 'Boolean)
+exBool :: (Monoid s, IsSDoc e) => Type -> Try e s (Exp Var 'Boolean)
 exBool (TyVarTy v) = pure $ Var v
 exBool (TyConApp tc [])
 	| tc == promotedFalseDataCon = pure $ Bool False
 	| tc == promotedTrueDataCon = pure $ Bool True
 exBool (TyConApp tc [l, r])
 	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
-exBool _ = throw "exBool: not boolean"
+exBool t = throw . fromSDoc $ text "exBool: not boolean" <+> ppr t
 
-exNum :: (Monoid s, IsString e) => Type -> Try e s (Exp Var 'Number)
+exNum :: (Monoid s, IsSDoc e) => Type -> Try e s (Exp Var 'Number)
 exNum (TyVarTy v) = pure $ Var v
 exNum (LitTy (NumTyLit n)) = pure $ Const n
 exNum (TyConApp tc [l, r])
 	| tc == typeNatAddTyCon = (:+) <$> exNum l <*> exNum r
 	| tc == typeNatSubTyCon = (:-) <$> exNum l <*> exNum r
-exNum _ = throw "exNum: not number"
+exNum t = throw . fromSDoc $ text "exNum: not number" <+> ppr t
