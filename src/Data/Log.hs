@@ -3,7 +3,16 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Data.Log where
+module Data.Log (
+	-- * LOG
+	-- ** DATA LOG
+	Log, (.+.), logVar,
+	-- ** CLASS
+	Loggable(..), Message(..),
+	-- * SDOC
+	IsSDoc(..), SDocStr ) where
+
+import Prelude hiding (log)
 
 import Outputable (Outputable, SDoc, empty, ppr, ($$), text)
 import Data.String

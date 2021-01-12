@@ -49,7 +49,20 @@ refactor
 		- [x] THROW AND CATCH ERROR
 		- [x] WRITE AND GET LOG
 		- [x] TOOL
-	+ [ ] Data.Log
+	+ [x] Data.Log
+		- [x] make export list
+		- [x] structure
+		- [x] LOG
+			* [x] DATA LOG
+				+ [x] data Log s v
+				+ [x] (.+.)
+				+ [x] logVar
+			* [x] CLASS
+				+ [x] class Loggable s v a
+				+ [x] class Message
+		- [x] SDOC
+			* [x] IsSDoc
+			* [x] SDocStr
 	+ [ ] Data.Derivation.Expression
 	+ [ ] Data.Derivation.Parse
 	+ [ ] Data.Derivation.CanDerive
