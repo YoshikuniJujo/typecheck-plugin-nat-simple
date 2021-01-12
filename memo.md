@@ -34,29 +34,30 @@ todo
 	+ [x] use `Log v` in error message
 	+ [x] define `class Loggable`
 	+ [x] define `instance Loggable (Exp v t)`
-* [ ] use `StateT s (Try (Log s v) (Log s v))` in Data.Parse
 * [ ] refactor
 
 refactor
 --------
 
 * [x] check module name hierarchy
-* [x] refactor haddock
+* [x] consider move module Data.Log
+* [ ] refactor haddock
 	+ [x] Control.Monad.Try
 		- [x] structure
 		- [x] DATA TRY
 		- [x] RUN TRY
 		- [x] THROW AND CATCH ERROR
 		- [x] WRITE AND GET LOG
-		- [x] LOG STRING
-	+ [x] Data.Derivation.Expression
-	+ [x] Data.Derivation.Parse
-	+ [x] Data.Derivation.CanDerive
-	+ [x] Plugin.TypeCheck.Nat.Simple
-	+ [x] Plugin.TypeCheck.Nat.Simple.PluginWith
-	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
-* [x] refactor with hlint
-* [x] refactor Control.Monad.StateT
+		- [x] TOOL
+	+ [ ] Data.Log
+	+ [ ] Data.Derivation.Expression
+	+ [ ] Data.Derivation.Parse
+	+ [ ] Data.Derivation.CanDerive
+	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
+	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor with hlint
+* [ ] refactor Control.Monad.StateT
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -235,6 +236,7 @@ Control.Monad
   + Try
 Data
   + Parse
+  + Log
   + Derivation
       + CanDerive
       + Constraint

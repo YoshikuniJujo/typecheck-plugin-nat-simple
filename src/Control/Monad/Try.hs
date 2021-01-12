@@ -4,7 +4,7 @@
 
 module Control.Monad.Try (
 	-- * DATA TRY
-	Try,
+	Try, maybeToTry,
 	-- * RUN TRY
 	runTry, gatherSuccess,
 	-- * THROW AND CATCH ERROR
@@ -12,9 +12,7 @@ module Control.Monad.Try (
 	-- * WRITE AND GET LOG
 	Set, tell, partial,
 	-- * TOOL
-	cons,
-	-- * LOG STRING
-	Message, {- message -} maybeToTry ) where
+	cons ) where
 
 import Prelude hiding (log)
 
@@ -22,7 +20,6 @@ import Control.Applicative (Alternative(..))
 import Control.Arrow ((***))
 import Control.Monad (MonadPlus)
 import Data.Maybe (catMaybes)
-import Data.String (IsString(..))
 
 ---------------------------------------------------------------------------
 
@@ -90,7 +87,7 @@ catch :: Semigroup w => Try e w a -> (e -> Try e w a) -> Try e w a
 Try (Left e) w `catch` h = let Try ex w' = h e in Try ex $ w <> w'
 t@(Try (Right _) _) `catch` _ = t
 
-rights :: (Set w w, Monoid w) => [Try w w a] -> Try w w [a]
+rights :: (Monoid w, Set w w) => [Try w w a] -> Try w w [a]
 rights = (catMaybes <$>) . mapM ((`catch` (Nothing <$) . tell) . (Just <$>))
 
 ---------------------------------------------------------------------------
@@ -118,24 +115,9 @@ partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
 -- TOOL
 ---------------------------------------------------------------------------
 
-cons :: (Monoid s, Set s s) => Either s a -> [a] -> Try s s [a]
-cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))
-
----------------------------------------------------------------------------
--- LOG STRING
----------------------------------------------------------------------------
-
--- MESSAGE
-
-newtype Message = Message ([String] -> [String])
-instance Show Message where show (Message m) = show . unlines $ m []
-instance Semigroup Message where Message l <> Message r = Message $ l . r
-instance Monoid Message where mempty = Message id
-instance IsString Message where fromString = Message . (++) . lines
-
--- message :: Message -> String
--- message (Message ls) = unlines $ ls []
-
 maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
 maybeToTry e Nothing = throw e
 maybeToTry _ (Just x) = pure x
+
+cons :: (Monoid s, Set s s) => Either s a -> [a] -> Try s s [a]
+cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))
