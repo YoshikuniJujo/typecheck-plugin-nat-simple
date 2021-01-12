@@ -4,7 +4,10 @@
 
 module Data.Log where
 
+import Outputable (Outputable, SDoc, empty, ppr)
 import Data.String
+
+import qualified Outputable as O
 
 newtype Log s v = Log ([[Either s v]] -> [[Either s v]])
 instance Semigroup (Log s v) where Log l <> Log r = Log $ l . r
@@ -44,3 +47,9 @@ messageLog1 = concatMap $ either message show
 
 logVar :: v -> Log s v
 logVar v = Log ([Right v] :)
+
+instance (Outputable s, Outputable v) => Outputable (Log s v) where
+	ppr (Log k) = foldr (O.$$) empty $ pprLog1 <$> k []
+
+pprLog1 :: (Outputable s, Outputable v) => [Either s v] -> SDoc
+pprLog1 = foldr (O.<>) empty . (either ppr ppr <$>)

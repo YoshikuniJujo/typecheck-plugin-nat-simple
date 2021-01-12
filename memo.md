@@ -29,7 +29,7 @@ todo
 	+ [x] define `instance (Show s, Show v) => Show (Log s v)`
 	+ [x] define `class Message m`
 	+ [x] define `instance (Message s, Show v) => Message (Log s v)`
-	+ [ ] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
+	+ [x] define `instance (Outputable s, Outputable v) => Outputable (Log s v)`
 	+ [ ] use `Log v` in error message in test
 	+ [ ] use `Log v` in error message
 	+ [ ] define `class Loggable`
