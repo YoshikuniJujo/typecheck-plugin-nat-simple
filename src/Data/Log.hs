@@ -40,7 +40,7 @@ instance Message Char where
 	messageList = id
 
 instance (Show s, Show v) => Show (Log s v) where
-	show (Log k) = "Log (" ++ show (k []) ++ " ++)"
+	show (Log k) = "(Log (" ++ show (k []) ++ " ++))"
 
 instance (Message s, Show v) => Message (Log s v) where
 	message (Log k) = unlines $ messageLog1 <$> k []

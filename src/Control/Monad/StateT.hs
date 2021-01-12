@@ -1,7 +1,7 @@
 {-# LANGUAGE BlockArguments, TupleSections #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Control.Monad.StateT (StateT(..)) where
+module Control.Monad.StateT (StateT(..), lift) where
 
 import Control.Applicative (Alternative(..))
 import Control.Arrow (first)
@@ -46,3 +46,6 @@ instance Monad m => Monad (StateT s m) where
 	StateT k >>= f = StateT $ k >=> \(x, s') -> f x `runStateT` s'
 
 instance MonadPlus m => MonadPlus (StateT s m)
+
+lift :: Functor m => m a -> StateT s m a
+lift m = StateT \s -> (, s) <$> m
