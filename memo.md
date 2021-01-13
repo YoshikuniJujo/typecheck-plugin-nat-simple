@@ -34,6 +34,9 @@ todo
 	+ [x] use `Log v` in error message
 	+ [x] define `class Loggable`
 	+ [x] define `instance Loggable (Exp v t)`
+* [x] log value of `Exp v 'Boolean`
+	+ [x] in given
+	+ [x] in wanted
 * [ ] refactor
 
 refactor
@@ -63,8 +66,8 @@ refactor
 		- [x] SDOC
 			* [x] IsSDoc
 			* [x] SDocStr
-	+ [ ] Data.Derivation.Expression
-	+ [ ] Data.Derivation.Parse
+	+ [x] Data.Derivation.Expression
+	+ [x] Data.Derivation.Parse
 	+ [ ] Data.Derivation.CanDerive
 	+ [ ] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith

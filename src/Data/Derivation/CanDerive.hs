@@ -1,5 +1,7 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables, MonoLocalBinds #-}
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.CanDerive (
@@ -10,9 +12,11 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
+import Prelude hiding (log)
+
 import Control.Arrow ((***))
 import Control.Monad ((<=<))
-import Control.Monad.Try (Try, throw, cons)
+import Control.Monad.Try (Try, throw, tell, cons)
 import Data.Either (partitionEithers)
 import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
@@ -57,10 +61,15 @@ newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
 given :: -- (Monoid s, IsString s, Set s s, Ord v) =>
 --	[Exp v 'Boolean] -> Try s s (Given v)
-	(IsString s, Ord v) =>
+	forall s v .
+--	(IsString s, Ord v, Loggable s v (Exp v 'Boolean), Set (Log s v) (Log s v)) =>
+	(IsString s, Ord v, Loggable s v (Exp v 'Boolean)) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Given v)
-given es = Given . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
-	<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
+given [] = pure $ Given []
+given es = do
+	tell $ "givens: " .+. foldr1 (\l r -> (l .+. " " .+. r)) (log <$> es :: [Log s v])
+	Given . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
+		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 
 -- GIVEN VARIABLES
 
@@ -92,6 +101,7 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: (Monoid s, IsString str, Ord v) => Exp v 'Boolean -> Try (Log str v) s (Wanted v)
-wanted x =
+wanted :: forall s v . (Monoid s, IsString s, Ord v) => Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
+wanted x = do
+	tell $ "wanted: " .+. (log x :: Log s v)
 	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e
