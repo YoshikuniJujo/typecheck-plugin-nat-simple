@@ -76,26 +76,26 @@ logOp op l r = fromString "(" .+.
 
 -- CONSTRAINT
 
-constraint :: (Monoid s, IsString str, Ord v) => VarBool v ->
-	Exp v 'Boolean -> Try (Log str v) s (Either (Log str v) (Constraint v), [Constraint v])
+constraint :: (Monoid w, IsString str, Ord v) => VarBool v -> Exp v 'Boolean ->
+	Try (Log str v) w (Either (Log str v) (Constraint v), [Constraint v])
 constraint vb ex = partial $ procEq vb ex True
 
 -- PROCCESS EQUATION
 
-procEq :: (Monoid s, IsString str, Ord v) => VarBool v ->
-	Exp v 'Boolean -> Bool -> Try (Log str v) ([Constraint v], s) (Constraint v)
-procEq _ b@(Bool _) _ = throw $ "procEq: only Boolean value " .+. log b
-procEq _ v@(Var _) _ = throw $ "procEq: only Variable " .+. log v
+procEq :: (Monoid w, IsString str, Ord v) => VarBool v -> Exp v 'Boolean ->
+	Bool -> Try (Log str v) ([Constraint v], w) (Constraint v)
+procEq _ b@(Bool _) _ = throw $ "procEq: only Boolean value: " .+. log b
+procEq _ v@(Var _) _ = throw $ "procEq: only Variable: " .+. log v
 procEq _ (l :<= r) False = greatThan <$> poly l <*> poly r
 procEq _ (l :<= r) True = greatEqualThan <$> poly r <*> poly l
 procEq vb (l :== Bool r) b = procEq vb l (r == b)
 procEq vb (Bool l :== r) b = procEq vb r (l == b)
 procEq vb e@(l :== Var r) b | Just br <- vb !? r = case l of
 	_ :== _ -> procEq vb l (br == b); _ :<= _ -> procEq vb l (br == b)
-	_ -> throw $ "procEq: " .+. log e
+	_ -> throw $ "procEq: can't interpret: " .+. log e
 procEq vb e@(Var l :== r) b | Just bl <- vb !? l = case r of
 	_ :== _ -> procEq vb r (bl == b); _ :<= _ -> procEq vb r (bl == b)
-	_ -> throw $ "procEq: " .+. log e
+	_ -> throw $ "procEq: can't interpret: " .+. log e
 procEq _ e@(l :== r) True = case (l, r) of
 	(Const _, _) -> equal <$> poly l <*> poly r
 	(_ :+ _, _) -> equal <$> poly l <*> poly r
@@ -104,8 +104,9 @@ procEq _ e@(l :== r) True = case (l, r) of
 	(_, _ :+ _) -> equal <$> poly l <*> poly r
 	(_, _ :- _) -> equal <$> poly l <*> poly r
 	(Var v, Var w) -> equal <$> poly (Var v) <*> poly (Var w)
-	_ -> throw $ "procEq: " .+. log e
-procEq _ e@(_ :== _) False = throw $ "procEq: " .+. log e .+. " == False"
+	_ -> throw $ "procEq: can't interpret: " .+. log e .+. " == True"
+procEq _ e@(_ :== _) False =
+	throw $ "procEq: can't interpret: " .+. log e .+. " == False"
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL
