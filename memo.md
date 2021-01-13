@@ -94,11 +94,11 @@ refactor
 			* [x] FUNCTOR
 			* [x] APPLICATIVE AND ALTERNATIVE
 			* [x] MONAD AND MONAD PLUS
-* [ ] refactor Control.Monad.Try
+* [x] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DATA TRY
 			* [x] DATA
 			* [x] INSTANCE
@@ -107,13 +107,13 @@ refactor
 				+ [x] Alternative
 				+ [x] Monad
 				+ [x] MonadPlus
-		- [ ] RUN TRY
-		- [ ] THROW AND CATCH ERROR
-			* [ ] throw
-			* [ ] catch
-			* [ ] rights
-		- [ ] WRITE AND GET LOG
-		- [ ] TOOL
+		- [x] RUN TRY
+		- [x] THROW AND CATCH ERROR
+			* [x] throw
+			* [x] catch
+			* [x] rights
+		- [x] WRITE AND GET LOG
+		- [x] TOOL
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [ ] export list
 	+ [ ] import list

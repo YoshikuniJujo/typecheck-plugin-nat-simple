@@ -19,6 +19,8 @@ import Control.Arrow ((***))
 import Control.Monad (MonadPlus)
 import Data.Maybe (catMaybes)
 
+import qualified Data.Either as E (rights)
+
 ---------------------------------------------------------------------------
 
 -- * DATA TRY
@@ -37,6 +39,9 @@ import Data.Maybe (catMaybes)
 
 data Try e w a = Try (Either e a) w deriving Show
 
+try :: (Either e a -> w -> b) -> Try e w a -> b
+try f (Try ex w) = f ex w
+
 maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
 maybeToTry e = maybe (throw e) pure
 
@@ -50,7 +55,7 @@ instance Functor (Try e w) where
 instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right
 	Try (Left e) w <*> _ = Try (Left e) w
-	Try (Right f) w <*> mx = let Try ex w' = f <$> mx in Try ex $ w <> w'
+	Try (Right f) w <*> mx = (\ex -> Try ex . (w <>)) `try` (f <$> mx)
 
 instance Monoid w => Alternative (Try w w) where
 	empty = Try (Left mempty) mempty
@@ -59,7 +64,7 @@ instance Monoid w => Alternative (Try w w) where
 
 instance Monoid w => Monad (Try e w) where
 	Try (Left e) w >>= _ = Try (Left e) w
-	Try (Right x) w >>= f = let Try ex w' = f x in Try ex $ w <> w'
+	Try (Right x) w >>= f = (\ex -> Try ex . (w <>)) `try` f x
 
 instance Monoid w => MonadPlus (Try w w)
 
@@ -71,9 +76,7 @@ runTry :: Try e w a -> (Either e a, w)
 runTry (Try ex w) = (ex, w)
 
 gatherSuccess :: Monoid w => [Try w w a] -> ([a], w)
-gatherSuccess = (catMaybes *** mconcat) . unzip . map \case
-	(Try (Left e) w) -> (Nothing, w <> e)
-	(Try (Right x) w) -> (Just x, w)
+gatherSuccess = (E.rights *** mconcat) . unzip . (runTry <$>)
 
 ---------------------------------------------------------------------------
 -- THROW AND CATCH ERROR
@@ -83,7 +86,7 @@ throw :: Monoid w => e -> Try e w a
 throw = (`Try` mempty) . Left
 
 catch :: Semigroup w => Try e w a -> (e -> Try e w a) -> Try e w a
-Try (Left e) w `catch` h = let Try ex w' = h e in Try ex $ w <> w'
+Try (Left e) w `catch` h = (\ex -> Try ex . (w <>)) `try` h e
 t@(Try (Right _) _) `catch` _ = t
 
 rights :: (Monoid w, Set w w) => [Try w w a] -> Try w w [a]
