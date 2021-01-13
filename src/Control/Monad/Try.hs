@@ -119,5 +119,5 @@ maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
 maybeToTry e Nothing = throw e
 maybeToTry _ (Just x) = pure x
 
-cons :: (Monoid s, Set s s) => Either s a -> [a] -> Try s s [a]
+cons :: (Monoid w, Set w w) => Either w a -> [a] -> Try w w [a]
 cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))

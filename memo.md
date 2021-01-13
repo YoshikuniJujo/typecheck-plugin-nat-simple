@@ -44,7 +44,7 @@ refactor
 
 * [x] check module name hierarchy
 * [x] consider move module Data.Log
-* [ ] refactor haddock
+* [x] refactor haddock
 	+ [x] Control.Monad.Try
 		- [x] structure
 		- [x] DATA TRY
@@ -70,8 +70,19 @@ refactor
 	+ [x] Data.Derivation.Parse
 	+ [x] Data.Derivation.CanDerive
 	+ [x] Plugin.TypeCheck.Nat.Simple
-	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
-	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
+	+ [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] unify `Try s s` and `Try w w` and so on
+	+ [x] in haddock
+		- [x] Control.Monad.Try
+		- [x] Data.Log
+		- [x] Data.Derivation.Expression
+		- [x] Data.Derivation.Parse
+		- [x] Data.Derivation.CanDerive
+		- [x] Plugin.TypeCheck.Nat.Simple
+		- [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+		- [x] Plugin.TypeCheck.Nat.Simple.Decode
+	+ [ ] others
 * [ ] refactor with hlint
 * [ ] refactor Control.Monad.StateT
 	+ [x] export list

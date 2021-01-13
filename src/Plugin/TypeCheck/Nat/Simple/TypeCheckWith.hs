@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith) where
+module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (
+	-- * TYPE CHECK WITH
+	typeCheckWith ) where
 
 import GhcPlugins (Plugin(..), defaultPlugin, Expr(..), mkUnivCo)
 import TcPluginM (TcPluginM, tcPluginTrace)

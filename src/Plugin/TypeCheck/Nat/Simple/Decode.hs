@@ -2,7 +2,9 @@
 {-# LANGUAGE DataKinds #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Plugin.TypeCheck.Nat.Simple.Decode (decodeAll, decode) where
+module Plugin.TypeCheck.Nat.Simple.Decode (
+	-- * DECODE CT
+	decodeAll, decode ) where
 
 import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon, text, (<+>), ppr)
 import TcRnTypes (Ct)
@@ -27,11 +29,10 @@ import Data.Log
 ---------------------------------------------------------------------------
 
 decodeAll ::
-	(Monoid s, IsSDoc s, Set s s) => [Ct] -> Try s s [Exp Var 'Boolean]
+	(Monoid w, IsSDoc w, Set w w) => [Ct] -> Try w w [Exp Var 'Boolean]
 decodeAll = rights . (decode <$>)
 
-decode :: (Monoid s, IsSDoc s, Set s s) =>
-	Ct -> Try s s (Exp Var 'Boolean)
+decode :: (Monoid w, IsSDoc w) => Ct -> Try w w (Exp Var 'Boolean)
 decode = uncurry decodeTs <=< unNomEq
 
 decodeTs :: (Monoid s, IsSDoc s) => Type -> Type -> Try s s (Exp Var 'Boolean)
