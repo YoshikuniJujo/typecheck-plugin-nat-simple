@@ -59,13 +59,16 @@ pprOp :: Outputable v => String -> Exp v t -> Exp v t -> SDoc
 pprOp op l r = text "(" <> ppr l <+> text op <+> ppr r <> text ")"
 
 instance IsString s => Loggable s v (Exp v t) where
-	log (Bool b) = fromString $ "(Bool " ++ show b ++ ")"
-	log (Var v) = fromString "(Var " .+. logVar v .+. fromString ")"
-	log (Const n) = fromString $ "(Const " ++ show n ++ ")"
-	log (l :== r) = fromString "(" .+. log l .+. fromString " :== " .+. log r .+. fromString ")"
-	log (l :<= r) = fromString "(" .+. log l .+. fromString " :<= " .+. log r .+. fromString ")"
-	log (l :+ r) = fromString "(" .+. log l .+. fromString " :+ " .+. log r .+. fromString ")"
-	log (l :- r) = fromString "(" .+. log l .+. fromString " :- " .+. log r .+. fromString ")"
+	log = \case
+		Bool b -> fromString $ "(Bool " ++ show b ++ ")"
+		Var v -> fromString "(Var " .+. logVar v .+. fromString ")"
+		Const n -> fromString $ "(Const " ++ show n ++ ")"
+		l :== r -> logOp ":==" l r; l :<= r -> logOp ":<=" l r
+		l :+ r -> logOp ":+" l r; l :- r -> logOp ":-" l r
+
+logOp :: IsString s => String -> Exp v t -> Exp v t -> Log s v
+logOp op l r = fromString "(" .+.
+	log l .+. fromString (" " ++ op ++ " ") .+. log r .+. fromString ")"
 
 ---------------------------------------------------------------------------
 -- CONSTRAINT

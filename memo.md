@@ -119,13 +119,14 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] DATA EXP
+		- [x] DATA EXP
 			* [x] data Exp v t
 			* [x] data ExpType
 			* [x] instance Show (Exp v t)
-			* [ ] instance Outputable (Exp v t)
-			* [ ] pprOp
-			* [ ] instance Loggable s v (Exp v t)
+			* [x] instance Outputable (Exp v t)
+			* [x] pprOp
+			* [x] instance Loggable s v (Exp v t)
+			* [x] logOp
 		- [ ] CONSTRAINT
 			* [ ] CONSTRAINT
 			* [ ] PROCESS EQUATION
