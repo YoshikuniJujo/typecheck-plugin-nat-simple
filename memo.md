@@ -176,27 +176,23 @@ refactor
 * [ ] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
-	* [ ] structure
+	* [x] structure
 	* [ ] body
-		+ [ ] CONSTRAINT
-			- [ ] DATA CONSTRAINT
-				* [ ] data Constraint v
-			- [ ] CONSTRUCT
-				* [ ] constructor equal
-				* [ ] constructor greatEqualThan
-				* [ ] constructor greatThan
-			- [ ] READ
-				* [ ] vars
-				* [ ] hasVar
-				* [ ] selfContained
-				* [ ] isDerivFrom
-			- [ ] CONVERT
-				* [ ] positives
-				* [ ] eliminate
-				* [ ] type Aligned
-				* [ ] alignEE
-				* [ ] alignEG
-				* [ ] alignGG
+		+ [x] CONSTRAINT
+			- [x] DATA CONSTRAINT
+			- [x] CONSTRUCT
+			- [x] READ
+				* [x] vars
+				* [x] hasVar
+				* [x] selfContained
+				* [x] isDerivFrom
+			- [x] CONVERT
+				* [x] positives
+				* [x] eliminate
+				* [x] type Aligned
+				* [x] alignEE
+				* [x] alignEG
+				* [x] alignGG
 		+ [ ] POLYNOMIAL
 			- [ ] TYPE POLY
 			- [ ] CONSTRUCT

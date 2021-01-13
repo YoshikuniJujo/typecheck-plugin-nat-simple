@@ -36,6 +36,9 @@ import Data.Map.Merge.Strict (
 
 data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
 
+constraint :: (Poly v -> a) -> (Poly v -> a) -> Constraint v -> a
+constraint f g = \case Eq p -> f p; Geq p -> g p
+
 -- CONSTRUCT
 
 equal :: Ord v => Poly v -> Poly v -> Constraint v
@@ -50,13 +53,13 @@ l `greatThan` r = Geq $ reduce (l .- r) .- singleton Nothing 1
 -- READ
 
 vars :: Ord v => Constraint v -> [Maybe v]
-vars = \case Eq p -> (fst <$>) $ toList p; Geq p -> (fst <$>) $ toList p
+vars = (fst <$>) . constraint toList toList
 
 has :: Ord v => Constraint v -> Maybe v -> Bool
-has = \case Eq p -> isJust . (p !?); Geq p -> isJust . (p !?)
+has = constraint (\p -> isJust . (p !?)) (\p -> isJust . (p !?))
 
 selfContained :: Constraint v -> Bool
-selfContained = \case Eq p -> null p; Geq p -> and $ (>= 0) <$> p
+selfContained = constraint null $ and . ((>= 0) <$>)
 
 isDerivFrom :: Ord v => Constraint v -> Constraint v -> Bool
 Eq w `isDerivFrom` Eq g = w == g
@@ -67,27 +70,27 @@ _ `isDerivFrom` _ = False
 -- CONVERT
 
 positives :: Constraint v -> Constraint v
-positives = \case eq@(Eq _) -> eq; Geq p -> Geq $ filter (>= 0) p
+positives = constraint Eq $ Geq . filter (>= 0)
 
 eliminate ::
 	Ord v => Maybe v -> Constraint v -> Constraint v -> Maybe (Constraint v)
-eliminate v (Eq l) (Eq r) = Eq . posit . reduce . uncurry (.+) <$> alignEE l r v
-eliminate v (Eq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignEG l r v
-eliminate v (Geq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignGG l r v
+eliminate v (Eq l) (Eq r) = Eq . posit . reduce . uncurry (.+) <$> alignEE v l r
+eliminate v (Eq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignEG v l r
+eliminate v (Geq l) (Geq r) = Geq . reduce . uncurry (.+) <$> alignGG v l r
 eliminate v l r = eliminate v r l
 
 type Aligned v = Maybe (Poly v, Poly v)
 
-alignEE :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignEE l r v =
+alignEE :: Ord v => Maybe v -> Poly v -> Poly v -> Aligned v
+alignEE v l r =
 	(<$> ((,) <$> l !? v <*> r !? v)) \(m, s) -> (l `mul` s, r `mul` (- m))
 
-alignEG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignEG l r v = (<$> ((,) <$> l !? v <*> r !? v)) \(m, s) ->
+alignEG :: Ord v => Maybe v -> Poly v -> Poly v -> Aligned v
+alignEG v l r = (<$> ((,) <$> l !? v <*> r !? v)) \(m, s) ->
 	(l `mul` (- signum m * s), r `mul` abs m)
 
-alignGG :: Ord v => Poly v -> Poly v -> Maybe v -> Aligned v
-alignGG l r v = (,) <$> l !? v <*> r !? v >>= \(m, s) ->
+alignGG :: Ord v => Maybe v -> Poly v -> Poly v -> Aligned v
+alignGG v l r = (,) <$> l !? v <*> r !? v >>= \(m, s) ->
 	(l `mul` abs s, r `mul` abs m) <$ guard (m * s < 0)
 
 ---------------------------------------------------------------------------
