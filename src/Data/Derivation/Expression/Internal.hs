@@ -17,10 +17,9 @@ import Data.Map.Strict (Map, (!?), empty, singleton, insert)
 import Data.Maybe (fromJust)
 import Data.List (find)
 import Data.String (IsString, fromString)
+import Data.Log (Log, (.+.), logVar, Loggable(..))
 import Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, Poly, (.+), (.-) )
-
-import Data.Log
 
 ---------------------------------------------------------------------------
 

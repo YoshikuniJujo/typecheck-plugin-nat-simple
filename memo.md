@@ -115,8 +115,8 @@ refactor
 		- [x] WRITE AND GET LOG
 		- [x] TOOL
 * [ ] refactor Data.Derivation.Expression.Internal
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 		- [ ] DATA EXP
@@ -147,84 +147,84 @@ refactor
 * [ ] refactor Data.Derivation.Expression
 * [ ] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] PARSE CONSTRAINT
-		- [x] MEMO
-			* [x] data Memo
-			* [x] type M
-			* [x] type Var
-			* [x] function memo
-		- [x] GRAMMAR
-			* [x] PEG
-			* [x] pConstraint
-			* [x] pEqual
-			* [x] pBool
-			* [x] pLessEqual
-			* [x] pPolynomial
-			* [x] pNumber
-			* [x] var
-		- [x] PICK AND CHECK
-			* [x] pick
-			* [x] check
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] PARSE CONSTRAINT
+		- [ ] MEMO
+			* [ ] data Memo
+			* [ ] type M
+			* [ ] type Var
+			* [ ] function memo
+		- [ ] GRAMMAR
+			* [ ] PEG
+			* [ ] pConstraint
+			* [ ] pEqual
+			* [ ] pBool
+			* [ ] pLessEqual
+			* [ ] pPolynomial
+			* [ ] pNumber
+			* [ ] var
+		- [ ] PICK AND CHECK
+			* [ ] pick
+			* [ ] check
 * [ ] refactor Data.Derivation.Constraint
-	* [x] export list
-	* [x] import list
-	* [x] structure
-	* [x] body
-		+ [x] CONSTRAINT
-			- [x] DATA CONSTRAINT
-				* [x] data Constraint v
-			- [x] CONSTRUCT
-				* [x] constructor equal
-				* [x] constructor greatEqualThan
-				* [x] constructor greatThan
-			- [x] READ
-				* [x] vars
-				* [x] hasVar
-				* [x] selfContained
-				* [x] isDerivFrom
-			- [x] CONVERT
-				* [x] positives
-				* [x] eliminate
-				* [x] type Aligned
-				* [x] alignEE
-				* [x] alignEG
-				* [x] alignGG
-		+ [x] POLYNOMIAL
-			- [x] TYPE POLY
-			- [x] CONSTRUCT
-			- [x] READ
-				* [x] isGeqThan
-			- [x] CONVERT
-				* [x] posit
-				* [x] reduce
-				* [x] mul
-				* [x] divide
+	* [ ] export list
+	* [ ] import list
+	* [ ] structure
+	* [ ] body
+		+ [ ] CONSTRAINT
+			- [ ] DATA CONSTRAINT
+				* [ ] data Constraint v
+			- [ ] CONSTRUCT
+				* [ ] constructor equal
+				* [ ] constructor greatEqualThan
+				* [ ] constructor greatThan
+			- [ ] READ
+				* [ ] vars
+				* [ ] hasVar
+				* [ ] selfContained
+				* [ ] isDerivFrom
+			- [ ] CONVERT
+				* [ ] positives
+				* [ ] eliminate
+				* [ ] type Aligned
+				* [ ] alignEE
+				* [ ] alignEG
+				* [ ] alignGG
+		+ [ ] POLYNOMIAL
+			- [ ] TYPE POLY
+			- [ ] CONSTRUCT
+			- [ ] READ
+				* [ ] isGeqThan
+			- [ ] CONVERT
+				* [ ] posit
+				* [ ] reduce
+				* [ ] mul
+				* [ ] divide
 * [ ] refactor Data.Derivation.CanDerive
-	* [x] export list
-	* [x] import list
-	* [x] structure
-	* [x] body
-		+ [x] CAN DERIVE
-			- [x] canDerive
-			- [x] canDerive1
-		+ [x] GIVEN
-			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
-				* [x] newtype Given v
-				* [x] given
-			- [x] GIVEN VARIABLES
-			- [x] REMOVE VARIABLE
-				* [x] rmVar
-				* [x] rmStep
-				* [x] rmVar1
-				* [x] unfoldUntil
-		+ [x] WANTED
-			- [x] newtype Wanted v
-			- [x] type Wanted1 v
-			- [x] wanted
+	* [ ] export list
+	* [ ] import list
+	* [ ] structure
+	* [ ] body
+		+ [ ] CAN DERIVE
+			- [ ] canDerive
+			- [ ] canDerive1
+		+ [ ] GIVEN
+			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
+				* [ ] newtype Given v
+				* [ ] given
+			- [ ] GIVEN VARIABLES
+			- [ ] REMOVE VARIABLE
+				* [ ] rmVar
+				* [ ] rmStep
+				* [ ] rmVar1
+				* [ ] unfoldUntil
+		+ [ ] WANTED
+			- [ ] newtype Wanted v
+			- [ ] type Wanted1 v
+			- [ ] wanted
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
