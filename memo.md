@@ -97,10 +97,10 @@ refactor
 * [ ] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
 		- [ ] DATA TRY
-			* [ ] DATA
+			* [x] DATA
 			* [ ] INSTANCE
 				+ [ ] Functor
 				+ [ ] Applicative
@@ -113,9 +113,7 @@ refactor
 			* [ ] catch
 			* [ ] rights
 		- [ ] WRITE AND GET LOG
-		- [ ] LOG STRING
-			* [ ] MESSAGE
-			* [ ] SDOC STRING
+		- [ ] TOOL
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [ ] export list
 	+ [ ] import list

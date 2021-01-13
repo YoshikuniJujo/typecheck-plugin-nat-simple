@@ -28,9 +28,6 @@ import Data.Maybe (catMaybes)
 -- * THROW AND CATCH ERROR
 -- * WRITE AND GET LOG
 -- * TOOL
--- * LOG STRING
---	+ MESSAGE
---	+ SDOC STRING
 
 ---------------------------------------------------------------------------
 -- DATA TRY
@@ -39,6 +36,9 @@ import Data.Maybe (catMaybes)
 -- DATA
 
 data Try e w a = Try (Either e a) w deriving Show
+
+maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
+maybeToTry e = maybe (throw e) pure
 
 -- INSTANCE
 
@@ -103,19 +103,12 @@ instance {-# OVERLAPPABLE #-} (Monoid y, Set x xs) => Set x (y, xs) where
 tell :: Set w ws => w -> Try e ws ()
 tell = Try (Right ()) . set
 
--- log :: (Set SDocStr ws, Outputable o) => String -> o -> Try e ws ()
--- log ttl o = tell . SDocStr $ text (ttl ++ ":") <+> ppr o
-
 partial :: Try e (w, ws) a -> Try e ws (Either e a, w)
 partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
 
 ---------------------------------------------------------------------------
 -- TOOL
 ---------------------------------------------------------------------------
-
-maybeToTry :: Monoid w => e -> Maybe a -> Try e w a
-maybeToTry e Nothing = throw e
-maybeToTry _ (Just x) = pure x
 
 cons :: (Monoid w, Set w w) => Either w a -> [a] -> Try w w [a]
 cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))
