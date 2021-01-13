@@ -43,8 +43,9 @@ maybeToTry e = maybe (throw e) pure
 -- INSTANCE
 
 instance Functor (Try e w) where
-	_ `fmap` Try (Left e) w = Try (Left e) w
-	f `fmap` Try (Right x) w = Try (Right $ f x) w
+	fmap f = \case
+		Try (Left e) w -> Try (Left e) w
+		Try (Right x) w -> Try (Right $ f x) w
 
 instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right

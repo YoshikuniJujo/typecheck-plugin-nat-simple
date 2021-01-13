@@ -99,14 +99,14 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] DATA TRY
+		- [x] DATA TRY
 			* [x] DATA
-			* [ ] INSTANCE
-				+ [ ] Functor
-				+ [ ] Applicative
-				+ [ ] Alternative
-				+ [ ] Monad
-				+ [ ] MonadPlus
+			* [x] INSTANCE
+				+ [x] Functor
+				+ [x] Applicative
+				+ [x] Alternative
+				+ [x] Monad
+				+ [x] MonadPlus
 		- [ ] RUN TRY
 		- [ ] THROW AND CATCH ERROR
 			* [ ] throw
