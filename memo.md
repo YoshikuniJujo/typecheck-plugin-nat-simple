@@ -150,32 +150,32 @@ refactor
 			* [x] untilFixed
 * [x] refactor Data.Derivation.Expression
 * [x] refactor Data.Parse
-* [ ] refactor Data.Derivation.Parse
+* [x] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] PARSE CONSTRAINT
 		- [x] MEMO
 			* [x] data Memo
 			* [x] type M
 			* [x] type Var
 			* [x] function memo
-		- [ ] GRAMMAR
-			* [ ] PEG
-			* [ ] pConstraint
-			* [ ] pEqual
-			* [ ] pBool
-			* [ ] pLessEqual
-			* [ ] pPolynomial
-			* [ ] pNumber
-			* [ ] var
-		- [ ] PICK AND CHECK
-			* [ ] pick
-			* [ ] check
+		- [x] GRAMMAR
+			* [x] PEG
+			* [x] pConstraint
+			* [x] pEqual
+			* [x] pBool
+			* [x] pLessEqual
+			* [x] pPolynomial
+			* [x] pNumber
+			* [x] var
+		- [x] PICK AND CHECK
+			* [x] pick
+			* [x] check
 * [ ] refactor Data.Derivation.Constraint
-	* [ ] export list
-	* [ ] import list
+	* [x] export list
+	* [x] import list
 	* [ ] structure
 	* [ ] body
 		+ [ ] CONSTRAINT

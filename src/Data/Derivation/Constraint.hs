@@ -6,7 +6,7 @@ module Data.Derivation.Constraint (
 	isDerivFrom, positives, selfContained, eliminate,
 	Poly, (.+), (.-) ) where
 
-import Prelude hiding (null, filter, (<>))
+import Prelude hiding (null, filter)
 
 import Control.Monad (guard)
 import Data.Maybe (isJust)
