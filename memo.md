@@ -84,7 +84,7 @@ refactor
 		- [x] Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] others
 * [x] refactor with hlint
-* [ ] refactor Control.Monad.StateT
+* [x] refactor Control.Monad.StateT
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -95,27 +95,27 @@ refactor
 			* [x] APPLICATIVE AND ALTERNATIVE
 			* [x] MONAD AND MONAD PLUS
 * [ ] refactor Control.Monad.Try
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] DATA TRY
-			* [x] DATA
-			* [x] INSTANCE
-				+ [x] Functor
-				+ [x] Applicative
-				+ [x] Alternative
-				+ [x] Monad
-				+ [x] MonadPlus
-		- [x] RUN TRY
-		- [x] THROW AND CATCH ERROR
-			* [x] throw
-			* [x] catch
-			* [x] rights
-		- [x] WRITE AND GET LOG
-		- [x] LOG STRING
-			* [x] MESSAGE
-			* [x] SDOC STRING
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DATA TRY
+			* [ ] DATA
+			* [ ] INSTANCE
+				+ [ ] Functor
+				+ [ ] Applicative
+				+ [ ] Alternative
+				+ [ ] Monad
+				+ [ ] MonadPlus
+		- [ ] RUN TRY
+		- [ ] THROW AND CATCH ERROR
+			* [ ] throw
+			* [ ] catch
+			* [ ] rights
+		- [ ] WRITE AND GET LOG
+		- [ ] LOG STRING
+			* [ ] MESSAGE
+			* [ ] SDOC STRING
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
