@@ -117,13 +117,15 @@ refactor
 * [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
 		- [ ] DATA EXP
-			* [ ] data Exp v t
-			* [ ] data ExpType
-			* [ ] instance Show (Exp v t)
+			* [x] data Exp v t
+			* [x] data ExpType
+			* [x] instance Show (Exp v t)
 			* [ ] instance Outputable (Exp v t)
+			* [ ] pprOp
+			* [ ] instance Loggable s v (Exp v t)
 		- [ ] CONSTRAINT
 			* [ ] CONSTRAINT
 			* [ ] PROCESS EQUATION

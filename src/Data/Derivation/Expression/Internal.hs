@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, OverloadedStrings #-}
+{-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
@@ -10,7 +10,7 @@ module Data.Derivation.Expression.Internal (
 
 import Prelude hiding ((<>), log)
 
-import Outputable (Outputable(..), (<>), (<+>), text)
+import Outputable (Outputable(..), SDoc, (<>), (<+>), text)
 import Control.Arrow (first, second)
 import Control.Monad.Try (Try, throw, tell, partial)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)
@@ -48,13 +48,15 @@ data ExpType = Boolean | Number deriving Show
 deriving instance Show v => Show (Exp v t)
 
 instance Outputable v => Outputable (Exp v t) where
-	ppr (Bool b) = text "(Bool" <+> ppr b <> text ")"
-	ppr (Var v) = text "(Var" <+> ppr v <> text ")"
-	ppr (Const n) = text "(Const" <+> ppr n <> text ")"
-	ppr (l :== r) = text "(" <> ppr l <+> text ":==" <+> ppr r <> text ")"
-	ppr (l :<= r) = text "(" <> ppr l <+> text ":<=" <+> ppr r <> text ")"
-	ppr (l :+ r) = text "(" <> ppr l <+> text ":+" <+> ppr r <> text ")"
-	ppr (l :- r) = text "(" <> ppr l <+> text ":-" <+> ppr r <> text ")"
+	ppr = \case
+		Bool b -> text "(Bool" <+> ppr b <> text ")"
+		Var v -> text "(Var" <+> ppr v <> text ")"
+		Const n -> text "(Const" <+> ppr n <> text ")"
+		l :== r -> pprOp ":==" l r; l :<= r -> pprOp ":<=" l r
+		l :+ r -> pprOp ":+" l r; l :- r -> pprOp ":-" l r
+
+pprOp :: Outputable v => String -> Exp v t -> Exp v t -> SDoc
+pprOp op l r = text "(" <> ppr l <+> text op <+> ppr r <> text ")"
 
 instance IsString s => Loggable s v (Exp v t) where
 	log (Bool b) = fromString $ "(Bool " ++ show b ++ ")"
