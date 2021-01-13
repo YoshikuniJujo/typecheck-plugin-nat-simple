@@ -114,11 +114,11 @@ refactor
 			* [x] rights
 		- [x] WRITE AND GET LOG
 		- [x] TOOL
-* [ ] refactor Data.Derivation.Expression.Internal
+* [x] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DATA EXP
 			* [x] data Exp v t
 			* [x] data ExpType
@@ -142,25 +142,25 @@ refactor
 				+ [x] (_ :== _) True
 				+ [x] (_ :== _) False
 		- [x] POLYNOMIAL
-		- [ ] MAP FROM VARIABLE TO BOOL
-			* [ ] type VarBool v
-			* [ ] varBool
-			* [ ] vbInit
-			* [ ] vbStep
-			* [ ] untilFixed
-* [ ] refactor Data.Derivation.Expression
-* [ ] refactor Data.Parse
+		- [x] MAP FROM VARIABLE TO BOOL
+			* [x] type VarBool v
+			* [x] varBool
+			* [x] vbInit
+			* [x] vbStep
+			* [x] untilFixed
+* [x] refactor Data.Derivation.Expression
+* [x] refactor Data.Parse
 * [ ] refactor Data.Derivation.Parse
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
-		- [ ] PARSE CONSTRAINT
-		- [ ] MEMO
-			* [ ] data Memo
-			* [ ] type M
-			* [ ] type Var
-			* [ ] function memo
+		- [x] PARSE CONSTRAINT
+		- [x] MEMO
+			* [x] data Memo
+			* [x] type M
+			* [x] type Var
+			* [x] function memo
 		- [ ] GRAMMAR
 			* [ ] PEG
 			* [ ] pConstraint

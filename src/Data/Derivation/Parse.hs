@@ -5,7 +5,7 @@ module Data.Derivation.Parse (
 	-- * PARSE CONSTRAINT
 	parseConstraint, Var ) where
 
-import Control.Applicative (empty, many, (<|>))
+import Control.Applicative (empty, (<|>), many)
 import Control.Arrow (second)
 import Data.Function ((&))
 import Data.Maybe (listToMaybe)
@@ -37,6 +37,7 @@ parseConstraint = (fst <$>) . constraint . memo . unfoldr (listToMaybe . lex)
 data Memo = Memo {
 	constraint, equal, bool, lessEqual :: M (Exp Var 'Boolean),
 	polynomial, number :: M (Exp Var 'Number), token :: M String }
+
 type M a = Maybe (a, Memo); type Var = String
 
 memo :: [String] -> Memo
