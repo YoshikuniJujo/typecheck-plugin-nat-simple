@@ -10,22 +10,24 @@ import Prelude hiding (log)
 
 import GhcPlugins (Var, Plugin, ppr)
 import Control.Monad.Try (tell)
-import Data.Derivation.CanDerive (canDerive, given, wanted)
+import Data.Derivation.CanDerive (canDerive, givens, wanted)
 
 import Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith)
 import Plugin.TypeCheck.Nat.Simple.Decode (decode, decodeAll)
 
 import Data.Log
 
--- | > plugin = typeCheckWith @(Log SDocStr Var)  "Plugin.TypeCheck.Nat.Simple"
---   >	\gs _ w ->
---   >		tell @(Log SDocStr Var $ "givens: " .+. fromSDoc (ppr gs)
---   >		tell @(Log SDocStr Var $ "wanted: " .+. fromSDoc (ppr w)
---   >		canDerive <$> (given =<< decodeAll gs) <*> (wanted =<< decode w)
+type L = Log SDocStr Var
+
+-- | > type L = Log SDocStr Var
+--   >
+--   > plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \gs _ w ->
+--   >	tell @L $ "givens: " .+. fromSDoc (ppr gs)
+--   >	tell @L $ "wanted: " .+. fromSDoc (ppr w)
+--   >	canDerive <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)
 
 plugin :: Plugin
-plugin = typeCheckWith @(Log SDocStr Var) "Plugin.TypeCheck.Nat.Simple"
-	\gs _ w -> do
-		tell @(Log SDocStr Var) $ "givens: " .+. fromSDoc (ppr gs)
-		tell @(Log SDocStr Var) $ "wanted: " .+. fromSDoc (ppr w)
-		canDerive <$> (given =<< decodeAll gs) <*> (wanted =<< decode w)
+plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
+	tell @L $ "givens: " .+. fromSDoc (ppr gs)
+	tell @L $ "wanted: " .+. fromSDoc (ppr w)
+	canDerive <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)

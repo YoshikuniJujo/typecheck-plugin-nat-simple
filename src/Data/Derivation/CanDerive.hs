@@ -8,7 +8,7 @@ module Data.Derivation.CanDerive (
 	-- * CAN DERIVE
 	canDerive,
 	-- * GIVEN
-	Given, given,
+	Givens, givens,
 	-- * WANTED
 	Wanted, wanted ) where
 
@@ -44,12 +44,12 @@ import Data.Log
 -- CAN DERIVE
 ---------------------------------------------------------------------------
 
-canDerive :: Ord v => Given v -> Wanted v -> Bool
+canDerive :: Ord v => Givens v -> Wanted v -> Bool
 canDerive g = all (canDerive1 g) . unWanted
 
-canDerive1 :: Ord v => Given v -> Wanted1 v -> Bool
+canDerive1 :: Ord v => Givens v -> Wanted1 v -> Bool
 canDerive1 g w = selfContained w ||
-	any (w `isDerivFrom`) (unGiven . foldl rmVar g $ gvnVars g \\ vars w)
+	any (w `isDerivFrom`) (unGivens . foldl rmVar g $ gvnVars g \\ vars w)
 
 ---------------------------------------------------------------------------
 -- GIVEN
@@ -57,25 +57,25 @@ canDerive1 g w = selfContained w ||
 
 -- NEWTYPE GIVEN AND CONSTRUCTOR
 
-newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
+newtype Givens v = Givens { unGivens :: [Constraint v] } deriving Show
 
-given :: forall s v . (IsString s, Ord v) =>
-	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Given v)
-given [] = pure $ Given []
-given es = do
+givens :: forall s v . (IsString s, Ord v) =>
+	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Givens v)
+givens [] = pure $ Givens []
+givens es = do
 	tell $ "givens: " .+. foldr1 (\l r -> (l .+. " " .+. r)) (log <$> es :: [Log s v])
-	Given . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
+	Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
 		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 
 -- GIVEN VARIABLES
 
-gvnVars :: Ord v => Given v -> [Maybe v]
-gvnVars = nub . sort . concat . (vars <$>) . unGiven
+gvnVars :: Ord v => Givens v -> [Maybe v]
+gvnVars = nub . sort . concat . (vars <$>) . unGivens
 
 -- REMOVE VARIABLE
 
-rmVar :: Ord v => Given v -> Maybe v -> Given v
-rmVar (Given g) v = Given . sort . concat . uncurry (:)
+rmVar :: Ord v => Givens v -> Maybe v -> Givens v
+rmVar (Givens g) v = Givens . sort . concat . uncurry (:)
 	. (id *** unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
 
 rvStep :: Ord v => Maybe v -> [Constraint v] -> ([Constraint v], [Constraint v])

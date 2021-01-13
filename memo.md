@@ -69,7 +69,7 @@ refactor
 	+ [x] Data.Derivation.Expression
 	+ [x] Data.Derivation.Parse
 	+ [x] Data.Derivation.CanDerive
-	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [x] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor with hlint
@@ -83,7 +83,7 @@ refactor
 			* [x] FUNCTOR
 			* [x] APPLICATIVE AND ALTERNATIVE
 			* [x] MONAD AND MONAD PLUS
-* [x] refactor Control.Monad.Try
+* [ ] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
