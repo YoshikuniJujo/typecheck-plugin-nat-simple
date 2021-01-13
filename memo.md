@@ -141,7 +141,7 @@ refactor
 				+ [x] (Var _ :== _)
 				+ [x] (_ :== _) True
 				+ [x] (_ :== _) False
-		- [ ] POLYNOMIAL
+		- [x] POLYNOMIAL
 		- [ ] MAP FROM VARIABLE TO BOOL
 			* [ ] type VarBool v
 			* [ ] varBool

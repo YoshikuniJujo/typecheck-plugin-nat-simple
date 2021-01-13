@@ -114,14 +114,16 @@ procEq _ e@(_ :== _) False =
 
 poly :: (Monoid s, IsString e, Ord v) =>
 	Exp v 'Number -> Try e ([Constraint v], s) (Poly v)
-poly (Const n) | n < 0 = throw . fromString $ "poly: Negative constant " ++ show n
-poly (Const 0) = pure empty
-poly (Const n) = pure $ singleton Nothing n
-poly (Var v) = let p = singleton (Just v) 1 in
-	p <$ tell [p `greatEqualThan` empty]
-poly (l :+ r) = (.+) <$> poly l <*> poly r
-poly (l :- r) = (,) <$> poly l <*> poly r >>= \(pl, pr) ->
-	pl .- pr <$ tell [pl `greatEqualThan` pr]
+poly = \case
+	Const n	| n < 0 -> throw
+			. fromString $ "poly: Negative constant " ++ show n
+		| 0 <- n -> pure empty
+		| otherwise -> pure $ singleton Nothing n
+	Var v -> let p = singleton (Just v) 1 in
+		p <$ tell [p `greatEqualThan` empty]
+	l :+ r -> (.+) <$> poly l <*> poly r
+	l :- r -> (,) <$> poly l <*> poly r >>= \(pl, pr) ->
+		pl .- pr <$ tell [pl `greatEqualThan` pr]
 
 ---------------------------------------------------------------------------
 -- MAP FROM VARIABLES TO BOOL
