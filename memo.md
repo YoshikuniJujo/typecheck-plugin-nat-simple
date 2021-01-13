@@ -205,15 +205,15 @@ refactor
 * [ ] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
-	* [ ] structure
+	* [x] structure
 	* [ ] body
-		+ [ ] CAN DERIVE
-			- [ ] canDerive
-			- [ ] canDerive1
+		+ [x] CAN DERIVE
+			- [x] canDerive
+			- [x] canDerive1
 		+ [ ] GIVEN
-			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
-				* [ ] newtype Given v
-				* [ ] given
+			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
+				* [x] newtype Given v
+				* [x] given
 			- [ ] GIVEN VARIABLES
 			- [ ] REMOVE VARIABLE
 				* [ ] rmVar
@@ -224,6 +224,7 @@ refactor
 			- [ ] newtype Wanted v
 			- [ ] type Wanted1 v
 			- [ ] wanted
+* [ ] refactor Data.Log
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] export list
 	+ [ ] import list

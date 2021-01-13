@@ -12,7 +12,7 @@ module Data.Derivation.CanDerive (
 	-- * WANTED
 	Wanted, wanted ) where
 
-import Prelude hiding (log)
+import Prelude hiding (unwords, log)
 
 import Control.Arrow (second)
 import Control.Monad ((<=<))
@@ -22,7 +22,7 @@ import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
 import Data.Bool (bool)
 import Data.String (IsString)
-import Data.Log (Log, (.+.), log)
+import Data.Log (Log, (.+.), unwords, log)
 import Data.Derivation.Constraint (
 	Constraint,
 	vars, has, isDerivFrom, positives, selfContained, eliminate )
@@ -59,9 +59,8 @@ newtype Givens v = Givens { unGivens :: [Constraint v] } deriving Show
 
 givens :: forall s v . (IsString s, Ord v) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Givens v)
-givens [] = pure $ Givens []
 givens es = do
-	tell $ "givens: " .+. foldr1 (\l r -> l .+. " " .+. r) (log <$> es :: [Log s v])
+	tell $ "givens: " .+. unwords (log <$> es :: [Log s v])
 	Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
 		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 

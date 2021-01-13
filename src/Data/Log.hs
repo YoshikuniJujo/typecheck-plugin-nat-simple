@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
@@ -6,16 +6,16 @@
 module Data.Log (
 	-- * LOG
 	-- ** DATA LOG
-	Log, (.+.), logVar,
+	Log, (.+.), unwords, logVar,
 	-- ** CLASS
 	Loggable(..), Message(..),
 	-- * SDOC
 	IsSDoc(..), SDocStr ) where
 
-import Prelude hiding (log)
+import Prelude hiding (unwords, log)
 
 import Outputable (Outputable, SDoc, empty, ppr, ($$), text)
-import Data.String
+import Data.String (IsString(..))
 
 import qualified Outputable as O
 
@@ -36,6 +36,10 @@ Log l .+. Log r = Log $ (l [] %) . r
 	[] % yss = yss
 	[xs] % (ys : yss) = (xs ++ ys) : yss
 	(xs : xss) % yss = xs : (xss % yss)
+
+unwords :: IsString s => [Log s v] -> Log s v
+unwords [] = mempty
+unwords ls = foldr1 (\l r -> l .+. " " .+. r) ls
 
 class Message s where
 	message :: s -> String
