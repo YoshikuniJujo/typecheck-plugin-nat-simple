@@ -14,7 +14,7 @@ module Data.Derivation.CanDerive (
 
 import Prelude hiding (log)
 
-import Control.Arrow ((***))
+import Control.Arrow (second)
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, tell, cons)
 import Data.Either (partitionEithers)
@@ -63,7 +63,7 @@ givens :: forall s v . (IsString s, Ord v) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Givens v)
 givens [] = pure $ Givens []
 givens es = do
-	tell $ "givens: " .+. foldr1 (\l r -> (l .+. " " .+. r)) (log <$> es :: [Log s v])
+	tell $ "givens: " .+. foldr1 (\l r -> l .+. " " .+. r) (log <$> es :: [Log s v])
 	Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
 		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
 
@@ -76,7 +76,7 @@ gvnVars = nub . sort . concat . (vars <$>) . unGivens
 
 rmVar :: Ord v => Givens v -> Maybe v -> Givens v
 rmVar (Givens g) v = Givens . sort . concat . uncurry (:)
-	. (id *** unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
+	. second (unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
 
 rvStep :: Ord v => Maybe v -> [Constraint v] -> ([Constraint v], [Constraint v])
 rvStep _ [] = ([], [])

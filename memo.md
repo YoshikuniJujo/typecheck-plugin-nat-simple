@@ -83,7 +83,7 @@ refactor
 		- [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 		- [x] Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] others
-* [ ] refactor with hlint
+* [x] refactor with hlint
 * [ ] refactor Control.Monad.StateT
 	+ [x] export list
 	+ [x] import list
@@ -116,7 +116,7 @@ refactor
 		- [x] LOG STRING
 			* [x] MESSAGE
 			* [x] SDOC STRING
-* [x] refactor Data.Derivation.Expression.Internal
+* [ ] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -146,9 +146,9 @@ refactor
 			* [x] vbInit
 			* [x] vbStep
 			* [x] untilFixed
-* [x] refactor Data.Derivation.Expression
-* [x] refactor Data.Parse
-* [x] refactor Data.Derivation.Parse
+* [ ] refactor Data.Derivation.Expression
+* [ ] refactor Data.Parse
+* [ ] refactor Data.Derivation.Parse
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -171,7 +171,7 @@ refactor
 		- [x] PICK AND CHECK
 			* [x] pick
 			* [x] check
-* [x] refactor Data.Derivation.Constraint
+* [ ] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
 	* [x] structure
@@ -205,7 +205,7 @@ refactor
 				* [x] reduce
 				* [x] mul
 				* [x] divide
-* [x] refactor Data.Derivation.CanDerive
+* [ ] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
 	* [x] structure
@@ -227,7 +227,7 @@ refactor
 			- [x] newtype Wanted v
 			- [x] type Wanted1 v
 			- [x] wanted
-* [x] refactor Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
@@ -239,7 +239,7 @@ refactor
 		- [x] BOOL, NUMBER AND VARIABLE
 			* [x] exBool
 			* [x] exNum
-* [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 	+ [x] export list
 	+ [x] import list
 	+ [x] rename PluginWith to TypeCheckWith
@@ -249,7 +249,7 @@ refactor
 		- [x] typeCheckWith
 		- [x] solve
 		- [x] result
-* [x] refactor Plugin.TypeCheck.Nat.Simple
+* [ ] refactor Plugin.TypeCheck.Nat.Simple
 	+ [x] export list
 	+ [x] import list
 	+ [x] function plugin
