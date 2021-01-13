@@ -14,8 +14,6 @@ module Control.Monad.Try (
 	-- * TOOL
 	cons ) where
 
-import Prelude hiding (log)
-
 import Control.Applicative (Alternative(..))
 import Control.Arrow ((***))
 import Control.Monad (MonadPlus)
