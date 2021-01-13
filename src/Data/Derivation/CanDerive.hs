@@ -22,14 +22,12 @@ import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
 import Data.Bool (bool)
 import Data.String (IsString)
-
+import Data.Log (Log, (.+.), log)
 import Data.Derivation.Constraint (
 	Constraint,
 	vars, has, isDerivFrom, positives, selfContained, eliminate )
 import Data.Derivation.Expression.Internal (
 	Exp, ExpType(..), constraint, varBool )
-
-import Data.Log
 
 ---------------------------------------------------------------------------
 

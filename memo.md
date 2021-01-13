@@ -173,11 +173,11 @@ refactor
 		- [x] PICK AND CHECK
 			* [x] pick
 			* [x] check
-* [ ] refactor Data.Derivation.Constraint
+* [x] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
 	* [x] structure
-	* [ ] body
+	* [x] body
 		+ [x] CONSTRAINT
 			- [x] DATA CONSTRAINT
 			- [x] CONSTRUCT
@@ -193,19 +193,18 @@ refactor
 				* [x] alignEE
 				* [x] alignEG
 				* [x] alignGG
-		+ [ ] POLYNOMIAL
-			- [ ] TYPE POLY
-			- [ ] CONSTRUCT
-			- [ ] READ
-				* [ ] isGeqThan
-			- [ ] CONVERT
-				* [ ] posit
-				* [ ] reduce
-				* [ ] mul
-				* [ ] divide
+		+ [x] POLYNOMIAL
+			- [x] TYPE POLY
+			- [x] CONSTRUCT
+			- [x] READ
+			- [x] CONVERT
+				* [x] posit
+				* [x] reduce
+				* [x] mul
+				* [x] divide
 * [ ] refactor Data.Derivation.CanDerive
-	* [ ] export list
-	* [ ] import list
+	* [x] export list
+	* [x] import list
 	* [ ] structure
 	* [ ] body
 		+ [ ] CAN DERIVE
@@ -226,31 +225,31 @@ refactor
 			- [ ] type Wanted1 v
 			- [ ] wanted
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] DECODE
-			* [x] decodeAll
-			* [x] decode
-			* [x] decodeTs
-		- [x] BOOL, NUMBER AND VARIABLE
-			* [x] exBool
-			* [x] exNum
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DECODE
+			* [ ] decodeAll
+			* [ ] decode
+			* [ ] decodeTs
+		- [ ] BOOL, NUMBER AND VARIABLE
+			* [ ] exBool
+			* [ ] exNum
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
-	+ [x] export list
-	+ [x] import list
-	+ [x] rename PluginWith to TypeCheckWith
-	+ [x] rename pluginWith to typeCheckWith
-	+ [x] structure
-	+ [x] body
-		- [x] typeCheckWith
-		- [x] solve
-		- [x] result
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] rename PluginWith to TypeCheckWith
+	+ [ ] rename pluginWith to typeCheckWith
+	+ [ ] structure
+	+ [ ] body
+		- [ ] typeCheckWith
+		- [ ] solve
+		- [ ] result
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
-	+ [x] export list
-	+ [x] import list
-	+ [x] function plugin
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] function plugin
 
 module name hierarchy
 ---------------------
