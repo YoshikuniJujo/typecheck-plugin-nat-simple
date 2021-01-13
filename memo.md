@@ -68,7 +68,7 @@ refactor
 			* [x] SDocStr
 	+ [x] Data.Derivation.Expression
 	+ [x] Data.Derivation.Parse
-	+ [ ] Data.Derivation.CanDerive
+	+ [x] Data.Derivation.CanDerive
 	+ [ ] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.PluginWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode

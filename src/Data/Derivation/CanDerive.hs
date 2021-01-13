@@ -59,11 +59,7 @@ canDerive1 g w = selfContained w ||
 
 newtype Given v = Given { unGiven :: [Constraint v] } deriving Show
 
-given :: -- (Monoid s, IsString s, Set s s, Ord v) =>
---	[Exp v 'Boolean] -> Try s s (Given v)
-	forall s v .
---	(IsString s, Ord v, Loggable s v (Exp v 'Boolean), Set (Log s v) (Log s v)) =>
-	(IsString s, Ord v, Loggable s v (Exp v 'Boolean)) =>
+given :: forall s v . (IsString s, Ord v) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Given v)
 given [] = pure $ Given []
 given es = do
@@ -101,7 +97,7 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: forall s v . (Monoid s, IsString s, Ord v) => Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
+wanted :: forall s v . (IsString s, Ord v) => Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
 wanted x = do
 	tell $ "wanted: " .+. (log x :: Log s v)
 	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e
