@@ -44,7 +44,7 @@ todo
 	+ [ ] samples using Proxy
 		- [x] simple `n + 1 - 1 == n - 1 + 1`
 		- [ ] others
-	+ [ ] remove sample/foo.txt
+	+ [x] remove sample/foo.txt
 	+ [ ] simplified Range samples
 	+ [ ] samples which is part of fingertree
 	+ [ ] others

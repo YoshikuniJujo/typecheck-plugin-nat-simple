@@ -66,4 +66,5 @@ tests:
     - typecheck-plugin-nat-simple
 
 data-dir: sample
-data-files: [foo.txt]
+data-files:
+- plus1minus1.hs
