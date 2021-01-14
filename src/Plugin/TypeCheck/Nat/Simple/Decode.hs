@@ -20,25 +20,24 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 ---------------------------------------------------------------------------
 
 -- * DECODE
--- * BOOL, NUMBER AND VARIABLE
+-- * BOOLEAN AND NUMBER
 
 ---------------------------------------------------------------------------
 -- DECODE
 ---------------------------------------------------------------------------
 
-decodeAll ::
-	(Monoid w, IsSDoc w, Set w w) => [Ct] -> Try w w [Exp Var 'Boolean]
+decodeAll :: (Monoid w, IsSDoc w, Set w w) => [Ct] -> Try w w [Exp Var 'Boolean]
 decodeAll = rights . (decode <$>)
 
 decode :: (Monoid w, IsSDoc w) => Ct -> Try w w (Exp Var 'Boolean)
 decode = uncurry decodeTs <=< unNomEq
 
-decodeTs :: (Monoid s, IsSDoc s) => Type -> Type -> Try s s (Exp Var 'Boolean)
+decodeTs :: (Monoid w, IsSDoc w) => Type -> Type -> Try w w (Exp Var 'Boolean)
 decodeTs (TyVarTy l) (TyVarTy r) = pure $ Var l :== Var r
-decodeTs l r = (:==) <$> exNum l <*> exNum r <|> (:==) <$> exBool l <*> exBool r
+decodeTs l r = (:==) <$> exBool l <*> exBool r <|> (:==) <$> exNum l <*> exNum r
 
 ---------------------------------------------------------------------------
--- BOOL, NUMBER AND VARIABLE
+-- BOOLEAN AND NUMBER
 ---------------------------------------------------------------------------
 
 exBool :: (Monoid s, IsSDoc e) => Type -> Try e s (Exp Var 'Boolean)
@@ -48,7 +47,7 @@ exBool (TyConApp tc [])
 	| tc == promotedTrueDataCon = pure $ Bool True
 exBool (TyConApp tc [l, r])
 	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
-exBool t = throw . fromSDoc $ text "exBool: not boolean" <+> ppr t
+exBool t = throw . fromSDoc $ text "exBool: not boolean:" <+> ppr t
 
 exNum :: (Monoid s, IsSDoc e) => Type -> Try e s (Exp Var 'Number)
 exNum (TyVarTy v) = pure $ Var v
@@ -56,4 +55,4 @@ exNum (LitTy (NumTyLit n)) = pure $ Const n
 exNum (TyConApp tc [l, r])
 	| tc == typeNatAddTyCon = (:+) <$> exNum l <*> exNum r
 	| tc == typeNatSubTyCon = (:-) <$> exNum l <*> exNum r
-exNum t = throw . fromSDoc $ text "exNum: not number" <+> ppr t
+exNum t = throw . fromSDoc $ text "exNum: not number:" <+> ppr t
