@@ -19,7 +19,7 @@ todo
 * [x] try to use in renaged-list
 * [x] try to use in ranged-list
 * [x] try to use in ranged-list
-* [ ] show v in log
+* [x] show v in log
 	+ [x] make `Data.Log`
 	+ [x] define `Log s v`
 		- [x] `newtype Log s v = Log [[Either s v]]`
@@ -37,6 +37,7 @@ todo
 * [x] log value of `Exp v 'Boolean`
 	+ [x] in given
 	+ [x] in wanted
+* [ ] try to use in ranged-list
 * [ ] refactor
 
 refactor
@@ -216,7 +217,7 @@ refactor
 				* [x] given
 			- [x] GIVEN VARIABLES
 			- [ ] REMOVE VARIABLE
-				* [ ] rmVar
+				* [x] rmVar
 				* [ ] rmStep
 				* [ ] rmVar1
 				* [ ] unfoldUntil

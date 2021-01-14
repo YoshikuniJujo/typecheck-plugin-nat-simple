@@ -72,8 +72,8 @@ gvnVars = nub . sort . concat . (vars <$>) . unGivens
 -- REMOVE VARIABLE
 
 rmVar :: Ord v => Maybe v -> Givens v -> Givens v
-rmVar v (Givens g) = Givens . sort . concat . uncurry (:)
-	. second (unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
+rmVar v (Givens gs) = Givens . sort . concat . uncurry (:)
+	. second (unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) gs
 
 rvStep :: Ord v => Maybe v -> [Constraint v] -> ([Constraint v], [Constraint v])
 rvStep _ [] = ([], [])
