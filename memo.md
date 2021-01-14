@@ -38,7 +38,17 @@ todo
 	+ [x] in given
 	+ [x] in wanted
 * [x] try to use in ranged-list
-* [ ] refactor
+* [x] refactor
+* [ ] make samples
+	+ [ ] try to add sample/foo.txt
+	+ [ ] samples using Proxy
+	+ [ ] remove sample/foo.txt
+	+ [ ] simplified Range samples
+	+ [ ] samples which is part of fingertree
+	+ [ ] others
+* [ ] make GitHub README.md
+* [ ] upload to Hackage
+* [ ] register with Stackage
 
 refactor
 --------
@@ -73,7 +83,7 @@ refactor
 	+ [x] Plugin.TypeCheck.Nat.Simple
 	+ [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
-* [ ] unify `Try s s` and `Try w w` and so on
+* [x] unify `Try s s` and `Try w w` and so on
 	+ [x] in haddock
 		- [x] Control.Monad.Try
 		- [x] Data.Log
@@ -83,7 +93,7 @@ refactor
 		- [x] Plugin.TypeCheck.Nat.Simple
 		- [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 		- [x] Plugin.TypeCheck.Nat.Simple.Decode
-	+ [ ] others
+	+ [x] others
 * [x] refactor with hlint
 * [x] refactor Control.Monad.StateT
 	+ [x] export list
@@ -282,10 +292,10 @@ refactor
 		- [x] typeCheckWith
 		- [x] solve
 		- [x] result
-* [ ] refactor Plugin.TypeCheck.Nat.Simple
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] function plugin
+* [x] refactor Plugin.TypeCheck.Nat.Simple
+	+ [x] export list
+	+ [x] import list
+	+ [x] function plugin
 
 module name hierarchy
 ---------------------
