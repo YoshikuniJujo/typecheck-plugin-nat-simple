@@ -26,12 +26,11 @@ typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
-solve :: (Monoid w, Outputable w, IsSDoc w) => String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) ->
+solve :: (Monoid w, Outputable w, IsSDoc w) =>
+	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) ->
 	[Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
-solve hd ck gs ds ws = do
-	let	(rtns, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
-	tcPluginTrace hd $ ppr lgs
-	pure $ TcPluginOk rtns []
+solve hd ck gs ds ws = TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
+	where (rs, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
 
 result :: (Monoid s, IsSDoc e) => String ->
 	([Ct] -> [Ct] -> Ct -> Try e s Bool) ->
@@ -40,4 +39,4 @@ result hd ck gs ds w = unNomEq w >>= \(l, r) ->
 	bool (throw em) (pure (et l r, w)) =<< ck gs ds w
 	where
 	em = fromSDoc $ text "result: type checker: return False"
-	et l r = EvExpr . Coercion $ mkUnivCo (PluginProv hd) Nominal l r
+	et = ((EvExpr . Coercion) .) . mkUnivCo (PluginProv hd) Nominal
