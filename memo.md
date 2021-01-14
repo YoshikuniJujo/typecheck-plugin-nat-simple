@@ -276,9 +276,8 @@ refactor
 	+ [x] import list
 	+ [x] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
 	+ [ ] body
 		- [ ] typeCheckWith
 		- [ ] solve

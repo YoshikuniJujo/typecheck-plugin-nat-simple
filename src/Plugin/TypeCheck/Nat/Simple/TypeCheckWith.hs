@@ -5,18 +5,17 @@ module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (
 	-- * TYPE CHECK WITH
 	typeCheckWith ) where
 
-import GhcPlugins (Plugin(..), defaultPlugin, Expr(..), mkUnivCo)
+import GhcPlugins (
+	Plugin(..), defaultPlugin, Expr(..), mkUnivCo, Role(..),
+	Outputable, ppr, text )
 import TcPluginM (TcPluginM, tcPluginTrace)
 import TcRnTypes (TcPlugin(..), Ct, TcPluginResult(..))
-import TcEvidence (EvTerm(..), Role(..))
+import TcEvidence (EvTerm(..))
 import TyCoRep (UnivCoProvenance(..))
 import Control.Monad.Try (Try, gatherSuccess, throw)
 import Data.Bool (bool)
-
+import Data.Log (IsSDoc, fromSDoc)
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
-
-import Outputable
-import Data.Log
 
 ---------------------------------------------------------------------------
 
