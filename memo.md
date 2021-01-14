@@ -271,11 +271,10 @@ refactor
 		- [x] BOOLEAN AND NUMBER
 			* [x] exBool
 			* [x] exNum
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
+* [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+	+ [x] export list
+	+ [x] import list
+	+ [x] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 	+ [ ] export list
 	+ [ ] import list
