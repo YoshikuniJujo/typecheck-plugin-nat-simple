@@ -6,18 +6,16 @@ module Plugin.TypeCheck.Nat.Simple.Decode (
 	-- * DECODE CT
 	decodeAll, decode ) where
 
-import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon, text, (<+>), ppr)
+import GhcPlugins (Var, promotedFalseDataCon, promotedTrueDataCon, ppr, (<+>), text)
 import TcRnTypes (Ct)
 import TcTypeNats (typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon)
 import TyCoRep (Type(..), TyLit(..))
 import Control.Applicative ((<|>))
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, rights, Set)
+import Data.Log (IsSDoc, fromSDoc)
 import Data.Derivation.Expression (Exp(..), ExpType(..))
-
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
-
-import Data.Log
 
 ---------------------------------------------------------------------------
 

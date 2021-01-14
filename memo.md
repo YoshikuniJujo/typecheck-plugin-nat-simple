@@ -260,9 +260,9 @@ refactor
 			* [x] instance IsString SDocStr
 			* [x] instance IsSDoc SDocStr
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] DECODE
 			* [ ] decodeAll
@@ -274,8 +274,11 @@ refactor
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
 	+ [ ] export list
 	+ [ ] import list
-	+ [ ] rename PluginWith to TypeCheckWith
-	+ [ ] rename pluginWith to typeCheckWith
+	+ [ ] structure
+	+ [ ] body
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [ ] export list
+	+ [ ] import list
 	+ [ ] structure
 	+ [ ] body
 		- [ ] typeCheckWith
