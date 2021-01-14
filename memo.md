@@ -214,7 +214,7 @@ refactor
 			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
 				* [x] newtype Given v
 				* [x] given
-			- [ ] GIVEN VARIABLES
+			- [x] GIVEN VARIABLES
 			- [ ] REMOVE VARIABLE
 				* [ ] rmVar
 				* [ ] rmStep

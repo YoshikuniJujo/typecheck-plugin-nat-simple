@@ -47,7 +47,7 @@ canDerive g = all (canDerive1 g) . unWanted
 
 canDerive1 :: Ord v => Givens v -> Wanted1 v -> Bool
 canDerive1 g w = selfContained w ||
-	any (w `isDerivFrom`) (unGivens . foldl rmVar g $ gvnVars g \\ vars w)
+	any (w `isDerivFrom`) (unGivens . foldr rmVar g $ gvnVars g \\ vars w)
 
 ---------------------------------------------------------------------------
 -- GIVEN
@@ -71,8 +71,8 @@ gvnVars = nub . sort . concat . (vars <$>) . unGivens
 
 -- REMOVE VARIABLE
 
-rmVar :: Ord v => Givens v -> Maybe v -> Givens v
-rmVar (Givens g) v = Givens . sort . concat . uncurry (:)
+rmVar :: Ord v => Maybe v -> Givens v -> Givens v
+rmVar v (Givens g) = Givens . sort . concat . uncurry (:)
 	. second (unfoldUntil null (rvStep v)) $ partition (not . (`has` v)) g
 
 rvStep :: Ord v => Maybe v -> [Constraint v] -> ([Constraint v], [Constraint v])
