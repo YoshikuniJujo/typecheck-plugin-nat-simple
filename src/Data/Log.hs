@@ -41,12 +41,6 @@ newtype Log s v = Log ([[Either s v]] -> [[Either s v]])
 instance Semigroup (Log s v) where Log l <> Log r = Log $ l . r
 instance Monoid (Log s v) where mempty = Log id
 
-instance IsString s => IsString (Log s v) where
-	fromString = Log . (++) . ((: []) . Left . fromString <$>) . lines
-
-instance IsSDoc s => IsSDoc (Log s v) where
-	fromSDoc = Log . (:) . (: []) . Left . fromSDoc
-
 instance (Show s, Show v) => Show (Log s v) where
 	show (Log k) = "(Log (" ++ show (k []) ++ " ++))"
 
@@ -61,6 +55,12 @@ instance (Message s, Show v) => Message (Log s v) where
 
 messageLog1 :: (Message s, Show v) => [Either s v] -> String
 messageLog1 = concatMap (either message show)
+
+instance IsString s => IsString (Log s v) where
+	fromString = Log . (++) . ((: []) . Left . fromString <$>) . lines
+
+instance IsSDoc s => IsSDoc (Log s v) where
+	fromSDoc = Log . (:) . (: []) . Left . fromSDoc
 
 -- FUNCTION
 

@@ -231,8 +231,16 @@ refactor
 	+ [x] structure
 	+ [ ] body
 		- [ ] LOG
-			* [ ] NEWTYPE LOG
+			* [x] NEWTYPE LOG
 			* [ ] INSTANCE
+				+ [x] structure
+				+ [x] Semigroup
+				+ [ ] Monoid
+				+ [ ] Show
+				+ [ ] Outputable
+				+ [ ] Message
+				+ [ ] IsString
+				+ [ ] IsSDoc
 			* [ ] FUNCTION
 			* [ ] CLASS
 		- [ ] SDOC STRING
