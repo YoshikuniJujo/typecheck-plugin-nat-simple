@@ -2,3 +2,6 @@
 *~
 .html/
 .*.swp
+sample/*.hi
+sample/*.o
+sample/plus1minus1

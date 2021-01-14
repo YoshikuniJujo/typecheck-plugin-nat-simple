@@ -40,8 +40,10 @@ todo
 * [x] try to use in ranged-list
 * [x] refactor
 * [ ] make samples
-	+ [ ] try to add sample/foo.txt
+	+ [x] try to add sample/foo.txt
 	+ [ ] samples using Proxy
+		- [x] simple `n + 1 - 1 == n - 1 + 1`
+		- [ ] others
 	+ [ ] remove sample/foo.txt
 	+ [ ] simplified Range samples
 	+ [ ] samples which is part of fingertree
