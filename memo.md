@@ -225,25 +225,40 @@ refactor
 			- [x] newtype Wanted v
 			- [x] type Wanted1 v
 			- [x] wanted
-* [ ] refactor Data.Log
+* [x] refactor Data.Log
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
-		- [ ] LOG
+	+ [x] body
+		- [x] LOG
 			* [x] NEWTYPE LOG
-			* [ ] INSTANCE
+			* [x] INSTANCE
 				+ [x] structure
 				+ [x] Semigroup
-				+ [ ] Monoid
-				+ [ ] Show
-				+ [ ] Outputable
-				+ [ ] Message
-				+ [ ] IsString
-				+ [ ] IsSDoc
-			* [ ] FUNCTION
-			* [ ] CLASS
-		- [ ] SDOC STRING
+				+ [x] Monoid
+				+ [x] Show
+				+ [x] Outputable
+				+ [x] pprLog1
+				+ [x] Message
+				+ [x] messageLog1
+				+ [x] IsString
+				+ [x] IsSDoc
+			* [x] FUNCTION
+				+ [x] (.+.)
+				+ [x] unwords
+				+ [x] logVar
+			* [x] CLASS
+				+ [x] Loggable
+				+ [x] Message
+		- [x] SDOC STRING
+			* [x] structure
+			* [x] class IsSDoc s
+			* [x] data SDocStr
+			* [x] instance Semigroup SDocStr
+			* [x] instance Monoid SDocStr
+			* [x] instance Outputable SDocStr
+			* [x] instance IsString SDocStr
+			* [x] instance IsSDoc SDocStr
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] export list
 	+ [ ] import list

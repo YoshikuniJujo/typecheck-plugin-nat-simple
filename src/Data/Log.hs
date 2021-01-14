@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, OverloadedStrings #-}
+{-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
@@ -54,7 +54,7 @@ instance (Message s, Show v) => Message (Log s v) where
 	message (Log k) = unlines $ messageLog1 <$> k []
 
 messageLog1 :: (Message s, Show v) => [Either s v] -> String
-messageLog1 = concatMap (either message show)
+messageLog1 = concatMap $ either message show
 
 instance IsString s => IsString (Log s v) where
 	fromString = Log . (++) . ((: []) . Left . fromString <$>) . lines
@@ -67,19 +67,16 @@ instance IsSDoc s => IsSDoc (Log s v) where
 infixr 7 .+.
 
 (.+.) :: Log s v -> Log s v -> Log s v
-Log l .+. Log r = Log $ (l [] %) . r
-	where
-	(%) :: [[a]] -> [[a]] -> [[a]]
+Log l .+. Log r = Log $ (l [] %) . r where
 	[] % yss = yss
 	[xs] % (ys : yss) = (xs ++ ys) : yss
 	(xs : xss) % yss = xs : (xss % yss)
 
+unwords :: IsString s => [Log s v] -> Log s v
+unwords = \case [] -> mempty; ls -> foldr1 (\l -> (l .+.) . (" " .+.)) ls
+
 logVar :: v -> Log s v
 logVar v = Log ([Right v] :)
-
-unwords :: IsString s => [Log s v] -> Log s v
-unwords [] = mempty
-unwords ls = foldr1 (\l r -> l .+. " " .+. r) ls
 
 -- CLASS
 
@@ -91,10 +88,7 @@ class Message s where
 	messageList = unlines . (message <$>)
 
 instance Message s => Message [s] where message = messageList
-
-instance Message Char where
-	message = (: [])
-	messageList = id
+instance Message Char where message = (: []); messageList = id
 
 ---------------------------------------------------------------------------
 -- SDOC STRING
@@ -109,8 +103,6 @@ instance Semigroup SDocStr where
 	SDocStr l <> SDocStr r = SDocStr $ l $$ r
 
 instance Monoid SDocStr where mempty = SDocStrEmpty
+instance Outputable SDocStr where ppr SDocStrEmpty = empty; ppr (SDocStr s) = s
 instance IsString SDocStr where fromString = SDocStr . text
-instance Outputable SDocStr where
-	ppr SDocStrEmpty = empty; ppr (SDocStr s) = s
-
 instance IsSDoc SDocStr where fromSDoc = SDocStr
