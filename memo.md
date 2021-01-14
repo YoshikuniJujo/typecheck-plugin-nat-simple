@@ -43,6 +43,7 @@ todo
 	+ [x] try to add sample/foo.txt
 	+ [ ] samples using Proxy
 		- [x] simple `n + 1 - 1 == n - 1 + 1`
+		- [x] `m + 1 == n + 1 => m == n`
 		- [ ] others
 	+ [x] remove sample/foo.txt
 	+ [ ] simplified Range samples
