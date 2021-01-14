@@ -94,7 +94,8 @@ newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
 type Wanted1 v = Constraint v
 
-wanted :: forall s v . (IsString s, Ord v) => Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
+wanted :: forall s v . (IsString s, Ord v) =>
+	Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
 wanted x = do
 	tell $ "wanted: " .+. (log x :: Log s v)
 	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e
