@@ -21,19 +21,48 @@ import qualified Outputable as O ((<>))
 
 ---------------------------------------------------------------------------
 
--- *
+-- * LOG
+--	+ NEWTYPE LOG
+--	+ INSTANCE
+--	+ FUNCTION
+--	+ CLASS
+-- * SDOC
 
 ---------------------------------------------------------------------------
---
+-- LOG
 ---------------------------------------------------------------------------
+
+-- NEWTYPE LOG
 
 newtype Log s v = Log ([[Either s v]] -> [[Either s v]])
+
+-- INSTANCE
+
 instance Semigroup (Log s v) where Log l <> Log r = Log $ l . r
 instance Monoid (Log s v) where mempty = Log id
+
 instance IsString s => IsString (Log s v) where
 	fromString = Log . (++) . ((: []) . Left . fromString <$>) . lines
+
 instance IsSDoc s => IsSDoc (Log s v) where
 	fromSDoc = Log . (:) . (: []) . Left . fromSDoc
+
+instance (Show s, Show v) => Show (Log s v) where
+	show (Log k) = "(Log (" ++ show (k []) ++ " ++))"
+
+instance (Outputable s, Outputable v) => Outputable (Log s v) where
+	ppr (Log k) = foldr ($$) empty $ pprLog1 <$> k []
+
+pprLog1 :: (Outputable s, Outputable v) => [Either s v] -> SDoc
+pprLog1 = foldr (O.<>) empty . (either ppr ppr <$>)
+
+instance (Message s, Show v) => Message (Log s v) where
+	message (Log k) = unlines $ messageLog1 <$> k []
+
+messageLog1 :: (Message s, Show v) => [Either s v] -> String
+messageLog1 = concatMap (either message show)
+
+-- FUNCTION
 
 infixr 7 .+.
 
@@ -45,9 +74,16 @@ Log l .+. Log r = Log $ (l [] %) . r
 	[xs] % (ys : yss) = (xs ++ ys) : yss
 	(xs : xss) % yss = xs : (xss % yss)
 
+logVar :: v -> Log s v
+logVar v = Log ([Right v] :)
+
 unwords :: IsString s => [Log s v] -> Log s v
 unwords [] = mempty
 unwords ls = foldr1 (\l r -> l .+. " " .+. r) ls
+
+-- CLASS
+
+class Loggable s v a where log :: a -> Log s v
 
 class Message s where
 	message :: s -> String
@@ -60,29 +96,11 @@ instance Message Char where
 	message = (: [])
 	messageList = id
 
-instance (Show s, Show v) => Show (Log s v) where
-	show (Log k) = "(Log (" ++ show (k []) ++ " ++))"
-
-instance (Message s, Show v) => Message (Log s v) where
-	message (Log k) = unlines $ messageLog1 <$> k []
-
-messageLog1 :: (Message s, Show v) => [Either s v] -> String
-messageLog1 = concatMap (either message show)
-
-logVar :: v -> Log s v
-logVar v = Log ([Right v] :)
-
-instance (Outputable s, Outputable v) => Outputable (Log s v) where
-	ppr (Log k) = foldr ($$) empty $ pprLog1 <$> k []
-
-pprLog1 :: (Outputable s, Outputable v) => [Either s v] -> SDoc
-pprLog1 = foldr (O.<>) empty . (either ppr ppr <$>)
-
-class Loggable s v a where log :: a -> Log s v
+---------------------------------------------------------------------------
+-- SDOC STRING
+---------------------------------------------------------------------------
 
 class IsSDoc s where fromSDoc :: SDoc -> s
-
--- SDOC STRING
 
 data SDocStr = SDocStrEmpty | SDocStr SDoc
 

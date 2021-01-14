@@ -228,8 +228,14 @@ refactor
 * [ ] refactor Data.Log
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] LOG
+			* [ ] NEWTYPE LOG
+			* [ ] INSTANCE
+			* [ ] FUNCTION
+			* [ ] CLASS
+		- [ ] SDOC STRING
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] export list
 	+ [ ] import list
