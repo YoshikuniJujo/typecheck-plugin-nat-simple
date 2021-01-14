@@ -17,7 +17,15 @@ import Prelude hiding (unwords, log)
 import Outputable (Outputable, SDoc, empty, ppr, ($$), text)
 import Data.String (IsString(..))
 
-import qualified Outputable as O
+import qualified Outputable as O ((<>))
+
+---------------------------------------------------------------------------
+
+-- *
+
+---------------------------------------------------------------------------
+--
+---------------------------------------------------------------------------
 
 newtype Log s v = Log ([[Either s v]] -> [[Either s v]])
 instance Semigroup (Log s v) where Log l <> Log r = Log $ l . r
@@ -65,7 +73,7 @@ logVar :: v -> Log s v
 logVar v = Log ([Right v] :)
 
 instance (Outputable s, Outputable v) => Outputable (Log s v) where
-	ppr (Log k) = foldr (O.$$) empty $ pprLog1 <$> k []
+	ppr (Log k) = foldr ($$) empty $ pprLog1 <$> k []
 
 pprLog1 :: (Outputable s, Outputable v) => [Either s v] -> SDoc
 pprLog1 = foldr (O.<>) empty . (either ppr ppr <$>)
@@ -85,6 +93,6 @@ instance Semigroup SDocStr where
 instance Monoid SDocStr where mempty = SDocStrEmpty
 instance IsString SDocStr where fromString = SDocStr . text
 instance Outputable SDocStr where
-	ppr SDocStrEmpty = O.empty; ppr (SDocStr s) = s
+	ppr SDocStrEmpty = empty; ppr (SDocStr s) = s
 
 instance IsSDoc SDocStr where fromSDoc = SDocStr

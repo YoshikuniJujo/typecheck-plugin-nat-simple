@@ -37,7 +37,7 @@ todo
 * [x] log value of `Exp v 'Boolean`
 	+ [x] in given
 	+ [x] in wanted
-* [ ] try to use in ranged-list
+* [x] try to use in ranged-list
 * [ ] refactor
 
 refactor
@@ -226,6 +226,10 @@ refactor
 			- [x] type Wanted1 v
 			- [x] wanted
 * [ ] refactor Data.Log
+	+ [x] export list
+	+ [x] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [ ] export list
 	+ [ ] import list
