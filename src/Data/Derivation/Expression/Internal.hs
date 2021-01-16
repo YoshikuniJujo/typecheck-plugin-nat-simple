@@ -6,20 +6,22 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Expression.Internal (
-	Exp(..), ExpType(..), constraint, varBool ) where
+	Exp(..), ExpType(..), constraint, varBool, constraintToExp ) where
 
 import Prelude hiding ((<>), log)
 
 import Outputable (Outputable(..), SDoc, (<>), (<+>), text)
 import Control.Arrow (first, second)
 import Control.Monad.Try (Try, throw, tell, partial)
-import Data.Map.Strict (Map, (!?), empty, singleton, insert)
+import Data.Map.Strict (Map, (!?), empty, singleton, insert, toList)
 import Data.Maybe (fromJust)
 import Data.List (find)
 import Data.String (IsString, fromString)
 import Data.Log (Log, (.+.), logVar, Loggable(..))
 import Data.Derivation.Constraint (
-	Constraint, equal, greatEqualThan, greatThan, Poly, (.+), (.-) )
+	Constraint, equal, greatEqualThan, greatThan, Poly, (.+), (.-), getPoly )
+
+import Data.Function
 
 ---------------------------------------------------------------------------
 
@@ -107,6 +109,28 @@ procEq _ e@(l :== r) True = case (l, r) of
 	_ -> throw $ "procEq: can't interpret: " .+. log e .+. " == True"
 procEq _ e@(_ :== _) False =
 	throw $ "procEq: can't interpret: " .+. log e .+. " == False"
+
+-- FOO
+
+constraintToExp :: Constraint v -> Exp v 'Boolean
+constraintToExp c = case getPoly c of
+	Left p -> polyToExp (toList p) :== Const 0
+	Right p -> Const 0 :<= polyToExp (toList p)
+
+polyToExp :: [(Maybe v, Integer)] -> Exp v 'Number
+polyToExp [] = Const 0
+polyToExp ((Nothing, n) : vs) = foldl (&) (Const n) $ polyToExp1 <$> vs
+polyToExp va@((Just v, n) : vs)
+	| n == 0 = foldl (&) (Const 0) $ polyToExp1 <$> vs
+	| n < 0 = foldl (&) (Const 0) $ polyToExp1 <$> va
+	| otherwise = foldl (&) (foldl1 (:+) (replicate (fromIntegral n) (Var v))) $ polyToExp1 <$> vs
+
+polyToExp1 :: (Maybe v, Integer) -> (Exp v 'Number -> Exp v 'Number)
+polyToExp1 (Nothing, n) = (:+ Const n)
+polyToExp1 (Just v, n)
+	| n == 0 = id
+	| n < 0 = (:- (foldl1 (:+) (replicate (fromIntegral n) (Var v))))
+	| otherwise = (:+ foldl1 (:+) (replicate (fromIntegral n) (Var v)))
 
 ---------------------------------------------------------------------------
 -- POLYNOMIAL

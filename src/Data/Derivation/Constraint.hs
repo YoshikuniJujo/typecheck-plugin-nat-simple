@@ -5,7 +5,8 @@
 module Data.Derivation.Constraint (
 	Constraint, equal, greatEqualThan, greatThan, vars, has,
 	isDerivFrom, positives, selfContained, eliminate,
-	Poly, (.+), (.-) ) where
+	Poly, (.+), (.-),
+	getPoly ) where
 
 import Prelude hiding (null, filter)
 
@@ -39,6 +40,10 @@ import Data.Log
 -- DATA CONSTRAINT
 
 data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
+
+getPoly :: Constraint v -> Either (Poly v) (Poly v)
+getPoly (Eq p) = Left p
+getPoly (Geq p) = Right p
 
 constraint :: (Poly v -> a) -> (Poly v -> a) -> Constraint v -> a
 constraint f g = \case Eq p -> f p; Geq p -> g p
