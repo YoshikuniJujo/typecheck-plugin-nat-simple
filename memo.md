@@ -44,7 +44,9 @@ todo
 	+ [x] make Ct from Constraint
 		- [x] make Ct from Exp
 		- [x] make Exp from Constraint
-	+ [ ] function `canDerive` return cannot-derived Constraint
+	+ [x] function `canDerive` return cannot-derived Constraint
+	+ [ ] separate module `Data.Result` from `Data.Derivation.CanDerive`
+	+ [ ] function `typeCheckWith` use (Result [Ct])
 	+ [ ] add to more wanted
 	+ [ ] test with `n - 1 + 1 ~ n + 1 - 1`
 	+ [ ] others

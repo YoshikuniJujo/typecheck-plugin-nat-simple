@@ -10,7 +10,10 @@ module Data.Derivation.CanDerive (
 	-- * GIVEN
 	Givens, givens,
 	-- * WANTED
-	Wanted, wanted ) where
+	Wanted, wanted,
+	-- * OTHERS
+	Result(..), isOk
+	) where
 
 import Prelude hiding (unwords, log)
 
@@ -42,17 +45,31 @@ import Data.Derivation.Expression.Internal (
 -- CAN DERIVE
 ---------------------------------------------------------------------------
 
-canDerive :: (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted v -> Try e (Log s v) Bool
+canDerive :: (IsString s, Set (Log s v) (Log s v), Ord v) =>
+	Givens v -> Wanted v -> Try e (Log s v) (Result [Wanted1 v])
 canDerive g = allM (canDerive1 g) . unWanted
 
-allM :: Monad m => (a -> m Bool) -> [a] -> m Bool
-p `allM` xs = and <$> p `mapM` xs
+allM :: Monad m => (a -> m (Result b)) -> [a] -> m (Result [b])
+p `allM` xs = resultAnd <$> p `mapM` xs
 
-canDerive1 :: forall s v e . (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) Bool
+resultAnd :: [Result a] -> Result [a]
+resultAnd [] = Ok
+resultAnd (Ok : rs) = resultAnd rs
+resultAnd (Err x : rs) = case resultAnd rs of
+	Ok -> Err [x]
+	Err xs -> Err $ x : xs
+
+data Result a = Ok | Err a deriving Show
+
+isOk :: Result a -> Bool
+isOk Ok = True
+isOk (Err _) = False
+
+canDerive1 :: forall s v e . (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) (Result (Wanted1 v))
 canDerive1 g w = do
 	if s then tell $ "canDerive1: " .+. (log w :: Log s v) .+. " is self-contained" else
 		tell $ "canDerive1: " .+. (log w :: Log s v) .+. " can" .+. (if d then "" else "not" ) .+. " be derive from"
-	pure $ s || d
+	pure if s || d then Ok else Err w
 	where
 	s = selfContained w
 	d = any (w `isDerivFrom`) (unGivens . foldr rmVar g $ gvnVars g \\ vars w)
