@@ -39,6 +39,12 @@ todo
 	+ [x] in wanted
 * [x] try to use in ranged-list
 * [x] refactor
+* [x] add log to canDerive
+* [ ] try to add to more wanted
+	+ [ ] make CT from Constraint
+	+ [ ] add to more wanted
+	+ [ ] test with `n - 1 + 1 ~ n + 1 - 1`
+	+ [ ] others
 * [ ] make samples
 	+ [x] try to add sample/foo.txt
 	+ [ ] samples using Proxy
@@ -52,6 +58,7 @@ todo
 * [ ] make GitHub README.md
 * [ ] upload to Hackage
 * [ ] register with Stackage
+* [ ] refactor
 
 refactor
 --------

@@ -29,4 +29,4 @@ plugin :: Plugin
 plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	tell @L $ "givens: " .+. fromSDoc (ppr gs)
 	tell @L $ "wanted: " .+. fromSDoc (ppr w)
-	canDerive <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)
+	uncurry canDerive =<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)

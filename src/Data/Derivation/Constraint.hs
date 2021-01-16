@@ -1,4 +1,5 @@
-{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE BlockArguments, LambdaCase, OverloadedStrings #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.Constraint (
@@ -14,6 +15,9 @@ import Data.Map.Strict (Map, null, singleton, (!?), filter, toList, lookupMin)
 import Data.Map.Merge.Strict (
 	merge, preserveMissing, mapMissing,
 	zipWithMatched, zipWithMaybeMatched )
+
+import Data.String
+import Data.Log
 
 ---------------------------------------------------------------------------
 
@@ -38,6 +42,10 @@ data Constraint v = Eq (Poly v) | Geq (Poly v) deriving (Show, Eq, Ord)
 
 constraint :: (Poly v -> a) -> (Poly v -> a) -> Constraint v -> a
 constraint f g = \case Eq p -> f p; Geq p -> g p
+
+instance IsString s => Loggable s v (Constraint v) where
+	log (Eq p) = "(" .+. polyToLog (toList p) .+. " == 0)"
+	log (Geq p) = "(" .+. polyToLog (toList p) .+. " >= 0)"
 
 -- CONSTRUCT
 
@@ -100,6 +108,14 @@ alignGG v l r = (,) <$> l !? v <*> r !? v >>= \(m, s) ->
 -- TYPE POLY
 
 type Poly v = Map (Maybe v) Integer
+
+polyToLog :: IsString s => [(Maybe v, Integer)] -> Log s v
+polyToLog [] = "0"
+polyToLog ps = intersperse " + " $ polyToLog1 <$> ps
+
+polyToLog1 :: IsString s => (Maybe v, Integer) -> Log s v
+polyToLog1 (Nothing, n) = fromString $ show n
+polyToLog1 (Just v, n) = fromString (show n ++ " * ") .+. logVar v
 
 -- CONSTRUCT
 
