@@ -41,7 +41,9 @@ todo
 * [x] refactor
 * [x] add log to canDerive
 * [ ] try to add to more wanted
-	+ [ ] make CT from Constraint
+	+ [ ] make Ct from Constraint
+		- [ ] make Ct from Exp
+		- [ ] make Exp from Constraint
 	+ [ ] add to more wanted
 	+ [ ] test with `n - 1 + 1 ~ n + 1 - 1`
 	+ [ ] others
