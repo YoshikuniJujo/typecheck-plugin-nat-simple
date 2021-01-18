@@ -32,6 +32,8 @@ import Data.Derivation.Constraint (
 import Data.Derivation.Expression.Internal (
 	Exp, ExpType(..), constraint, varBool )
 
+import Data.Result
+
 ---------------------------------------------------------------------------
 
 -- * CAN DERIVE
@@ -51,19 +53,6 @@ canDerive g = allM (canDerive1 g) . unWanted
 
 allM :: Monad m => (a -> m (Result b)) -> [a] -> m (Result [b])
 p `allM` xs = resultAnd <$> p `mapM` xs
-
-resultAnd :: [Result a] -> Result [a]
-resultAnd [] = Ok
-resultAnd (Ok : rs) = resultAnd rs
-resultAnd (Err x : rs) = case resultAnd rs of
-	Ok -> Err [x]
-	Err xs -> Err $ x : xs
-
-data Result a = Ok | Err a deriving Show
-
-isOk :: Result a -> Bool
-isOk Ok = True
-isOk (Err _) = False
 
 canDerive1 :: forall s v e . (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) (Result (Wanted1 v))
 canDerive1 g w = do

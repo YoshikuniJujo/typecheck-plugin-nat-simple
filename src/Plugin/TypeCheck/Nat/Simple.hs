@@ -15,6 +15,8 @@ import Data.Derivation.CanDerive (canDerive, givens, wanted, isOk)
 import Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith)
 import Plugin.TypeCheck.Nat.Simple.Decode (decode, decodeAll)
 
+import Data.Derivation.Expression.Internal
+
 type L = Log SDocStr Var
 
 -- | > type L = Log SDocStr Var
@@ -29,4 +31,4 @@ plugin :: Plugin
 plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	tell @L $ "givens: " .+. fromSDoc (ppr gs)
 	tell @L $ "wanted: " .+. fromSDoc (ppr w)
-	isOk <$> (uncurry canDerive =<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w))
+	(map constraintToExp <$>) <$> (uncurry canDerive =<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w))
