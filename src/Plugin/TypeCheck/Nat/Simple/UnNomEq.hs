@@ -3,9 +3,9 @@
 
 module Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq) where
 
-import GhcPlugins (
-	Type, PredTree(..), EqRel(..), classifyPredType, ppr, (<+>), text )
 import TcRnTypes (Ct, ctEvidence, ctEvPred)
+import Type (Type, PredTree(..), EqRel(..), classifyPredType)
+import Outputable (ppr, text, (<+>))
 import Control.Monad.Try (Try, throw)
 import Data.Log (IsSDoc, fromSDoc)
 

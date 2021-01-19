@@ -291,22 +291,22 @@ refactor
 			* [x] instance Outputable SDocStr
 			* [x] instance IsString SDocStr
 			* [x] instance IsSDoc SDocStr
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
+* [x] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] DECODE
-			* [ ] decodeAll
-			* [ ] decode
-			* [ ] decodeTs
-		- [ ] BOOLEAN AND NUMBER
-			* [ ] exBool
-			* [ ] exNum
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] body
+	+ [x] structure
+	+ [x] body
+		- [x] DECODE
+			* [x] decodeAll
+			* [x] decode
+			* [x] decodeTs
+		- [x] BOOLEAN AND NUMBER
+			* [x] exBool
+			* [x] exNum
+* [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+	+ [x] export list
+	+ [x] import list
+	+ [x] body
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 	+ [ ] export list
 	+ [ ] import list
