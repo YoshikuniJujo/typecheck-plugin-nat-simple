@@ -48,12 +48,13 @@ todo
 * [ ] make samples
 	+ [x] try to add sample/foo.txt
 	+ [ ] samples using Proxy
-		- [x] simple `n + 1 - 1 == n - 1 + 1`
+		- [x] simple `n + 1 - 1 == n`
 		- [x] `m + 1 == n + 1 => m == n`
+		- [x] sample `n - 1 + 1 == n`
 		- [ ] others
 	+ [x] remove sample/foo.txt
-	+ [ ] simplified Range samples
-	+ [ ] samples which is part of fingertree
+	+ [ ] add no typecheck sample
+		- [ ] sample `n - 1 + 1 == n`
 	+ [ ] others
 * [ ] make GitHub README.md
 * [ ] upload to Hackage
