@@ -198,23 +198,26 @@ refactor
 * [ ] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
-	* [ ] structure
+	* [x] structure
 	* [ ] body
-		+ [ ] CONSTRAINT
-			- [ ] DATA CONSTRAINT
-			- [ ] CONSTRUCT
-			- [ ] READ
-				* [ ] vars
-				* [ ] hasVar
-				* [ ] selfContained
-				* [ ] isDerivFrom
-			- [ ] CONVERT
-				* [ ] positives
-				* [ ] eliminate
-				* [ ] type Aligned
-				* [ ] alignEE
-				* [ ] alignEG
-				* [ ] alignGG
+		+ [x] CONSTRAINT
+			- [x] DATA CONSTRAINT
+				* [x] data Constraint v
+				* [x] constraint
+				* [x] instance Loggable s v (Constraint v)
+			- [x] CONSTRUCT
+			- [x] READ
+				* [x] vars
+				* [x] has
+				* [x] selfContained
+				* [x] isDerivFrom
+			- [x] CONVERT
+				* [x] positives
+				* [x] eliminate
+				* [x] type Aligned
+				* [x] alignEE
+				* [x] alignEG
+				* [x] alignGG
 		+ [ ] POLYNOMIAL
 			- [ ] TYPE POLY
 			- [ ] CONSTRUCT

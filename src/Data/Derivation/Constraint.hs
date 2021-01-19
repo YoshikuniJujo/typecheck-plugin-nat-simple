@@ -43,8 +43,9 @@ constraint :: (Poly v -> a) -> (Poly v -> a) -> Constraint v -> a
 constraint f g = \case Eq p -> f p; Geq p -> g p
 
 instance IsString s => Loggable s v (Constraint v) where
-	log (Eq p) = "(" .+. polyToLog (toList p) .+. " == 0)"
-	log (Geq p) = "(" .+. polyToLog (toList p) .+. " >= 0)"
+	log = constraint
+		(\p -> "(" .+. polyToLog (toList p) .+. " == 0)")
+		(\p -> "(" .+. polyToLog (toList p) .+. " >= 0)")
 
 -- CONSTRUCT
 
@@ -66,7 +67,7 @@ has :: Ord v => Constraint v -> Maybe v -> Bool
 has = constraint (\p -> isJust . (p !?)) (\p -> isJust . (p !?))
 
 selfContained :: Constraint v -> Bool
-selfContained = constraint null $ and . ((>= 0) <$>)
+selfContained = constraint null $ all (>= 0)
 
 isDerivFrom :: Ord v => Constraint v -> Constraint v -> Bool
 Eq w `isDerivFrom` Eq g = w == g
