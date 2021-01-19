@@ -256,8 +256,8 @@ refactor
 			- [x] instance Loggable s v (Wanted v)
 			- [x] wanted
 * [ ] refactor Data.Log
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 		- [ ] LOG
