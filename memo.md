@@ -258,31 +258,30 @@ refactor
 * [ ] refactor Data.Log
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
-		- [ ] LOG
-			* [ ] NEWTYPE LOG
-			* [ ] INSTANCE
-				+ [ ] structure
-				+ [ ] Semigroup
-				+ [ ] Monoid
-				+ [ ] Show
-				+ [ ] Outputable
-				+ [ ] pprLog1
-				+ [ ] Message
-				+ [ ] messageLog1
-				+ [ ] IsString
-				+ [ ] IsSDoc
-			* [ ] FUNCTION
-				+ [ ] (.+.)
-				+ [ ] intersperse
-				+ [ ] unwords
-					- [ ] consider to use intersperse
-					- [ ] others
-				+ [ ] logVar
-			* [ ] CLASS
-				+ [ ] Loggable
-				+ [ ] Message
+		- [x] LOG
+			* [x] NEWTYPE LOG
+			* [x] INSTANCE
+				+ [x] structure
+				+ [x] Semigroup
+				+ [x] Monoid
+				+ [x] Show
+				+ [x] Outputable
+				+ [x] pprLog1
+				+ [x] Message
+				+ [x] messageLog1
+				+ [x] IsString
+				+ [x] IsSDoc
+			* [x] FUNCTION
+				+ [x] logVar
+				+ [x] (.+.)
+				+ [x] intersperse
+				+ [x] unwords
+					- [x] consider to use intersperse
+			* [x] CLASS
+				+ [x] Loggable
+				+ [x] Message
 		- [ ] SDOC STRING
 			* [ ] structure
 			* [ ] class IsSDoc s

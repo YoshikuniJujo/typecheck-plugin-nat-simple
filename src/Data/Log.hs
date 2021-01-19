@@ -79,7 +79,7 @@ intersperse :: Log s v -> [Log s v] -> Log s v
 intersperse s = \case [] -> mempty; ls -> foldr1 (\l -> (l .+.) . (s .+.)) ls
 
 unwords :: IsString s => [Log s v] -> Log s v
-unwords = \case [] -> mempty; ls -> foldr1 (\l -> (l .+.) . (" " .+.)) ls
+unwords = intersperse " "
 
 -- CLASS
 
