@@ -230,30 +230,31 @@ refactor
 				* [x] reduce
 				* [x] mul
 				* [x] divide
-* [ ] refactor Data.Derivation.CanDerive
+* [x] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
 	* [x] structure
-	* [ ] body
+	* [x] body
 		+ [x] CAN DERIVE
 			- [x] canDerive
 			- [x] allM
 			- [x] canDerive1
-		+ [ ] GIVENS
-			- [ ] NEWTYPE GIVENS AND CONSTRUCTOR
-				* [ ] newtype Givens v
-				* [ ] instance Loggable s v (Givens v)
-				* [ ] givens
-			- [ ] GIVENS VARIABLES
-			- [ ] REMOVE VARIABLE
-				* [ ] rmVar
-				* [ ] rmStep
-				* [ ] rmVar1
-				* [ ] unfoldUntil
-		+ [ ] WANTED
-			- [ ] newtype Wanted v
-			- [ ] type Wanted1 v
-			- [ ] wanted
+		+ [x] GIVENS
+			- [x] NEWTYPE GIVENS AND CONSTRUCTOR
+				* [x] newtype Givens v
+				* [x] instance Loggable s v (Givens v)
+				* [x] givens
+			- [x] GIVENS VARIABLES
+			- [x] REMOVE VARIABLE
+				* [x] rmVar
+				* [x] rmStep
+				* [x] rmVar1
+				* [x] unfoldUntil
+		+ [x] WANTED
+			- [x] newtype Wanted v
+			- [x] type Wanted1 v
+			- [x] instance Loggable s v (Wanted v)
+			- [x] wanted
 * [ ] refactor Data.Log
 	+ [ ] export list
 	+ [ ] import list

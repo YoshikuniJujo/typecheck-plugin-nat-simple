@@ -1,5 +1,5 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
-{-# LANGUAGE ScopedTypeVariables, MonoLocalBinds #-}
+{-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
@@ -51,12 +51,13 @@ p `allM` xs = and <$> p `mapM` xs
 canDerive1 :: forall s v e .
 	(IsString s, Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) Bool
 canDerive1 g w = (s || d) <$ if s
-	then tell $ ttl .+. lw .+. " is self-contained"
-	else tell $ ttl .+. lw .+. " can" .+. nt .+. " be derived from"
+	then t $ ttl .+. lw .+. " is self-contained"
+	else t $ ttl .+. lw .+. " can" .+. nt .+. " be derived from"
 	where
 	s = selfContained w
 	d = any (w `isDerivFrom`) . unGivens . foldr rmVar g $ gVars g \\ vars w
-	ttl = "canDerive1: "; lw = log w :: Log s v; nt = bool "not" "" d
+	t = tell @(Log s v)
+	ttl = "canDerive1: "; lw = log w; nt = bool "not" "" d
 
 ---------------------------------------------------------------------------
 -- GIVENS
@@ -71,12 +72,12 @@ instance IsString s => Loggable s v (Givens v) where
 
 givens :: forall s v . (IsString s, Ord v) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Givens v)
-givens es = do
-	tell $ "givens :: [Exp v 'Boolean]: " .+. unwords (log <$> es :: [Log s v])
+givens gs = do
+	t $ "givens ([Exp v 'Boolean]): " .+. unwords (log <$> gs)
 	gs' <- Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
-		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
-	tell $ "givens :: Givens v: " .+. (log gs' :: Log s v)
-	pure gs'
+		<$> (uncurry cons <=< constraint (varBool gs)) `mapM` gs
+	gs' <$ t ("givens (Givens v): " .+. log gs')
+	where t = tell @(Log s v)
 
 -- GIVENS VARIABLES
 
@@ -106,16 +107,16 @@ unfoldUntil p f = unfoldr $ flip bool Nothing <$> Just . f <*> p
 
 newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
+type Wanted1 v = Constraint v
+
 instance IsString s => Loggable s v (Wanted v) where
 	log (Wanted cs) = "(Wanted [" .+. intersperse ", " (log <$> cs) .+. "])"
 
-type Wanted1 v = Constraint v
-
 wanted :: forall s v . (IsString s, Ord v) =>
 	Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
-wanted x = do
-	tell $ "wanted :: Exp v 'Boolean: " .+. (log x :: Log s v)
-	(e, s) <- constraint empty x
+wanted w = do
+	t $ "wanted (Exp v 'Boolean): " .+. log w
+	(e, s) <- constraint empty w
 	w' <- either throw (pure . Wanted . (: s)) e
-	tell $ "wanted :: Wanted v" .+. (log w' :: Log s v)
-	pure w'
+	w' <$ t ("wanted (Wanted v): " .+. log w')
+	where t = tell @(Log s v)
