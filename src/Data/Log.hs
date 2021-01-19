@@ -6,7 +6,7 @@
 module Data.Log (
 	-- * LOG
 	-- ** DATA LOG
-	Log, (.+.), intersperse, unwords, logVar,
+	Log, logVar, (.+.), intersperse, unwords,
 	-- ** CLASS
 	Loggable(..), Message(..),
 	-- * SDOC
@@ -64,6 +64,9 @@ instance IsSDoc s => IsSDoc (Log s v) where
 
 -- FUNCTION
 
+logVar :: v -> Log s v
+logVar v = Log ([Right v] :)
+
 infixr 7 .+.
 
 (.+.) :: Log s v -> Log s v -> Log s v
@@ -77,9 +80,6 @@ intersperse s = \case [] -> mempty; ls -> foldr1 (\l -> (l .+.) . (s .+.)) ls
 
 unwords :: IsString s => [Log s v] -> Log s v
 unwords = \case [] -> mempty; ls -> foldr1 (\l -> (l .+.) . (" " .+.)) ls
-
-logVar :: v -> Log s v
-logVar v = Log ([Right v] :)
 
 -- CLASS
 

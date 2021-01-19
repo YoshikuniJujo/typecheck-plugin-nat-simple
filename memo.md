@@ -40,11 +40,7 @@ todo
 * [x] try to use in ranged-list
 * [x] refactor
 * [x] add log to canDerive
-* [ ] try to add to more wanted
-	+ [ ] make CT from Constraint
-	+ [ ] add to more wanted
-	+ [ ] test with `n - 1 + 1 ~ n + 1 - 1`
-	+ [ ] others
+* [ ] refactor
 * [ ] make samples
 	+ [x] try to add sample/foo.txt
 	+ [ ] samples using Proxy
@@ -63,9 +59,7 @@ todo
 refactor
 --------
 
-* [x] check module name hierarchy
-* [x] consider move module Data.Log
-* [x] refactor haddock
+* [ ] refactor haddock
 	+ [x] Control.Monad.Try
 		- [x] structure
 		- [x] DATA TRY
@@ -74,67 +68,57 @@ refactor
 		- [x] WRITE AND GET LOG
 		- [x] TOOL
 	+ [x] Data.Log
-		- [x] make export list
 		- [x] structure
 		- [x] LOG
 			* [x] DATA LOG
 				+ [x] data Log s v
-				+ [x] (.+.)
 				+ [x] logVar
+				+ [x] (.+.)
+				+ [x] intersperse
+				+ [x] unwords
 			* [x] CLASS
 				+ [x] class Loggable s v a
 				+ [x] class Message
 		- [x] SDOC
 			* [x] IsSDoc
 			* [x] SDocStr
-	+ [x] Data.Derivation.Expression
-	+ [x] Data.Derivation.Parse
-	+ [x] Data.Derivation.CanDerive
-	+ [x] Plugin.TypeCheck.Nat.Simple
-	+ [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
-* [x] unify `Try s s` and `Try w w` and so on
-	+ [x] in haddock
-		- [x] Control.Monad.Try
-		- [x] Data.Log
-		- [x] Data.Derivation.Expression
-		- [x] Data.Derivation.Parse
-		- [x] Data.Derivation.CanDerive
-		- [x] Plugin.TypeCheck.Nat.Simple
-		- [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-		- [x] Plugin.TypeCheck.Nat.Simple.Decode
-	+ [x] others
-* [x] refactor with hlint
-* [x] refactor Control.Monad.StateT
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] NEWTYPE STATE T
-		- [x] INSTANCE
-			* [x] FUNCTOR
-			* [x] APPLICATIVE AND ALTERNATIVE
-			* [x] MONAD AND MONAD PLUS
-* [x] refactor Control.Monad.Try
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] DATA TRY
-			* [x] DATA
-			* [x] INSTANCE
-				+ [x] Functor
-				+ [x] Applicative
-				+ [x] Alternative
-				+ [x] Monad
-				+ [x] MonadPlus
-		- [x] RUN TRY
-		- [x] THROW AND CATCH ERROR
-			* [x] throw
-			* [x] catch
-			* [x] rights
-		- [x] WRITE AND GET LOG
-		- [x] TOOL
+	+ [ ] Data.Derivation.Expression
+	+ [ ] Data.Derivation.Parse
+	+ [ ] Data.Derivation.CanDerive
+	+ [ ] Plugin.TypeCheck.Nat.Simple
+	+ [ ] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
+* [ ] refactor with hlint
+* [ ] refactor Control.Monad.StateT
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] NEWTYPE STATE T
+		- [ ] INSTANCE
+			* [ ] FUNCTOR
+			* [ ] APPLICATIVE AND ALTERNATIVE
+			* [ ] MONAD AND MONAD PLUS
+* [ ] refactor Control.Monad.Try
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DATA TRY
+			* [ ] DATA
+			* [ ] INSTANCE
+				+ [ ] Functor
+				+ [ ] Applicative
+				+ [ ] Alternative
+				+ [ ] Monad
+				+ [ ] MonadPlus
+		- [ ] RUN TRY
+		- [ ] THROW AND CATCH ERROR
+			* [ ] throw
+			* [ ] catch
+			* [ ] rights
+		- [ ] WRITE AND GET LOG
+		- [ ] TOOL
 * [x] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
@@ -245,40 +229,43 @@ refactor
 			- [x] newtype Wanted v
 			- [x] type Wanted1 v
 			- [x] wanted
-* [x] refactor Data.Log
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] LOG
-			* [x] NEWTYPE LOG
-			* [x] INSTANCE
-				+ [x] structure
-				+ [x] Semigroup
-				+ [x] Monoid
-				+ [x] Show
-				+ [x] Outputable
-				+ [x] pprLog1
-				+ [x] Message
-				+ [x] messageLog1
-				+ [x] IsString
-				+ [x] IsSDoc
-			* [x] FUNCTION
-				+ [x] (.+.)
-				+ [x] unwords
-				+ [x] logVar
-			* [x] CLASS
-				+ [x] Loggable
-				+ [x] Message
-		- [x] SDOC STRING
-			* [x] structure
-			* [x] class IsSDoc s
-			* [x] data SDocStr
-			* [x] instance Semigroup SDocStr
-			* [x] instance Monoid SDocStr
-			* [x] instance Outputable SDocStr
-			* [x] instance IsString SDocStr
-			* [x] instance IsSDoc SDocStr
+* [ ] refactor Data.Log
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] LOG
+			* [ ] NEWTYPE LOG
+			* [ ] INSTANCE
+				+ [ ] structure
+				+ [ ] Semigroup
+				+ [ ] Monoid
+				+ [ ] Show
+				+ [ ] Outputable
+				+ [ ] pprLog1
+				+ [ ] Message
+				+ [ ] messageLog1
+				+ [ ] IsString
+				+ [ ] IsSDoc
+			* [ ] FUNCTION
+				+ [ ] (.+.)
+				+ [ ] intersperse
+				+ [ ] unwords
+					- [ ] consider to use intersperse
+					- [ ] others
+				+ [ ] logVar
+			* [ ] CLASS
+				+ [ ] Loggable
+				+ [ ] Message
+		- [ ] SDOC STRING
+			* [ ] structure
+			* [ ] class IsSDoc s
+			* [ ] data SDocStr
+			* [ ] instance Semigroup SDocStr
+			* [ ] instance Monoid SDocStr
+			* [ ] instance Outputable SDocStr
+			* [ ] instance IsString SDocStr
+			* [ ] instance IsSDoc SDocStr
 * [x] refactor Plugin.TypeCheck.Nat.Simple.Decode
 	+ [x] export list
 	+ [x] import list
