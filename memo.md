@@ -233,16 +233,18 @@ refactor
 * [ ] refactor Data.Derivation.CanDerive
 	* [x] export list
 	* [x] import list
-	* [ ] structure
+	* [x] structure
 	* [ ] body
 		+ [ ] CAN DERIVE
 			- [ ] canDerive
+			- [ ] allM
 			- [ ] canDerive1
-		+ [ ] GIVEN
-			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
-				* [ ] newtype Given v
-				* [ ] given
-			- [ ] GIVEN VARIABLES
+		+ [ ] GIVENS
+			- [ ] NEWTYPE GIVENS AND CONSTRUCTOR
+				* [ ] newtype Givens v
+				* [ ] instance Loggable s v (Givens v)
+				* [ ] givens
+			- [ ] GIVENS VARIABLES
 			- [ ] REMOVE VARIABLE
 				* [ ] rmVar
 				* [ ] rmStep

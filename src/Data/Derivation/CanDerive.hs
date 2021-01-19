@@ -32,9 +32,9 @@ import Data.Derivation.Expression.Internal (
 ---------------------------------------------------------------------------
 
 -- * CAN DERIVE
--- * GIVEN
---	+ NEWTYPE GIVEN AND CONSTRUCTOR
---	+ GIVEN VARIABLES
+-- * GIVENS
+--	+ NEWTYPE GIVENS AND CONSTRUCTOR
+--	+ GIVENS VARIABLES
 --	+ REMOVE VARIABLE
 -- * WANTED
 
@@ -58,10 +58,10 @@ canDerive1 g w = do
 	d = any (w `isDerivFrom`) (unGivens . foldr rmVar g $ gvnVars g \\ vars w)
 
 ---------------------------------------------------------------------------
--- GIVEN
+-- GIVENS
 ---------------------------------------------------------------------------
 
--- NEWTYPE GIVEN AND CONSTRUCTOR
+-- NEWTYPE GIVENS AND CONSTRUCTOR
 
 newtype Givens v = Givens { unGivens :: [Constraint v] } deriving Show
 
@@ -77,7 +77,7 @@ givens es = do
 	tell $ "givens :: Givens v: " .+. (log gs' :: Log s v)
 	pure gs'
 
--- GIVEN VARIABLES
+-- GIVENS VARIABLES
 
 gvnVars :: Ord v => Givens v -> [Maybe v]
 gvnVars = nub . sort . concat . (vars <$>) . unGivens
