@@ -90,11 +90,11 @@ refactor
 		- [x] data Exp
 		- [x] data ExpType
 	+ [x] Data.Derivation.Parse
-	+ [ ] Data.Derivation.CanDerive
+	+ [x] Data.Derivation.CanDerive
 		- [x] CAN DERIVE
 		- [x] GIVENS
-		- [ ] WANTED
-	+ [ ] Plugin.TypeCheck.Nat.Simple
+		- [x] WANTED
+	+ [x] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
 * [ ] refactor with hlint
