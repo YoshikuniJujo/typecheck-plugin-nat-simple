@@ -39,8 +39,7 @@ import Data.Derivation.Constraint (
 -- DATA
 
 data Exp v t where
-	Bool :: Bool -> Exp v 'Boolean
-	Var :: v -> Exp v t
+	Bool :: Bool -> Exp v 'Boolean; Var :: v -> Exp v t
 	Const :: Integer -> Exp v 'Number
 	(:==) :: Exp v t -> Exp v t -> Exp v 'Boolean
 	(:<=) :: Exp v 'Number -> Exp v 'Number -> Exp v 'Boolean
