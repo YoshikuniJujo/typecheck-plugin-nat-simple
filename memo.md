@@ -149,20 +149,20 @@ refactor
 				+ [x] pprOp
 				+ [x] instance Loggable s v (Exp v t)
 				+ [x] logOp
-		- [ ] CONSTRAINT
-			* [ ] CONSTRAINT
-			* [ ] PROCESS EQUATION
-				+ [ ] type declaration
-				+ [ ] Bool _
-				+ [ ] Var _
-				+ [ ] (_ :<= _) False
-				+ [ ] (_ :<= _) True
-				+ [ ] (_ :== Bool _)
-				+ [ ] (Bool _ :== _)
-				+ [ ] (_ :== Var _)
-				+ [ ] (Var _ :== _)
-				+ [ ] (_ :== _) True
-				+ [ ] (_ :== _) False
+		- [x] CONSTRAINT
+			* [x] CONSTRAINT
+			* [x] PROCESS EQUATION
+				+ [x] type declaration
+				+ [x] Bool _
+				+ [x] Var _
+				+ [x] (_ :<= _) False
+				+ [x] (_ :<= _) True
+				+ [x] (_ :== Bool _)
+				+ [x] (Bool _ :== _)
+				+ [x] (_ :== Var _)
+				+ [x] (Var _ :== _)
+				+ [x] (_ :== _) True
+				+ [x] (_ :== _) False
 		- [ ] POLYNOMIAL
 		- [ ] MAP FROM VARIABLE TO BOOL
 			* [ ] type VarBool v

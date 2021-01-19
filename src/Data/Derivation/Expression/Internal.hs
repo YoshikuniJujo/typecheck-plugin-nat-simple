@@ -81,14 +81,14 @@ logOp op l r = fromString "(" .+.
 
 -- CONSTRAINT
 
-constraint :: (Monoid w, IsString str, Ord v) => VarBool v -> Exp v 'Boolean ->
-	Try (Log str v) w (Either (Log str v) (Constraint v), [Constraint v])
+constraint :: (Monoid w, IsString s, Ord v) => VarBool v -> Exp v 'Boolean ->
+	Try (Log s v) w (Either (Log s v) (Constraint v), [Constraint v])
 constraint vb ex = partial $ procEq vb ex True
 
 -- PROCCESS EQUATION
 
-procEq :: (Monoid w, IsString str, Ord v) => VarBool v -> Exp v 'Boolean ->
-	Bool -> Try (Log str v) ([Constraint v], w) (Constraint v)
+procEq :: (Monoid w, IsString s, Ord v) => VarBool v -> Exp v 'Boolean ->
+	Bool -> Try (Log s v) ([Constraint v], w) (Constraint v)
 procEq _ b@(Bool _) _ = throw $ "procEq: only Boolean value: " .+. log b
 procEq _ v@(Var _) _ = throw $ "procEq: only Variable: " .+. log v
 procEq _ (l :<= r) False = greatThan <$> poly l <*> poly r
