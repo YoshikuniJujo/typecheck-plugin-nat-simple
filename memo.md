@@ -231,8 +231,8 @@ refactor
 				* [x] mul
 				* [x] divide
 * [ ] refactor Data.Derivation.CanDerive
-	* [ ] export list
-	* [ ] import list
+	* [x] export list
+	* [x] import list
 	* [ ] structure
 	* [ ] body
 		+ [ ] CAN DERIVE
@@ -289,33 +289,33 @@ refactor
 			* [ ] instance Outputable SDocStr
 			* [ ] instance IsString SDocStr
 			* [ ] instance IsSDoc SDocStr
-* [x] refactor Plugin.TypeCheck.Nat.Simple.Decode
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] DECODE
-			* [x] decodeAll
-			* [x] decode
-			* [x] decodeTs
-		- [x] BOOLEAN AND NUMBER
-			* [x] exBool
-			* [x] exNum
-* [x] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
-	+ [x] export list
-	+ [x] import list
-	+ [x] body
-* [x] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-	+ [x] export list
-	+ [x] import list
-	+ [x] body
-		- [x] typeCheckWith
-		- [x] solve
-		- [x] result
-* [x] refactor Plugin.TypeCheck.Nat.Simple
-	+ [x] export list
-	+ [x] import list
-	+ [x] function plugin
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DECODE
+			* [ ] decodeAll
+			* [ ] decode
+			* [ ] decodeTs
+		- [ ] BOOLEAN AND NUMBER
+			* [ ] exBool
+			* [ ] exNum
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.UnNomEq
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] body
+* [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] body
+		- [ ] typeCheckWith
+		- [ ] solve
+		- [ ] result
+* [ ] refactor Plugin.TypeCheck.Nat.Simple
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] function plugin
 
 module name hierarchy
 ---------------------
