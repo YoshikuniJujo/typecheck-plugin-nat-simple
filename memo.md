@@ -40,10 +40,10 @@ todo
 * [x] try to use in ranged-list
 * [x] refactor
 * [x] add log to canDerive
-* [ ] instance Loggable Wanted
-	+ [ ] log wanted creation
-* [ ] instance Loggable Given
-	+ [ ] log givens creation
+* [x] instance Loggable Wanted
++ [x] log wanted creation
+* [x] instance Loggable Given
++ [x] log givens creation
 * [ ] refactor
 * [ ] make samples
 	+ [x] try to add sample/foo.txt

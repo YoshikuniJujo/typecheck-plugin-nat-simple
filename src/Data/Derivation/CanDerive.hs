@@ -1,7 +1,7 @@
 {-# LANGUAGE BlockArguments, OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables, MonoLocalBinds #-}
 {-# LANGUAGE DataKinds #-}
-{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.Derivation.CanDerive (
@@ -22,7 +22,7 @@ import Data.List (unfoldr, (\\), nub, partition, sort)
 import Data.Map.Strict (empty)
 import Data.Bool (bool)
 import Data.String (IsString)
-import Data.Log (Log, (.+.), unwords, log)
+import Data.Log (Log, (.+.), intersperse, unwords, log, Loggable(..))
 import Data.Derivation.Constraint (
 	Constraint,
 	vars, has, isDerivFrom, positives, selfContained, eliminate )
@@ -65,12 +65,17 @@ canDerive1 g w = do
 
 newtype Givens v = Givens { unGivens :: [Constraint v] } deriving Show
 
+instance IsString s => Loggable s v (Givens v) where
+	log (Givens cs) = "(Givens [" .+. intersperse ", " (log <$> cs) .+. "])"
+
 givens :: forall s v . (IsString s, Ord v) =>
 	[Exp v 'Boolean] -> Try (Log s v) (Log s v) (Givens v)
 givens es = do
-	tell $ "givens: " .+. unwords (log <$> es :: [Log s v])
-	Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
+	tell $ "givens :: [Exp v 'Boolean]: " .+. unwords (log <$> es :: [Log s v])
+	gs' <- Givens . nub . sort . ((++) <$> id <*> (positives <$>)) . concat
 		<$> (uncurry cons <=< constraint (varBool es)) `mapM` es
+	tell $ "givens :: Givens v: " .+. (log gs' :: Log s v)
+	pure gs'
 
 -- GIVEN VARIABLES
 
@@ -100,10 +105,16 @@ unfoldUntil p f = unfoldr $ flip bool Nothing <$> Just . f <*> p
 
 newtype Wanted v = Wanted { unWanted :: [Wanted1 v] } deriving Show
 
+instance IsString s => Loggable s v (Wanted v) where
+	log (Wanted cs) = "(Wanted [" .+. intersperse ", " (log <$> cs) .+. "])"
+
 type Wanted1 v = Constraint v
 
 wanted :: forall s v . (IsString s, Ord v) =>
 	Exp v 'Boolean -> Try (Log s v) (Log s v) (Wanted v)
 wanted x = do
-	tell $ "wanted: " .+. (log x :: Log s v)
-	constraint empty x >>= \(e, s) -> either throw (pure . Wanted . (: s)) e
+	tell $ "wanted :: Exp v 'Boolean: " .+. (log x :: Log s v)
+	(e, s) <- constraint empty x
+	w' <- either throw (pure . Wanted . (: s)) e
+	tell $ "wanted :: Wanted v" .+. (log w' :: Log s v)
+	pure w'
