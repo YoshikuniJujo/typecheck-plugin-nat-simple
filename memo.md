@@ -307,13 +307,13 @@ refactor
 	+ [x] export list
 	+ [x] import list
 	+ [x] body
-* [ ] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] body
-		- [ ] typeCheckWith
-		- [ ] solve
-		- [ ] result
+* [x] refactor Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [x] export list
+	+ [x] import list
+	+ [x] body
+		- [x] typeCheckWith
+		- [x] solve
+		- [x] result
 * [ ] refactor Plugin.TypeCheck.Nat.Simple
 	+ [ ] export list
 	+ [ ] import list

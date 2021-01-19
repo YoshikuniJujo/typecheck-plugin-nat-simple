@@ -22,8 +22,7 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 typeCheckWith :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) -> Plugin
 typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
-	tcPluginInit = pure (),
-	tcPluginSolve = const $ solve hd ck,
+	tcPluginInit = pure (), tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
 solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
@@ -32,8 +31,8 @@ solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 solve hd ck gs ds ws = TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
 	where (rs, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
 
-result :: (Monoid s, IsSDoc e) => String ->
-	([Ct] -> [Ct] -> Ct -> Try e s Bool) ->
+result :: (Monoid s, IsSDoc e) =>
+	String -> ([Ct] -> [Ct] -> Ct -> Try e s Bool) ->
 	[Ct] -> [Ct] -> Ct -> Try e s (EvTerm, Ct)
 result hd ck gs ds w = unNomEq w >>= \(l, r) ->
 	bool (throw em) (pure (et l r, w)) =<< ck gs ds w
