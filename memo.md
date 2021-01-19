@@ -134,11 +134,11 @@ refactor
 			* [x] tell
 			* [x] partial
 		- [x] TOOL
-* [ ] refactor Data.Derivation.Expression.Internal
+* [x] refactor Data.Derivation.Expression.Internal
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] DATA EXP
 			* [x] DATA
 				+ [x] data Exp v t
@@ -163,41 +163,41 @@ refactor
 				+ [x] (Var _ :== _)
 				+ [x] (_ :== _) True
 				+ [x] (_ :== _) False
-		- [ ] POLYNOMIAL
-		- [ ] MAP FROM VARIABLE TO BOOL
-			* [ ] type VarBool v
-			* [ ] varBool
-			* [ ] vbInit
-			* [ ] vbStep
-			* [ ] untilFixed
-* [ ] refactor Data.Derivation.Expression
-* [ ] refactor Data.Parse
-* [ ] refactor Data.Derivation.Parse
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] PARSE CONSTRAINT
-		- [ ] MEMO
-			* [ ] data Memo
-			* [ ] type M
-			* [ ] type Var
-			* [ ] function memo
-		- [ ] GRAMMAR
-			* [ ] PEG
-			* [ ] pConstraint
-			* [ ] pEqual
-			* [ ] pBool
-			* [ ] pLessEqual
-			* [ ] pPolynomial
-			* [ ] pNumber
-			* [ ] var
-		- [ ] PICK AND CHECK
-			* [ ] pick
-			* [ ] check
+		- [x] POLYNOMIAL
+		- [x] MAP FROM VARIABLE TO BOOL
+			* [x] type VarBool v
+			* [x] varBool
+			* [x] vbInit
+			* [x] vbStep
+			* [x] untilFixed
+* [x] refactor Data.Derivation.Expression
+* [x] refactor Data.Parse
+* [x] refactor Data.Derivation.Parse
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
+	+ [x] body
+		- [x] PARSE CONSTRAINT
+		- [x] MEMO
+			* [x] data Memo
+			* [x] type M
+			* [x] type Var
+			* [x] function memo
+		- [x] GRAMMAR
+			* [x] PEG
+			* [x] pConstraint
+			* [x] pEqual
+			* [x] pBool
+			* [x] pLessEqual
+			* [x] pPolynomial
+			* [x] pNumber
+			* [x] var
+		- [x] PICK AND CHECK
+			* [x] pick
+			* [x] check
 * [ ] refactor Data.Derivation.Constraint
-	* [ ] export list
-	* [ ] import list
+	* [x] export list
+	* [x] import list
 	* [ ] structure
 	* [ ] body
 		+ [ ] CONSTRAINT

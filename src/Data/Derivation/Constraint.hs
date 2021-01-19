@@ -10,14 +10,13 @@ module Data.Derivation.Constraint (
 import Prelude hiding (null, filter)
 
 import Control.Monad (guard)
-import Data.Maybe (isJust)
 import Data.Map.Strict (Map, null, singleton, (!?), filter, toList, lookupMin)
 import Data.Map.Merge.Strict (
 	merge, preserveMissing, mapMissing,
 	zipWithMatched, zipWithMaybeMatched )
-
-import Data.String
-import Data.Log
+import Data.Maybe (isJust)
+import Data.String (IsString, fromString)
+import Data.Log (Log, logVar, (.+.), intersperse, Loggable(..))
 
 ---------------------------------------------------------------------------
 
