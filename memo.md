@@ -195,11 +195,11 @@ refactor
 		- [x] PICK AND CHECK
 			* [x] pick
 			* [x] check
-* [ ] refactor Data.Derivation.Constraint
+* [x] refactor Data.Derivation.Constraint
 	* [x] export list
 	* [x] import list
 	* [x] structure
-	* [ ] body
+	* [x] body
 		+ [x] CONSTRAINT
 			- [x] DATA CONSTRAINT
 				* [x] data Constraint v
@@ -218,15 +218,18 @@ refactor
 				* [x] alignEE
 				* [x] alignEG
 				* [x] alignGG
-		+ [ ] POLYNOMIAL
-			- [ ] TYPE POLY
-			- [ ] CONSTRUCT
-			- [ ] READ
-			- [ ] CONVERT
-				* [ ] posit
-				* [ ] reduce
-				* [ ] mul
-				* [ ] divide
+		+ [x] POLYNOMIAL
+			- [x] TYPE POLY
+				* [x] type Poly
+				* [x] polyToLog
+				* [x] polyToLog1
+			- [x] CONSTRUCT
+			- [x] READ
+			- [x] CONVERT
+				* [x] posit
+				* [x] reduce
+				* [x] mul
+				* [x] divide
 * [ ] refactor Data.Derivation.CanDerive
 	* [ ] export list
 	* [ ] import list

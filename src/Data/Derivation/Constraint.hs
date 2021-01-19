@@ -141,5 +141,4 @@ reduce :: Poly v -> Poly v
 reduce = divide <$> id <*> foldr gcd 0
 
 mul, divide :: Poly v -> Integer -> Poly v
-mul p = (<$> p) . (*)
-divide p = (<$> p) . flip div
+mul p = (<$> p) . (*); divide p = (<$> p) . flip div
