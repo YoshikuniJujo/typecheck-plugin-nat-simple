@@ -255,11 +255,11 @@ refactor
 			- [x] type Wanted1 v
 			- [x] instance Loggable s v (Wanted v)
 			- [x] wanted
-* [ ] refactor Data.Log
+* [x] refactor Data.Log
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] LOG
 			* [x] NEWTYPE LOG
 			* [x] INSTANCE
@@ -282,18 +282,18 @@ refactor
 			* [x] CLASS
 				+ [x] Loggable
 				+ [x] Message
-		- [ ] SDOC STRING
-			* [ ] structure
-			* [ ] class IsSDoc s
-			* [ ] data SDocStr
-			* [ ] instance Semigroup SDocStr
-			* [ ] instance Monoid SDocStr
-			* [ ] instance Outputable SDocStr
-			* [ ] instance IsString SDocStr
-			* [ ] instance IsSDoc SDocStr
+		- [x] SDOC STRING
+			* [x] structure
+			* [x] class IsSDoc s
+			* [x] data SDocStr
+			* [x] instance Semigroup SDocStr
+			* [x] instance Monoid SDocStr
+			* [x] instance Outputable SDocStr
+			* [x] instance IsString SDocStr
+			* [x] instance IsSDoc SDocStr
 * [ ] refactor Plugin.TypeCheck.Nat.Simple.Decode
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 		- [ ] DECODE
