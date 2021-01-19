@@ -11,7 +11,7 @@ import Prelude hiding (log)
 import GhcPlugins (Var, Plugin, ppr)
 import Control.Monad.Try (tell)
 import Data.Log (Log, (.+.), fromSDoc, SDocStr)
-import Data.Derivation.CanDerive (canDerive, givens, wanted, isOk)
+import Data.Derivation.CanDerive (canDerive, givens, wanted)
 import Plugin.TypeCheck.Nat.Simple.TypeCheckWith (typeCheckWith)
 import Plugin.TypeCheck.Nat.Simple.Decode (decode, decodeAll)
 
@@ -29,4 +29,4 @@ plugin :: Plugin
 plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \gs _ w -> do
 	tell @L $ "givens: " .+. fromSDoc (ppr gs)
 	tell @L $ "wanted: " .+. fromSDoc (ppr w)
-	isOk <$> (uncurry canDerive =<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w))
+	uncurry canDerive =<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)

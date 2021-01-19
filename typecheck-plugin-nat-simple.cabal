@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3139fbc4cf7675394ec05c15756f4d90a98e25004b6335a1d805dfa09d5e2142
+-- hash: 7b2a52e5f2cdc6b8a4a32caab8b69df4bc7e53bee04289261351689287981511
 
 name:           typecheck-plugin-nat-simple
 version:        0.1.0.0
@@ -47,7 +47,6 @@ library
       Data.Derivation.Constraint
       Data.Derivation.Expression.Internal
       Data.Parse
-      Plugin.TypeCheck.Nat.Simple.Encode
       Plugin.TypeCheck.Nat.Simple.UnNomEq
       Paths_typecheck_plugin_nat_simple
   hs-source-dirs:
