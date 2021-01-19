@@ -40,6 +40,10 @@ todo
 * [x] try to use in ranged-list
 * [x] refactor
 * [x] add log to canDerive
+* [ ] instance Loggable Wanted
+	+ [ ] log wanted creation
+* [ ] instance Loggable Given
+	+ [ ] log givens creation
 * [ ] refactor
 * [ ] make samples
 	+ [x] try to add sample/foo.txt
@@ -82,9 +86,14 @@ refactor
 		- [x] SDOC
 			* [x] IsSDoc
 			* [x] SDocStr
-	+ [ ] Data.Derivation.Expression
-	+ [ ] Data.Derivation.Parse
+	+ [x] Data.Derivation.Expression
+		- [x] data Exp
+		- [x] data ExpType
+	+ [x] Data.Derivation.Parse
 	+ [ ] Data.Derivation.CanDerive
+		- [x] CAN DERIVE
+		- [x] GIVENS
+		- [ ] WANTED
 	+ [ ] Plugin.TypeCheck.Nat.Simple
 	+ [ ] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
 	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode

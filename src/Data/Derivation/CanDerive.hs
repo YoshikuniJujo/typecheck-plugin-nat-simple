@@ -7,7 +7,7 @@
 module Data.Derivation.CanDerive (
 	-- * CAN DERIVE
 	canDerive,
-	-- * GIVEN
+	-- * GIVENS
 	Givens, givens,
 	-- * WANTED
 	Wanted, wanted ) where
@@ -42,7 +42,7 @@ import Data.Derivation.Expression.Internal (
 -- CAN DERIVE
 ---------------------------------------------------------------------------
 
-canDerive :: (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted v -> Try e (Log s v) Bool
+canDerive :: (IsString s, Ord v) => Givens v -> Wanted v -> Try e (Log s v) Bool
 canDerive g = allM (canDerive1 g) . unWanted
 
 allM :: Monad m => (a -> m Bool) -> [a] -> m Bool
