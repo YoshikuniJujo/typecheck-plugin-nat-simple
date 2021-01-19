@@ -12,21 +12,21 @@ import TcPluginM (TcPluginM, tcPluginTrace)
 import TcRnTypes (TcPlugin(..), Ct, TcPluginResult(..))
 import TcEvidence (EvTerm(..))
 import TyCoRep (UnivCoProvenance(..))
-import Control.Monad.Try (Try, gatherSuccess, throw)
+import Control.Monad.Try (Try, gatherSuccess, throw, Set)
 import Data.Bool (bool)
 import Data.Log (IsSDoc, fromSDoc)
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
 ---------------------------------------------------------------------------
 
-typeCheckWith :: (Monoid w, Outputable w, IsSDoc w) =>
+typeCheckWith :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) -> Plugin
 typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (),
 	tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
-solve :: (Monoid w, Outputable w, IsSDoc w) =>
+solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) ->
 	[Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
 solve hd ck gs ds ws = TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)

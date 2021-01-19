@@ -63,7 +63,7 @@ todo
 refactor
 --------
 
-* [ ] refactor haddock
+* [x] refactor haddock
 	+ [x] Control.Monad.Try
 		- [x] structure
 		- [x] DATA TRY
@@ -95,149 +95,155 @@ refactor
 		- [x] GIVENS
 		- [x] WANTED
 	+ [x] Plugin.TypeCheck.Nat.Simple
-	+ [ ] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
-	+ [ ] Plugin.TypeCheck.Nat.Simple.Decode
-* [ ] refactor with hlint
-* [ ] refactor Control.Monad.StateT
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] NEWTYPE STATE T
-		- [ ] INSTANCE
-			* [ ] FUNCTOR
-			* [ ] APPLICATIVE AND ALTERNATIVE
-			* [ ] MONAD AND MONAD PLUS
-* [ ] refactor Control.Monad.Try
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] DATA TRY
-			* [ ] DATA
-			* [ ] INSTANCE
-				+ [ ] Functor
-				+ [ ] Applicative
-				+ [ ] Alternative
-				+ [ ] Monad
-				+ [ ] MonadPlus
-		- [ ] RUN TRY
-		- [ ] THROW AND CATCH ERROR
-			* [ ] throw
-			* [ ] catch
-			* [ ] rights
-		- [ ] WRITE AND GET LOG
-		- [ ] TOOL
-* [x] refactor Data.Derivation.Expression.Internal
+	+ [x] Plugin.TypeCheck.Nat.Simple.TypeCheckWith
+	+ [x] Plugin.TypeCheck.Nat.Simple.Decode
+* [x] refactor with hlint
+* [x] refactor Control.Monad.StateT
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
 	+ [x] body
-		- [x] DATA EXP
-			* [x] data Exp v t
-			* [x] data ExpType
-			* [x] instance Show (Exp v t)
-			* [x] instance Outputable (Exp v t)
-			* [x] pprOp
-			* [x] instance Loggable s v (Exp v t)
-			* [x] logOp
-		- [x] CONSTRAINT
-			* [x] CONSTRAINT
-			* [x] PROCESS EQUATION
-				+ [x] type declaration
-				+ [x] Bool _
-				+ [x] Var _
-				+ [x] (_ :<= _) False
-				+ [x] (_ :<= _) True
-				+ [x] (_ :== Bool _)
-				+ [x] (Bool _ :== _)
-				+ [x] (_ :== Var _)
-				+ [x] (Var _ :== _)
-				+ [x] (_ :== _) True
-				+ [x] (_ :== _) False
-		- [x] POLYNOMIAL
-		- [x] MAP FROM VARIABLE TO BOOL
-			* [x] type VarBool v
-			* [x] varBool
-			* [x] vbInit
-			* [x] vbStep
-			* [x] untilFixed
-* [x] refactor Data.Derivation.Expression
-* [x] refactor Data.Parse
-* [x] refactor Data.Derivation.Parse
+		- [x] NEWTYPE STATE T
+		- [x] INSTANCE
+			* [x] FUNCTOR
+			* [x] APPLICATIVE AND ALTERNATIVE
+			* [x] MONAD AND MONAD PLUS
+* [x] refactor Control.Monad.Try
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
 	+ [x] body
-		- [x] PARSE CONSTRAINT
-		- [x] MEMO
-			* [x] data Memo
-			* [x] type M
-			* [x] type Var
-			* [x] function memo
-		- [x] GRAMMAR
-			* [x] PEG
-			* [x] pConstraint
-			* [x] pEqual
-			* [x] pBool
-			* [x] pLessEqual
-			* [x] pPolynomial
-			* [x] pNumber
-			* [x] var
-		- [x] PICK AND CHECK
-			* [x] pick
-			* [x] check
-* [x] refactor Data.Derivation.Constraint
-	* [x] export list
-	* [x] import list
-	* [x] structure
-	* [x] body
-		+ [x] CONSTRAINT
-			- [x] DATA CONSTRAINT
-			- [x] CONSTRUCT
-			- [x] READ
-				* [x] vars
-				* [x] hasVar
-				* [x] selfContained
-				* [x] isDerivFrom
-			- [x] CONVERT
-				* [x] positives
-				* [x] eliminate
-				* [x] type Aligned
-				* [x] alignEE
-				* [x] alignEG
-				* [x] alignGG
-		+ [x] POLYNOMIAL
-			- [x] TYPE POLY
-			- [x] CONSTRUCT
-			- [x] READ
-			- [x] CONVERT
-				* [x] posit
-				* [x] reduce
-				* [x] mul
-				* [x] divide
-* [x] refactor Data.Derivation.CanDerive
-	* [x] export list
-	* [x] import list
-	* [x] structure
-	* [x] body
-		+ [x] CAN DERIVE
-			- [x] canDerive
-			- [x] canDerive1
-		+ [x] GIVEN
-			- [x] NEWTYPE GIVEN AND CONSTRUCTOR
-				* [x] newtype Given v
-				* [x] given
-			- [x] GIVEN VARIABLES
-			- [x] REMOVE VARIABLE
-				* [x] rmVar
-				* [x] rmStep
-				* [x] rmVar1
-				* [x] unfoldUntil
-		+ [x] WANTED
-			- [x] newtype Wanted v
-			- [x] type Wanted1 v
-			- [x] wanted
+		- [x] DATA TRY
+			* [x] DATA
+			* [x] INSTANCE
+				+ [x] Functor
+				+ [x] Applicative
+				+ [x] Alternative
+				+ [x] Monad
+				+ [x] MonadPlus
+		- [x] RUN TRY
+			* [x] runTry
+			* [x] gatherSuccess
+		- [x] THROW AND CATCH ERROR
+			* [x] throw
+			* [x] catch
+			* [x] rights
+		- [x] WRITE AND GET LOG
+			* [x] class Set x xs
+			* [x] instance Set ...
+			* [x] tell
+			* [x] partial
+		- [x] TOOL
+* [ ] refactor Data.Derivation.Expression.Internal
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] DATA EXP
+			* [ ] data Exp v t
+			* [ ] data ExpType
+			* [ ] instance Show (Exp v t)
+			* [ ] instance Outputable (Exp v t)
+			* [ ] pprOp
+			* [ ] instance Loggable s v (Exp v t)
+			* [ ] logOp
+		- [ ] CONSTRAINT
+			* [ ] CONSTRAINT
+			* [ ] PROCESS EQUATION
+				+ [ ] type declaration
+				+ [ ] Bool _
+				+ [ ] Var _
+				+ [ ] (_ :<= _) False
+				+ [ ] (_ :<= _) True
+				+ [ ] (_ :== Bool _)
+				+ [ ] (Bool _ :== _)
+				+ [ ] (_ :== Var _)
+				+ [ ] (Var _ :== _)
+				+ [ ] (_ :== _) True
+				+ [ ] (_ :== _) False
+		- [ ] POLYNOMIAL
+		- [ ] MAP FROM VARIABLE TO BOOL
+			* [ ] type VarBool v
+			* [ ] varBool
+			* [ ] vbInit
+			* [ ] vbStep
+			* [ ] untilFixed
+* [ ] refactor Data.Derivation.Expression
+* [ ] refactor Data.Parse
+* [ ] refactor Data.Derivation.Parse
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] PARSE CONSTRAINT
+		- [ ] MEMO
+			* [ ] data Memo
+			* [ ] type M
+			* [ ] type Var
+			* [ ] function memo
+		- [ ] GRAMMAR
+			* [ ] PEG
+			* [ ] pConstraint
+			* [ ] pEqual
+			* [ ] pBool
+			* [ ] pLessEqual
+			* [ ] pPolynomial
+			* [ ] pNumber
+			* [ ] var
+		- [ ] PICK AND CHECK
+			* [ ] pick
+			* [ ] check
+* [ ] refactor Data.Derivation.Constraint
+	* [ ] export list
+	* [ ] import list
+	* [ ] structure
+	* [ ] body
+		+ [ ] CONSTRAINT
+			- [ ] DATA CONSTRAINT
+			- [ ] CONSTRUCT
+			- [ ] READ
+				* [ ] vars
+				* [ ] hasVar
+				* [ ] selfContained
+				* [ ] isDerivFrom
+			- [ ] CONVERT
+				* [ ] positives
+				* [ ] eliminate
+				* [ ] type Aligned
+				* [ ] alignEE
+				* [ ] alignEG
+				* [ ] alignGG
+		+ [ ] POLYNOMIAL
+			- [ ] TYPE POLY
+			- [ ] CONSTRUCT
+			- [ ] READ
+			- [ ] CONVERT
+				* [ ] posit
+				* [ ] reduce
+				* [ ] mul
+				* [ ] divide
+* [ ] refactor Data.Derivation.CanDerive
+	* [ ] export list
+	* [ ] import list
+	* [ ] structure
+	* [ ] body
+		+ [ ] CAN DERIVE
+			- [ ] canDerive
+			- [ ] canDerive1
+		+ [ ] GIVEN
+			- [ ] NEWTYPE GIVEN AND CONSTRUCTOR
+				* [ ] newtype Given v
+				* [ ] given
+			- [ ] GIVEN VARIABLES
+			- [ ] REMOVE VARIABLE
+				* [ ] rmVar
+				* [ ] rmStep
+				* [ ] rmVar1
+				* [ ] unfoldUntil
+		+ [ ] WANTED
+			- [ ] newtype Wanted v
+			- [ ] type Wanted1 v
+			- [ ] wanted
 * [ ] refactor Data.Log
 	+ [ ] export list
 	+ [ ] import list

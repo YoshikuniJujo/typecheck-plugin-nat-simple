@@ -15,11 +15,9 @@ module Control.Monad.Try (
 	cons ) where
 
 import Control.Applicative (Alternative(..))
-import Control.Arrow ((***))
+import Control.Arrow (first)
 import Control.Monad (MonadPlus)
 import Data.Maybe (catMaybes)
-
-import qualified Data.Either as E (rights)
 
 ---------------------------------------------------------------------------
 
@@ -48,9 +46,7 @@ maybeToTry e = maybe (throw e) pure
 -- INSTANCE
 
 instance Functor (Try e w) where
-	fmap f = \case
-		Try (Left e) w -> Try (Left e) w
-		Try (Right x) w -> Try (Right $ f x) w
+	fmap f = try $ either (Try . Left) (Try . Right . f)
 
 instance Monoid w => Applicative (Try e w) where
 	pure = (`Try` mempty) . Right
@@ -59,8 +55,8 @@ instance Monoid w => Applicative (Try e w) where
 
 instance Monoid w => Alternative (Try w w) where
 	empty = Try (Left mempty) mempty
-	Try (Right x) w <|> _ = Try (Right x) w
-	Try (Left e) w <|> Try ex w' = tell e >> Try ex (w <> w')
+	Try (Left e) w <|> t = tell w >> tell e >> t
+	t@(Try (Right _) _) <|> _ = t
 
 instance Monoid w => Monad (Try e w) where
 	Try (Left e) w >>= _ = Try (Left e) w
@@ -75,8 +71,8 @@ instance Monoid w => MonadPlus (Try w w)
 runTry :: Try e w a -> (Either e a, w)
 runTry (Try ex w) = (ex, w)
 
-gatherSuccess :: Monoid w => [Try w w a] -> ([a], w)
-gatherSuccess = (E.rights *** mconcat) . unzip . (runTry <$>)
+gatherSuccess :: (Monoid w, Set w w) => [Try w w a] -> ([a], w)
+gatherSuccess = (either (const []) id `first`) . runTry . rights
 
 ---------------------------------------------------------------------------
 -- THROW AND CATCH ERROR
@@ -115,4 +111,4 @@ partial (Try ex (w, ws)) = Try (Right (ex, w)) ws
 ---------------------------------------------------------------------------
 
 cons :: (Monoid w, Set w w) => Either w a -> [a] -> Try w w [a]
-cons = either (\e -> (<$ tell e)) (\x -> pure . (x :))
+cons = either (flip (<$) . tell) ((pure .) . (:))
