@@ -135,18 +135,20 @@ refactor
 			* [x] partial
 		- [x] TOOL
 * [ ] refactor Data.Derivation.Expression.Internal
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] DATA EXP
-			* [ ] data Exp v t
-			* [ ] data ExpType
-			* [ ] instance Show (Exp v t)
-			* [ ] instance Outputable (Exp v t)
-			* [ ] pprOp
-			* [ ] instance Loggable s v (Exp v t)
-			* [ ] logOp
+			* [ ] DATA
+				+ [ ] data Exp v t
+				+ [ ] data ExpType
+			* [ ] INSTANCE
+				+ [ ] instance Show (Exp v t)
+				+ [ ] instance Outputable (Exp v t)
+				+ [ ] pprOp
+				+ [ ] instance Loggable s v (Exp v t)
+				+ [ ] logOp
 		- [ ] CONSTRAINT
 			* [ ] CONSTRAINT
 			* [ ] PROCESS EQUATION

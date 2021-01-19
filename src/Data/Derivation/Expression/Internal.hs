@@ -24,6 +24,8 @@ import Data.Derivation.Constraint (
 ---------------------------------------------------------------------------
 
 -- * DATA EXP
+--	+ DATA
+--	+ INSTANCE
 -- * CONSTRAINT
 --	+ CONSTRAINT
 --	+ PROCESS EQUATION
@@ -33,6 +35,8 @@ import Data.Derivation.Constraint (
 ---------------------------------------------------------------------------
 -- DATA EXP
 ---------------------------------------------------------------------------
+
+-- DATA
 
 data Exp v t where
 	Bool :: Bool -> Exp v 'Boolean
@@ -44,6 +48,8 @@ data Exp v t where
 	(:-) :: Exp v 'Number -> Exp v 'Number -> Exp v 'Number
 
 data ExpType = Boolean | Number deriving Show
+
+-- INSTANCE
 
 deriving instance Show v => Show (Exp v t)
 
