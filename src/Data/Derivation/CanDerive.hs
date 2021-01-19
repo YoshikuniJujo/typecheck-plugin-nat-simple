@@ -16,7 +16,7 @@ import Prelude hiding (unwords, log)
 
 import Control.Arrow (second)
 import Control.Monad ((<=<))
-import Control.Monad.Try (Try, throw, Set, tell, cons)
+import Control.Monad.Try (Try, throw, tell, cons)
 import Data.Map.Strict (empty)
 import Data.Either (partitionEithers)
 import Data.List (unfoldr, (\\), nub, partition, sort)
@@ -43,19 +43,20 @@ import Data.Derivation.Expression.Internal (
 ---------------------------------------------------------------------------
 
 canDerive :: (IsString s, Ord v) => Givens v -> Wanted v -> Try e (Log s v) Bool
-canDerive g = allM (canDerive1 g) . unWanted
+canDerive g = (canDerive1 g `allM`) . unWanted
 
 allM :: Monad m => (a -> m Bool) -> [a] -> m Bool
 p `allM` xs = and <$> p `mapM` xs
 
-canDerive1 :: forall s v e . (IsString s, Set (Log s v) (Log s v), Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) Bool
-canDerive1 g w = do
-	if s then tell $ "canDerive1: " .+. (log w :: Log s v) .+. " is self-contained" else
-		tell $ "canDerive1: " .+. (log w :: Log s v) .+. " can" .+. (if d then "" else "not" ) .+. " be derive from"
-	pure $ s || d
+canDerive1 :: forall s v e .
+	(IsString s, Ord v) => Givens v -> Wanted1 v -> Try e (Log s v) Bool
+canDerive1 g w = (s || d) <$ if s
+	then tell $ ttl .+. lw .+. " is self-contained"
+	else tell $ ttl .+. lw .+. " can" .+. nt .+. " be derived from"
 	where
 	s = selfContained w
-	d = any (w `isDerivFrom`) (unGivens . foldr rmVar g $ gvnVars g \\ vars w)
+	d = any (w `isDerivFrom`) . unGivens . foldr rmVar g $ gVars g \\ vars w
+	ttl = "canDerive1: "; lw = log w :: Log s v; nt = bool "not" "" d
 
 ---------------------------------------------------------------------------
 -- GIVENS
@@ -79,8 +80,8 @@ givens es = do
 
 -- GIVENS VARIABLES
 
-gvnVars :: Ord v => Givens v -> [Maybe v]
-gvnVars = nub . sort . concat . (vars <$>) . unGivens
+gVars :: Ord v => Givens v -> [Maybe v]
+gVars = nub . sort . concat . (vars <$>) . unGivens
 
 -- REMOVE VARIABLE
 

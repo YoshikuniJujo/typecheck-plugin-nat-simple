@@ -235,10 +235,10 @@ refactor
 	* [x] import list
 	* [x] structure
 	* [ ] body
-		+ [ ] CAN DERIVE
-			- [ ] canDerive
-			- [ ] allM
-			- [ ] canDerive1
+		+ [x] CAN DERIVE
+			- [x] canDerive
+			- [x] allM
+			- [x] canDerive1
 		+ [ ] GIVENS
 			- [ ] NEWTYPE GIVENS AND CONSTRUCTOR
 				* [ ] newtype Givens v
