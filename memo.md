@@ -51,10 +51,11 @@ todo
 		- [x] simple `n + 1 - 1 == n`
 		- [x] `m + 1 == n + 1 => m == n`
 		- [x] sample `n - 1 + 1 == n`
+		- [x] more complex sample
 		- [ ] others
 	+ [x] remove sample/foo.txt
-	+ [ ] add no typecheck sample
-		- [ ] sample `n - 1 + 1 == n`
+	+ [x] add typecheck failure sample
+		- sample `n - 1 + 1 == n`
 	+ [ ] others
 * [ ] make GitHub README.md
 * [ ] upload to Hackage
