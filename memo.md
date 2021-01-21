@@ -58,6 +58,15 @@ todo
 		- sample `n - 1 + 1 == n`
 	+ [ ] others
 * [ ] make GitHub README.md
+	+ [ ] introduce with lengthed list
+	+ [ ] continue with Proxy
+	+ [ ] failure sample `n - 1 + 1 == n`
+		- [ ] read log
+		- [ ] test with parser
+	+ [ ] repair failure
+		- [ ] test with parser
+		- [ ] repair type checking
+	+ [ ] more complex sample
 * [ ] upload to Hackage
 * [ ] register with Stackage
 * [ ] refactor
