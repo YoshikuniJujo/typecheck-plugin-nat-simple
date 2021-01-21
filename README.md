@@ -89,4 +89,41 @@ Use this plugin, you can compile it.
 
 ## error and recovery
 
-## more complex example
+See following code.
+
+```haskell
+foo :: Proxy (n - 1 + 1) -> Proxy n
+foo = id
+```
+
+This cause type check error even if you use this plugin.
+
+```
+  ・Couldn't match type `n' with `(n - 1) + 1'
+  ...
+```
+
+What's wrong?
+You can see type check log of this plugin like following.
+
+```
+% stack ghc sample/minus1plus1.hs -- -ddump-tc-trace 2>&1 | grep -A 20 'Plugin.TypeCheck.Nat.Simple'
+...
+canDerive1: (0 == 0) is self-contained
+canDerive1: (1 * n_a1s2[sk:1] >= 0) is self-contained
+canDerive1: (-1 + 1 * n_a1s2[sk:1] >= 0) cannot be derived from
+canDerive1: (1 * n_a1s2[sk:1] >= 0) is self-contained
+result: type checker: return False
+...
+```
+
+See the line of `canDerive1: (- 1 + 1 * n_a1s2[sk:1] >= 0) cannot be derived from`.
+It mean "`-1 + n_a1s2[sk:1]` should be greater or equal than 0. But no such context".
+Let's add `1 <= n` context like following.
+
+```haskell
+foo :: 1 <= n => Proxy (n - 1 + 1) -> Proxy n
+foo = id
+```
+
+Then it succeed to type check.

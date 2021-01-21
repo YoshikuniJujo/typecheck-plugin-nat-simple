@@ -71,12 +71,11 @@ todo
 		- [x] mplus1_nplus1.hs
 		- [x] two equations example
 	+ [ ] failure sample `n - 1 + 1 == n` (error)
-		- [ ] read log
+		- [x] read log
 		- [ ] test with parser
 	+ [ ] repair failure (recovery)
 		- [ ] test with parser
-		- [ ] repair type checking
-	+ [ ] more complex sample (more complex example)
+		- [x] repair type checking
 * [ ] upload to Hackage
 * [ ] register with Stackage
 * [ ] refactor
