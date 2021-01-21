@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 317b5d64ce984920a13f1e3fff4066cfb3a99e8c4e66b357959ea655866b9433
+-- hash: 37e93024d7892b53d4f73b5eaf1a2fd50b85d7b7ccf19998c52119e2bfdee1b8
 
 name:           typecheck-plugin-nat-simple
 version:        0.1.0.0
@@ -23,11 +23,12 @@ extra-source-files:
     README.md
     ChangeLog.md
 data-files:
-    plus1minus1.hs
-    mplus1_nplus1.hs
     lengthed_tail.hs
+    plus1minus1.hs
+    two_equations.hs
     minus1plus1.hs
     complex.hs
+    mplus1_nplus1.hs
 data-dir:       sample
 
 source-repository head

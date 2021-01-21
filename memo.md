@@ -52,7 +52,7 @@ todo
 		- [x] `m + 1 == n + 1 => m == n`
 		- [x] sample `n - 1 + 1 == n`
 		- [x] more complex sample
-		- [ ] two given equation simple example
+		- [x] two given equation simple example
 		- [ ] others
 	+ [x] remove sample/foo.txt
 	+ [x] add typecheck failure sample

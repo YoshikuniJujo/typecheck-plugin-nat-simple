@@ -67,8 +67,9 @@ tests:
 
 data-dir: sample
 data-files:
-- plus1minus1.hs
-- mplus1_nplus1.hs
 - lengthed_tail.hs
+- plus1minus1.hs
+- two_equations.hs
 - minus1plus1.hs
 - complex.hs
+- mplus1_nplus1.hs
