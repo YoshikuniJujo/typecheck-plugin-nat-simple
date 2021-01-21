@@ -89,6 +89,8 @@ Use this plugin, you can compile it.
 
 ## error and recovery
 
+### type check error
+
 See following code.
 
 ```haskell
@@ -103,12 +105,18 @@ This cause type check error even if you use this plugin.
   ...
 ```
 
+### research
+
 What's wrong?
 You can see type check log of this plugin like following.
 
 ```
 % stack ghc sample/minus1plus1.hs -- -ddump-tc-trace 2>&1 | grep -A 20 'Plugin.TypeCheck.Nat.Simple'
 ...
+givens ([Exp v 'Boolean]): given (Givens v): (Givens [])
+exBool: not boolean: (n_a1s2[sk:1] - 1) + 1
+wanted (Exp v 'Boolean): ((((Var n_a1s2[sk:1]) :- (Const 1)) :+ (Const 1)) :== (Var n_a1s2[sk:1]))
+wanted (Wanted v): (Wanted [(0 == 0), (1 * n_a1s2[sk:1] >= 0), (-1 + 1 * n_a1s2[sk:1] >= 0), (1 * n_a1s2[sk:1] >= 0)])
 canDerive1: (0 == 0) is self-contained
 canDerive1: (1 * n_a1s2[sk:1] >= 0) is self-contained
 canDerive1: (-1 + 1 * n_a1s2[sk:1] >= 0) cannot be derived from
@@ -119,6 +127,36 @@ result: type checker: return False
 
 See the line of `canDerive1: (- 1 + 1 * n_a1s2[sk:1] >= 0) cannot be derived from`.
 It mean "`-1 + n_a1s2[sk:1]` should be greater or equal than 0. But no such context".
+
+### try calculation more portably
+
+You can try to caluculate more simply.
+
+```
+% stack ghci
+> :set -XTypeApplications
+> :module Data.Derivation.Parse Data.Derivation.CanDerive Control.Monad.Try Data.Maybe
+> parseConstraint "n - 1 + 1 == n"
+Just ((:==) ((:+) ((:=) (Var "n") (Const 1)) (Const 1)) (Var "n"))
+> Just w = wanted @String <$> it
+> gs = givens @String []
+> fst . runTry $ uncurry canDerive =<< (,) <$> gs <*> w
+Right False
+```
+
+The wanted constraint cannot be derived from empty given constraint.
+Let's add '1 <= n' constraint.
+
+```
+> gs = given @String . maybeToList $ parseConstraint "1 <= n"
+> fst . runTry $ uncurry canDerive =<< (,) <$> gs <*> w
+Right True
+```
+
+OK! It succeed if you add `1 <= n` to given constraint.
+
+### recovery
+
 Let's add `1 <= n` context like following.
 
 ```haskell

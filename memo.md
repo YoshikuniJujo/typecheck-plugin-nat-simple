@@ -70,11 +70,11 @@ todo
 	+ [x] continue with Proxy (more example)
 		- [x] mplus1_nplus1.hs
 		- [x] two equations example
-	+ [ ] failure sample `n - 1 + 1 == n` (error)
+	+ [x] failure sample `n - 1 + 1 == n` (error)
 		- [x] read log
-		- [ ] test with parser
-	+ [ ] repair failure (recovery)
-		- [ ] test with parser
+		- [x] test with parser
+	+ [x] repair failure (recovery)
+		- [x] test with parser
 		- [x] repair type checking
 * [ ] upload to Hackage
 * [ ] register with Stackage
