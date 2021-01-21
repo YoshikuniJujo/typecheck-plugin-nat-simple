@@ -52,6 +52,7 @@ todo
 		- [x] `m + 1 == n + 1 => m == n`
 		- [x] sample `n - 1 + 1 == n`
 		- [x] more complex sample
+		- [ ] two given equation simple example
 		- [ ] others
 	+ [x] remove sample/foo.txt
 	+ [x] add typecheck failure sample
@@ -67,6 +68,8 @@ todo
 		- [x] code with plugin
 		- [x] description
 	+ [ ] continue with Proxy (more example)
+		- [x] mplus1_nplus1.hs
+		- [ ] two variable example
 	+ [ ] failure sample `n - 1 + 1 == n` (error)
 		- [ ] read log
 		- [ ] test with parser

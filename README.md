@@ -51,6 +51,24 @@ Add it to top of the code, then type check success.
 
 ## more example
 
+To show more example, I will use Data.Proxy.Proxy.
+First examle is following (View `sample/mplus1_nplus1`).
+
+```haskell
+foo :: (m + 1) ~ (n + 1) => Proxy m -> Proxy n
+foo = id
+```
+
+If you don't use this plugin, then following error occur.
+
+```
+  ・Could not deduce: m ~ n
+    from the context: (m + 1) ~ (n + 1)
+    ...
+```
+
+Use this plugin, you can compile it.
+
 ## error and recovery
 
 ## more complex example

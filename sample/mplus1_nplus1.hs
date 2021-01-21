@@ -9,5 +9,5 @@ import Data.Proxy
 main :: IO ()
 main = print $ foo Proxy
 
-foo :: (n + 1) ~ (m + 1) => Proxy n -> Proxy m
+foo :: (m + 1) ~ (n + 1) => Proxy m -> Proxy n
 foo = id
