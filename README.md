@@ -10,6 +10,7 @@ The type checker can calculate only addition and subtraction of constants and va
 ## motivation
 
 Suppose you need lengthed list. You define like following.
+(View `sample/lengthed_tail.hs`)
 
 ```haskell
 import GHC.TypeNats
@@ -30,6 +31,23 @@ tail_ (_ :. xs) = xs
 ```
 
 But it cause type check error.
+
+```
+error:
+  ・Could not deduce: ln ~ n
+    from the context: (n + 1) ~ (ln + 1)
+    ...
+```
+
+Type checker say "I cannot derive (ln == n) from (n + 1 == ln + 1)".
+But it seems to be obvious.
+You can use this plugin like following.
+
+```haskell
+{-# OPTIONS_GHC -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+```
+
+Add it to top of the code, then type check success.
 
 ## more example
 

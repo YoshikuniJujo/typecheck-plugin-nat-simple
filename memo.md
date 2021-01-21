@@ -58,14 +58,14 @@ todo
 		- sample `n - 1 + 1 == n`
 	+ [ ] others
 * [ ] make GitHub README.md
-	+ [ ] introduce with lengthed list (motivation)
+	+ [x] introduce with lengthed list (motivation)
 		- [x] test github markdown for haskell code
 		- [x] code without plugin
 		- [x] description
-		- [ ] type check error
-		- [ ] description
-		- [ ] code with plugin
-		- [ ] description
+		- [x] type check error
+		- [x] description
+		- [x] code with plugin
+		- [x] description
 	+ [ ] continue with Proxy (more example)
 	+ [ ] failure sample `n - 1 + 1 == n` (error)
 		- [ ] read log
