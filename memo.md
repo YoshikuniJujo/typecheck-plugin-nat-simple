@@ -67,9 +67,9 @@ todo
 		- [x] description
 		- [x] code with plugin
 		- [x] description
-	+ [ ] continue with Proxy (more example)
+	+ [x] continue with Proxy (more example)
 		- [x] mplus1_nplus1.hs
-		- [ ] two variable example
+		- [x] two equations example
 	+ [ ] failure sample `n - 1 + 1 == n` (error)
 		- [ ] read log
 		- [ ] test with parser

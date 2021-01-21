@@ -3,7 +3,8 @@
 ## what's this
 
 This package provide plugin which extend type checking of Nat.
-The type checker can calculate only addition and subtraction of constants and variables.
+The type checker can calculate only addition, subtraction and less or equal of
+constants and variables.
 
 (View sample code on directory sample/.)
 
@@ -52,7 +53,7 @@ Add it to top of the code, then type check success.
 ## more example
 
 To show more example, I will use Data.Proxy.Proxy.
-First examle is following (View `sample/mplus1_nplus1`).
+First examle is following (View `sample/mplus1_nplus1.hs`).
 
 ```haskell
 foo :: (m + 1) ~ (n + 1) => Proxy m -> Proxy n
@@ -64,6 +65,23 @@ If you don't use this plugin, then following error occur.
 ```
   ・Could not deduce: m ~ n
     from the context: (m + 1) ~ (n + 1)
+    ...
+```
+
+Use this plugin, you can compile it.
+
+Second example is following (View `sample/two_equations.hs`).
+
+```haskell
+foo :: ((x + y) ~ z, (w - y) ~ v) => Proxy (x + w) -> Proxy (z + v)
+foo = id
+```
+
+Without this plugin, following error occur.
+
+```
+  ・Could not deduce: (x + w) ~ (z + v)
+    from the context: ((x + y) ~ z, (w - y) ~ v)
     ...
 ```
 
