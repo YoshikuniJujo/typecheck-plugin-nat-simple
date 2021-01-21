@@ -60,7 +60,11 @@ todo
 * [ ] make GitHub README.md
 	+ [ ] introduce with lengthed list (motivation)
 		- [x] test github markdown for haskell code
-		- [ ] code
+		- [x] code without plugin
+		- [x] description
+		- [ ] type check error
+		- [ ] description
+		- [ ] code with plugin
 		- [ ] description
 	+ [ ] continue with Proxy (more example)
 	+ [ ] failure sample `n - 1 + 1 == n` (error)
