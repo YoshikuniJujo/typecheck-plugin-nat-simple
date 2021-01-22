@@ -9,7 +9,8 @@ import GhcPlugins (
 	Plugin(..), defaultPlugin, Expr(..), mkUnivCo, Role(..),
 	Outputable, ppr, text )
 import TcPluginM (TcPluginM, tcPluginTrace)
-import TcRnTypes (TcPlugin(..), Ct, TcPluginResult(..))
+import TcRnTypes (TcPlugin(..), TcPluginResult(..))
+import Constraint (Ct)
 import TcEvidence (EvTerm(..))
 import TyCoRep (UnivCoProvenance(..))
 import Control.Monad.Try (Try, gatherSuccess, throw, Set)

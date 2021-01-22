@@ -6,7 +6,7 @@ module Plugin.TypeCheck.Nat.Simple.Decode (
 	-- * DECODE CT
 	decodeAll, decode ) where
 
-import TcRnTypes (Ct)
+import Constraint (Ct)
 import TcTypeNats (typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon)
 import TysWiredIn (promotedFalseDataCon, promotedTrueDataCon)
 import TyCoRep (Type(..), TyLit(..))
