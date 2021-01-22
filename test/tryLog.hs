@@ -13,7 +13,7 @@ main = do
 			n <- 8 `devide` 3 :: Try (Log String Int) (Log String Int) Int
 			(15 `devide` 0) `catch` \e -> tell e >> pure (n + 0)
 	putStr $ message l
-	putStrLn . showSDocUnsafe $ ppr l
+--	putStrLn . showSDocUnsafe $ ppr l
 	print r
 
 devide :: forall s . (IsString s, Message s) => Int -> Int -> Try (Log s Int) (Log s Int) Int
