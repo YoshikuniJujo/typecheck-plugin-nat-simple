@@ -77,7 +77,7 @@ todo
 		- [x] test with parser
 		- [x] repair type checking
 * [x] upload to Hackage
-* [ ] register with Stackage
+* [x] register with Stackage
 * [ ] refactor
 
 refactor
