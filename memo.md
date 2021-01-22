@@ -58,7 +58,7 @@ todo
 	+ [x] add typecheck failure sample
 		- sample `n - 1 + 1 == n`
 	+ [ ] others
-* [ ] make GitHub README.md
+* [x] make GitHub README.md
 	+ [x] introduce with lengthed list (motivation)
 		- [x] test github markdown for haskell code
 		- [x] code without plugin
@@ -76,7 +76,7 @@ todo
 	+ [x] repair failure (recovery)
 		- [x] test with parser
 		- [x] repair type checking
-* [ ] upload to Hackage
+* [x] upload to Hackage
 * [ ] register with Stackage
 * [ ] refactor
 
