@@ -48,7 +48,7 @@ You can use this plugin like following.
 {-# OPTIONS_GHC -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 ```
 
-Add it to top of the code, then type check success.
+Add it to top of the code, then type check succeed.
 
 ## more example
 
@@ -145,7 +145,7 @@ Right False
 ```
 
 The wanted constraint cannot be derived from empty given constraint.
-Let's add '1 <= n' constraint.
+Let's add `1 <= n` constraint.
 
 ```
 > gs = given @String . maybeToList $ parseConstraint "1 <= n"
