@@ -8,7 +8,7 @@ module Plugin.TypeCheck.Nat.Simple (
 
 import Prelude hiding (log)
 
-import GhcPlugins (Plugin, Var, ppr)
+import GHC.Plugins (Plugin, Var, ppr)
 import Control.Monad.Try (tell)
 import Data.Log (Log, (.+.), fromSDoc, SDocStr)
 import Data.Derivation.CanDerive (canDerive, givens, wanted)

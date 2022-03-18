@@ -14,10 +14,10 @@ module Data.Log (
 
 import Prelude hiding (unwords, log)
 
-import Outputable (Outputable, SDoc, empty, ppr, text, ($$))
+import GHC.Utils.Outputable (Outputable, SDoc, empty, ppr, text, ($$))
 import Data.String (IsString(..))
 
-import qualified Outputable as O ((<>))
+import qualified GHC.Utils.Outputable as O ((<>))
 
 ---------------------------------------------------------------------------
 

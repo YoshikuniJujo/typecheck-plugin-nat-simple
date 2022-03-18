@@ -10,7 +10,7 @@ module Data.Derivation.Expression.Internal (
 
 import Prelude hiding ((<>), log)
 
-import Outputable (Outputable(..), SDoc, (<>), (<+>), text)
+import GHC.Utils.Outputable (Outputable(..), SDoc, (<>), (<+>), text)
 import Control.Arrow (first, second)
 import Control.Monad.Try (Try, throw, tell, partial)
 import Data.Map.Strict (Map, (!?), empty, singleton, insert)

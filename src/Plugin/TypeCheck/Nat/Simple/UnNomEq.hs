@@ -3,10 +3,10 @@
 
 module Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq) where
 
-import Constraint (Ct, ctEvidence, ctEvPred)
-import Type (Type)
-import Predicate(Pred(..), EqRel(..), classifyPredType)
-import Outputable (ppr, text, (<+>))
+import GHC.Tc.Types.Constraint (Ct, ctEvidence, ctEvPred)
+import GHC.Core.Type (Type)
+import GHC.Core.Predicate(Pred(..), EqRel(..), classifyPredType)
+import GHC.Utils.Outputable (ppr, text, (<+>))
 import Control.Monad.Try (Try, throw)
 import Data.Log (IsSDoc, fromSDoc)
 

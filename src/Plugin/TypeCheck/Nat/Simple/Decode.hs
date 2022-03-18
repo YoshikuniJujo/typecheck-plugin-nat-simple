@@ -6,12 +6,13 @@ module Plugin.TypeCheck.Nat.Simple.Decode (
 	-- * DECODE CT
 	decodeAll, decode ) where
 
-import Constraint (Ct)
-import TcTypeNats (typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon)
-import TysWiredIn (promotedFalseDataCon, promotedTrueDataCon)
-import TyCoRep (Type(..), TyLit(..))
-import Var (Var)
-import Outputable (ppr, text, (<+>))
+import GHC.Tc.Types.Constraint (Ct)
+import GHC.Builtin.Types.Literals (
+	typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon )
+import GHC.Builtin.Types (promotedFalseDataCon, promotedTrueDataCon)
+import GHC.Core.TyCo.Rep (Type(..), TyLit(..))
+import GHC.Types.Var (Var)
+import GHC.Utils.Outputable (ppr, text, (<+>))
 import Control.Applicative ((<|>))
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, rights, Set)

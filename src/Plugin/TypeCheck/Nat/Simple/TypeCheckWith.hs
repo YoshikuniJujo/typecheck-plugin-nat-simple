@@ -5,14 +5,14 @@ module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (
 	-- * TYPE CHECK WITH
 	typeCheckWith ) where
 
-import GhcPlugins (
+import GHC.Plugins (
 	Plugin(..), defaultPlugin, Expr(..), mkUnivCo, Role(..),
 	Outputable, ppr, text )
-import TcPluginM (TcPluginM, tcPluginTrace)
-import TcRnTypes (TcPlugin(..), TcPluginResult(..))
-import Constraint (Ct)
-import TcEvidence (EvTerm(..))
-import TyCoRep (UnivCoProvenance(..))
+import GHC.Tc.Plugin (TcPluginM, tcPluginTrace)
+import GHC.Tc.Types (TcPlugin(..), TcPluginResult(..))
+import GHC.Tc.Types.Constraint (Ct)
+import GHC.Tc.Types.Evidence (EvTerm(..))
+import GHC.Core.TyCo.Rep (UnivCoProvenance(..))
 import Control.Monad.Try (Try, gatherSuccess, throw, Set)
 import Data.Bool (bool)
 import Data.Log (IsSDoc, fromSDoc)
