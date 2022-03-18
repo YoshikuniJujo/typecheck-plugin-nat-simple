@@ -2,7 +2,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-import Outputable
+import GHC.Utils.Outputable
 import Control.Monad.Try hiding (Message)
 import Data.String
 import Data.Log
