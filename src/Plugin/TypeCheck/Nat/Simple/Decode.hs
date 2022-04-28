@@ -8,7 +8,7 @@ module Plugin.TypeCheck.Nat.Simple.Decode (
 
 import GHC.Tc.Types.Constraint (Ct)
 import GHC.Builtin.Types.Literals (
-	typeNatAddTyCon, typeNatSubTyCon, typeNatLeqTyCon )
+	typeNatAddTyCon, typeNatSubTyCon) -- , typeNatLeqTyCon )
 import GHC.Builtin.Types (promotedFalseDataCon, promotedTrueDataCon)
 import GHC.Core.TyCo.Rep (Type(..), TyLit(..))
 import GHC.Types.Var (Var)
@@ -16,6 +16,7 @@ import GHC.Utils.Outputable (ppr, text, (<+>))
 import Control.Applicative ((<|>))
 import Control.Monad ((<=<))
 import Control.Monad.Try (Try, throw, rights, Set)
+import Data.Type.Ord
 import Data.Log (IsSDoc, fromSDoc)
 import Data.Derivation.Expression (Exp(..), ExpType(..))
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
@@ -48,8 +49,9 @@ exBool (TyVarTy v) = pure $ Var v
 exBool (TyConApp tc [])
 	| tc == promotedFalseDataCon = pure $ Bool False
 	| tc == promotedTrueDataCon = pure $ Bool True
-exBool (TyConApp tc [l, r])
-	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
+-- exBool (TyConApp tc [l, r])
+--	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
+exBool (OrdCond (Compare l r) True True False) = (:<=) <$> exNum l <*> exNum r
 exBool t = throw . fromSDoc $ text "exBool: not boolean:" <+> ppr t
 
 exNum :: (Monoid s, IsSDoc e) => Type -> Try e s (Exp Var 'Number)
