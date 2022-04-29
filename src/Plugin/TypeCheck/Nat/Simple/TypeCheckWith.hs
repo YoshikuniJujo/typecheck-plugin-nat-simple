@@ -6,7 +6,7 @@ module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (
 	typeCheckWith ) where
 
 import GHC.Plugins (
-	Plugin(..), defaultPlugin, Expr(..), mkUnivCo, Role(..),
+	Plugin(..), defaultPlugin, Expr(..), mkUnivCo,
 	Outputable, ppr, text )
 import GHC.Tc.Plugin (TcPluginM, tcPluginTrace)
 import GHC.Tc.Types (TcPlugin(..), TcPluginResult(..))
@@ -18,19 +18,24 @@ import Data.Bool (bool)
 import Data.Log (IsSDoc, fromSDoc)
 import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
+import Plugin.TypeCheck.Nat.Simple.Decode (lookupOrdCondCompare)
+import GHC.Core.TyCon
+
 ---------------------------------------------------------------------------
 
 typeCheckWith :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
-	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) -> Plugin
+	String -> ((TyCon, TyCon) -> [Ct] -> [Ct] -> Ct -> Try w w Bool) -> Plugin
 typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
 	tcPluginInit = pure (), tcPluginSolve = const $ solve hd ck,
 	tcPluginStop = const $ pure () } }
 
 solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
-	String -> ([Ct] -> [Ct] -> Ct -> Try w w Bool) ->
+	String -> ((TyCon, TyCon) -> [Ct] -> [Ct] -> Ct -> Try w w Bool) ->
 	[Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
-solve hd ck gs ds ws = TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
-	where (rs, lgs) = gatherSuccess $ result hd ck gs ds <$> ws
+solve hd ck gs ds ws = do
+	occ <- lookupOrdCondCompare
+	let	(rs, lgs) = gatherSuccess $ result hd (ck occ) gs ds <$> ws
+	TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
 
 result :: (Monoid s, IsSDoc e) =>
 	String -> ([Ct] -> [Ct] -> Ct -> Try e s Bool) ->

@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - ghc >= 9.0.2
 - containers
+- ghc-tcplugins-extra
 
 library:
   source-dirs: src
