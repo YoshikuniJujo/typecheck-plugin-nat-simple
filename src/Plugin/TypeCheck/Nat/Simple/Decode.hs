@@ -8,7 +8,7 @@ module Plugin.TypeCheck.Nat.Simple.Decode (
 
 import GHC.Tc.Types.Constraint (Ct)
 import GHC.Builtin.Types.Literals (
-	typeNatAddTyCon, typeNatSubTyCon) -- , typeNatLeqTyCon )
+	typeNatAddTyCon, typeNatSubTyCon, typeNatCmpTyCon) -- , typeNatLeqTyCon )
 import GHC.Builtin.Types (promotedFalseDataCon, promotedTrueDataCon)
 import GHC.Core.TyCo.Rep (Type(..), TyLit(..))
 import GHC.Types.Var (Var)
@@ -58,9 +58,9 @@ exBool _ (TyConApp tc [])
 -- exBool (TyConApp tc [l, r])
 --	| tc == typeNatLeqTyCon = (:<=) <$> exNum l <*> exNum r
 exBool (oc, cmp) (TyConApp tc [_,
-		TyConApp cmpNatTc [_, l, r],
+		TyConApp cmpNatTc [l, r],
 		TyConApp t1 [], TyConApp t2 [], TyConApp f1 []])
-	| tc == oc, cmpNatTc == cmp
+	| tc == oc, cmpNatTc == typeNatCmpTyCon
 	, t1 == promotedTrueDataCon, t2 == promotedTrueDataCon
 	, f1 == promotedFalseDataCon = (:<=) <$> exNum l <*> exNum r
 exBool _ t = throw . fromSDoc $ text "exBool: not boolean:" <+> ppr t

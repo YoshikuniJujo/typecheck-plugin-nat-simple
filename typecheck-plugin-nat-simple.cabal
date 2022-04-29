@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 22880644e2ffe56683c489ca71dd2750b37ffabde5ab04e3fa0ba857833670a9
+-- hash: 9d3e7b7255f2ce97474e8b3dbff13024a62015ddc7be0b9dd257e53422ce1268
 
 name:           typecheck-plugin-nat-simple
-version:        0.1.0.5
+version:        0.1.0.6
 synopsis:       Simple type check plugin which calculate addition, subtraction and less-or-equal-than
 description:    Please see the README on GitHub at <https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple#readme>
 category:       Compiler Plugin
