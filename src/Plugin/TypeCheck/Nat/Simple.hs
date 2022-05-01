@@ -27,8 +27,9 @@ type L = Log SDocStr Var
 --   >		=<< (,) <$> (givens =<< decodeAll gs) <*> (wanted =<< decode w)
 
 plugin :: Plugin
-plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \occ gs _ w -> do
+plugin = typeCheckWith @L "Plugin.TypeCheck.Nat.Simple" \occ gs d w -> do
 	tell @L $ "givens: " .+. fromSDoc (ppr gs)
+	tell @L $ "derived: " .+. fromSDoc (ppr d)
 	tell @L $ "wanted: " .+. fromSDoc (ppr w)
 	uncurry canDerive
 		=<< (,) <$> (givens =<< decodeAll occ gs) <*> (wanted =<< decode occ w)

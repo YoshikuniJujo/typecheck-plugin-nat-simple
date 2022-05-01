@@ -7,7 +7,7 @@ module Plugin.TypeCheck.Nat.Simple.TypeCheckWith (
 
 import GHC.Plugins (
 	Plugin(..), defaultPlugin, Expr(..), mkUnivCo,
-	Outputable, ppr, text )
+	Outputable, ppr, text, (<+>) )
 import GHC.Tc.Plugin (TcPluginM, tcPluginTrace)
 import GHC.Tc.Types (TcPlugin(..), TcPluginResult(..))
 import GHC.Tc.Types.Constraint (Ct)
@@ -35,6 +35,9 @@ solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 solve hd ck gs ds ws = do
 	occ <- lookupOrdCondCompare
 	let	(rs, lgs) = gatherSuccess $ result hd (ck occ) gs ds <$> ws
+	tcPluginTrace hd $ "given:" <+> ppr gs
+	tcPluginTrace hd $ "derived:" <+> ppr ds
+	tcPluginTrace hd $ "wanted:" <+> ppr ws
 	TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
 
 result :: (Monoid s, IsSDoc e) =>

@@ -8,5 +8,11 @@ import Data.Proxy
 foo :: 1 <= n => Proxy (n - 1 + 1) -> Proxy (n + 1 - 1)
 foo = id
 
+bar :: 1 <= a => Proxy (a + 1 - 1) -> Proxy (a - 1 + 1)
+bar = id
+
+baz :: Proxy (a + b) -> Proxy ((a + 1) + (b - 1))
+baz = id
+
 main :: IO ()
 main = putStrLn "test log"
