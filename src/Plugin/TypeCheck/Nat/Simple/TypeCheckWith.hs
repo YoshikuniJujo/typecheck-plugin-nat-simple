@@ -9,9 +9,9 @@ import GHC.Plugins (
 	Plugin(..), defaultPlugin, Expr(..), mkUnivCo,
 	Outputable, ppr, text, (<+>) )
 import GHC.Tc.Plugin (TcPluginM, tcPluginTrace)
-import GHC.Tc.Types (TcPlugin(..), TcPluginResult(..))
+import GHC.Tc.Types (TcPlugin(..), TcPluginSolveResult(..))
 import GHC.Tc.Types.Constraint (Ct)
-import GHC.Tc.Types.Evidence (EvTerm(..))
+import GHC.Tc.Types.Evidence (EvTerm(..), EvBindsVar)
 import GHC.Core.TyCo.Rep (UnivCoProvenance(..))
 import Control.Monad.Try (Try, gatherSuccess, throw, Set)
 import Data.Bool (bool)
@@ -20,23 +20,25 @@ import Plugin.TypeCheck.Nat.Simple.UnNomEq (unNomEq)
 
 import Plugin.TypeCheck.Nat.Simple.Decode (lookupOrdCondCompare)
 import GHC.Core.TyCon
+import GHC.Types.Unique.FM
 
 ---------------------------------------------------------------------------
 
 typeCheckWith :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 	String -> ((TyCon, TyCon) -> [Ct] -> [Ct] -> Ct -> Try w w Bool) -> Plugin
 typeCheckWith hd ck = defaultPlugin { tcPlugin = const $ Just TcPlugin {
-	tcPluginInit = pure (), tcPluginSolve = const $ solve hd ck,
+	tcPluginInit = pure (),
+	tcPluginSolve = const $ solve hd ck,
+	tcPluginRewrite = const emptyUFM,
 	tcPluginStop = const $ pure () } }
 
 solve :: (Monoid w, Outputable w, IsSDoc w, Set w w) =>
 	String -> ((TyCon, TyCon) -> [Ct] -> [Ct] -> Ct -> Try w w Bool) ->
-	[Ct] -> [Ct] -> [Ct] -> TcPluginM TcPluginResult
-solve hd ck gs ds ws = do
+	EvBindsVar -> [Ct] -> [Ct] -> TcPluginM TcPluginSolveResult
+solve hd ck _s gs ws = do
 	occ <- lookupOrdCondCompare
-	let	(rs, lgs) = gatherSuccess $ result hd (ck occ) gs ds <$> ws
+	let	(rs, lgs) = gatherSuccess $ result hd (ck occ) gs [] <$> ws
 	tcPluginTrace hd $ "given:" <+> ppr gs
-	tcPluginTrace hd $ "derived:" <+> ppr ds
 	tcPluginTrace hd $ "wanted:" <+> ppr ws
 	TcPluginOk rs [] <$ tcPluginTrace hd (ppr lgs)
 
