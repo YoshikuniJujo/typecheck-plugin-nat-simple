@@ -3,8 +3,6 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.35.1.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: a386dfeb25b891bd8c55323858f99e1f63f665d6c90dfc86b8eb6b4f78053dd6
 
 name:           typecheck-plugin-nat-simple
 version:        0.1.0.9
