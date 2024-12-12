@@ -1,5 +1,5 @@
 name:                typecheck-plugin-nat-simple
-version:             0.1.0.10
+version:             0.1.0.11
 github:              "YoshikuniJujo/typecheck-plugin-nat-simple"
 license:             BSD3
 author:              "Yoshikuni Jujo"
@@ -21,10 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/Yosh
 
 dependencies:
 - base >= 4.7 && < 5
-- ghc >= 9.2.2
-- containers
-- ghc-tcplugins-extra
-- ghc-internal
+- ghc >= 9.2.2 && < 10
+- containers < 1
+- ghc-tcplugins-extra < 1
+- ghc-internal < 10
 
 library:
   source-dirs: src
