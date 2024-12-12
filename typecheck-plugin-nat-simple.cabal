@@ -1,11 +1,11 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.1.
+-- This file has been generated from package.yaml by hpack version 0.37.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           typecheck-plugin-nat-simple
-version:        0.1.0.9
+version:        0.1.0.10
 synopsis:       Simple type check plugin which calculate addition, subtraction and less-or-equal-than
 description:    Please see the README on GitHub at <https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple#readme>
 category:       Compiler Plugin
@@ -56,6 +56,7 @@ library
       base >=4.7 && <5
     , containers
     , ghc >=9.2.2
+    , ghc-internal
     , ghc-tcplugins-extra
   default-language: Haskell2010
 
@@ -71,6 +72,7 @@ test-suite typecheck-plugin-nat-simple-test-log
       base >=4.7 && <5
     , containers
     , ghc >=9.2.2
+    , ghc-internal
     , ghc-tcplugins-extra
     , typecheck-plugin-nat-simple
   default-language: Haskell2010
@@ -87,6 +89,7 @@ test-suite typecheck-plugin-nat-simple-test-spec
       base >=4.7 && <5
     , containers
     , ghc >=9.2.2
+    , ghc-internal
     , ghc-tcplugins-extra
     , typecheck-plugin-nat-simple
   default-language: Haskell2010
@@ -103,6 +106,7 @@ test-suite typecheck-plugin-nat-simple-test-tryLog
       base >=4.7 && <5
     , containers
     , ghc >=9.2.2
+    , ghc-internal
     , ghc-tcplugins-extra
     , typecheck-plugin-nat-simple
   default-language: Haskell2010

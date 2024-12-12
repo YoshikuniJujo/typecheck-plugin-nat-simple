@@ -79,7 +79,7 @@ lookupOrdCondCompare = do
 	(,) <$> look md2 "OrdCond" <*> look md2 "Compare"
 
 ordModule :: ModuleName
-ordModule = mkModuleName "Data.Type.Ord"
+ordModule = mkModuleName "GHC.Internal.Data.Type.Ord"
 
 basePackage :: FastString
 basePackage = fsLit "base"

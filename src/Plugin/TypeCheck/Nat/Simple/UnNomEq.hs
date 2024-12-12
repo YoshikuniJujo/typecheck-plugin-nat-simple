@@ -22,7 +22,7 @@ unNomEq ct = case classifyPredType . ctEvPred $ ctEvidence ct of
 	EqPred NomEq l r -> pure (l, r)
 	IrredPred pt -> case pt of
 		TyConApp (nameStableString . tyConName ->
-				"$base$GHC.TypeError$Assert") [c, _e] ->
+				"$ghc-internal$GHC.Internal.TypeError$Assert") [c, _e] ->
 			pure (c, TyConApp promotedTrueDataCon [])
 		_ -> throw . fromSDoc $ text "unNomEq: IrredPred" <+> ppr pt
 	_ -> throw . fromSDoc
