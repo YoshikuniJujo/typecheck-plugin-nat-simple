@@ -49,4 +49,4 @@ result hd ck gs ds w = unNomEq w >>= \(l, r) ->
 	bool (throw em) (pure (et l r, w)) =<< ck gs ds w
 	where
 	em = fromSDoc $ text "result: type checker: return False"
-	et = ((EvExpr . Coercion) .) . mkUnivCo (PluginProv hd) Nominal
+	et = ((EvExpr . Coercion) .) . mkUnivCo (PluginProv hd) [] Nominal
